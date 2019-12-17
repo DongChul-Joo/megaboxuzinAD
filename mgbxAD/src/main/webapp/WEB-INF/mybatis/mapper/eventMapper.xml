@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="event">
+	
+	<insert id="insertEvent" parameterType="com.sp.event.Event">
+		INSERT INTO event(eCode, userId, sDate, eDate, subject, content,
+		imageFilename, lott, eLink, mCount)
+			VALUES (event_seq.NEXTVAL, #{userId}, #{sDate}, #{eDate}, #{subject}, #{content}, 
+		#{imageFilename}, #{lott}, #{eLink}, #{mCount})
+	</insert>
+	
+	
+	<sql id="where-list">
+		<if test="condition=='all'">
+			( INSTR(subject, #{keyword}) &gt; 0
+				OR INSTR(content, #{keyword}) &gt; 0 )
+		</if>
+		<if test="condition=='subject'">
+			INSTR(subject, #{keyword}) &gt; 0
+		</if>
+		<if test="condition=='content'">
+			INSTR(content, #{keyword}) &gt; 0 
+		</if>
+		<if test="condition=='created'">
+			( TO_CHAR(created, 'YYYY-MM-DD') = #{keyword}
+				OR TO_CHAR(created, 'YYYYMMDD') = #{keyword} )
+		</if>
+	</sql>
+	
+	<select id="listCategory" parameterType="map" resultType="com.sp.event.Event">
+		SELECT eCategoryCode, eCategoryName 
+		FROM eventCategory
+	</select>
+	
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM event e
+		JOIN member m ON e.userId=m.userId
+		<where>
+			<if test="keyword!=null and keyword!='' ">
+				<include refid="where-list"/>
+			</if>
+		</where>		
+	</select>
+	
+	<select id="listEvent" parameterType="map" resultType="com.sp.event.Event">
+		SELECT ecode, userId, TO_CHAR(sDate, 'yyyy-mm-dd') as sDate, TO_CHAR(eDate, 'yyyy-mm-dd') as eDate,
+		subject, TO_CHAR(created, 'yyyy-mm-dd') as created, imageFilename,
+		lott, eLink, mCount
+		FROM event 	
+		<where>
+			<if test="keyword != null and keyword != ''">
+				<include refid="where-list"/>
+			</if>
+		</where>
+		ORDER BY ecode DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	</select>
+	
+	<select id="readEvent" parameterType="Integer" resultType="com.sp.event.Event">
+		SELECT ecode, subject
+		FROM event e
+		JOIN member m ON e.userId=m.userId
+		WHERE ecode=#{ecode}
+	</select>
+	
+	<update id="updateEvent" parameterType="com.sp.event.Event">
+		UPDATE event SET subject=#{subject}, imageFilename=#{imageFilename},
+				content=#{content}
+				WHERE ecode=#{ecode}
+	</update>
+	
+
+</mapper>
