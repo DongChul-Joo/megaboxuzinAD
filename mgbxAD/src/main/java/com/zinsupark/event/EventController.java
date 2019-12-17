@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.zinsupark.common.MyUtil;
+import com.zinsupark.member.SessionInfo;
 
 @Controller("event.eventController")
 public class EventController {
@@ -64,12 +65,6 @@ public class EventController {
 	        
 	    List<Event> list = service.listEvent(map);
 	    
-	    int listNum, n = 0;
-	    for(Event dto : list) {
-	    	listNum = dataCount - (offset + n);
-	    	dto.setEcode(listNum);
-	    	n++;
-	    }
 	    String query = "";
         String listUrl = cp+"/event/list";
         String articleUrl = cp+"/event/article?page=" + current_page;
@@ -122,10 +117,10 @@ public class EventController {
 		String root=session.getServletContext().getRealPath("/");
 		String path=root+"uploads"+File.separator+"event";
 		
-		//SessionInfo info = (SessionInfo)session.getAttribute("member");
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		
 		try {
-			dto.setUserId("indo");
+			dto.setUserId(info.getAdminId());
 			service.insertEvent(dto, path);
 		} catch (Exception e) {
 		}
@@ -152,12 +147,76 @@ public class EventController {
 		if(dto==null)
 			return "redirect:/event/list?"+query;
 		
-		dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
-		
 		model.addAttribute("dto", dto);
 		model.addAttribute("page", page);
 		model.addAttribute("query", query);
 		
 		return ".event.article";
+	}
+	
+	@RequestMapping(value="/event/update", method=RequestMethod.GET)
+	public String updateForm(
+			@RequestParam int num,
+			@RequestParam String page,
+			Model model
+			) throws Exception {
+
+		
+		Event dto = service.readEvent(num);
+		if (dto == null)
+			return "redirect:/event/list?page="+page;
+		
+		model.addAttribute("dto", dto);
+		model.addAttribute("page", page);
+		model.addAttribute("mode", "update");
+		
+		return ".event.created";
+		
+	}
+	
+	@RequestMapping(value="/event/update", method=RequestMethod.POST)
+	public String updateSubmit(
+			Event dto,
+			@RequestParam String page,
+			HttpSession session
+			) throws Exception {
+		String root=session.getServletContext().getRealPath("/");
+		String pathname=root+"uploads"+File.separator+"event";
+		
+		try {
+			service.updateEvent(dto, pathname);
+		} catch (Exception e) {
+		}
+		
+		return "redirect:/event/article?num="+dto.getEcode()+"&page="+page;
+	}	
+	
+	@RequestMapping(value="/event/delete", method=RequestMethod.GET)
+	public String delete(
+			@RequestParam int ecode,
+			@RequestParam String page,
+			@RequestParam(defaultValue="all") String condition,
+			@RequestParam(defaultValue="") String keyword,
+			HttpSession session
+			) throws Exception {
+		
+		keyword = URLDecoder.decode(keyword, "utf-8");
+		String query="page="+page;
+		if(keyword.length()!=0) {
+			query+="&condition="+condition+"&keyword="+URLEncoder.encode(keyword, "UTF-8");
+		}
+		
+		String root=session.getServletContext().getRealPath("/");
+		String pathname=root+"uploads"+File.separator+"event";
+		
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		
+		try {
+			service.deleteEvent(ecode, pathname, info.getAdminId());
+		} catch (Exception e) {
+		}
+		
+		return "redirect:/event/list?"+query;
+		
 	}
 }

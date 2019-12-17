@@ -67,14 +67,41 @@ public class EventServiceImpl implements EventService{
 		return dto;
 	}
 	
+	// 이벤트 수정
 	@Override
 	public void updateEvent(Event dto, String pathname) throws Exception {
-		// TODO Auto-generated method stub
+		try {
+			// 업로드한 파일이 존재한 경우
+			String saveFilename = fileManager.doFileUpload(dto.getUpload(), pathname);
+			
+			if (saveFilename != null) {
+			// 이전 파일 지우기	
+				if(dto.getImageFilename().length()!=0) {
+					fileManager.doFileDelete(dto.getImageFilename(), pathname);
+				}
+				dto.setImageFilename(saveFilename);
+			}
+			dao.updateData("event.updateEvent", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 		
 	}
 	@Override
 	public void deleteEvent(int num, String pathname, String userId) throws Exception {
-		// TODO Auto-generated method stub
+		try {
+			Event dto=readEvent(num);
+			
+			if(dto.getImageFilename()!=null)
+				fileManager.doFileDelete(dto.getImageFilename(), pathname);
+			
+			// 게시물지우기
+			dao.deleteData("event.deleteEvent", num);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 		
 	}
 	@Override
@@ -88,6 +115,11 @@ public class EventServiceImpl implements EventService{
 		
 	}
 	@Override
+	public void deleteCategory(int categoryNum) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
 	public List<Event> listCategory(Map<String, Object> map) {
 		List<Event> list=null;
 		try {
@@ -96,11 +128,6 @@ public class EventServiceImpl implements EventService{
 			e.printStackTrace();
 		}
 		return list;
-	}
-	@Override
-	public void deleteCategory(int categoryNum) throws Exception {
-		// TODO Auto-generated method stub
-		
 	}
 
 

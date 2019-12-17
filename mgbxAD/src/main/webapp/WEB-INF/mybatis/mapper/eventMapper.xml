@@ -3,11 +3,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="event">
 	
-	<insert id="insertEvent" parameterType="com.sp.event.Event">
+	<insert id="insertEvent" parameterType="com.zinsupark.event.Event">
 		INSERT INTO event(eCode, userId, sDate, eDate, subject, content,
-		imageFilename, lott, eLink, mCount)
-			VALUES (event_seq.NEXTVAL, #{userId}, #{sDate}, #{eDate}, #{subject}, #{content}, 
-		#{imageFilename}, #{lott}, #{eLink}, #{mCount})
+		imageFilename, lott, eLink, mCount, ecategoryCode)
+			VALUES (event_seq.NEXTVAL, #{userId}, #{sdate}, #{edate}, #{subject}, #{content}, 
+		#{imageFilename}, #{lott}, #{elink}, #{mcount}, #{ecategoryCode})
 	</insert>
 	
 	
@@ -28,7 +28,7 @@
 		</if>
 	</sql>
 	
-	<select id="listCategory" parameterType="map" resultType="com.sp.event.Event">
+	<select id="listCategory" parameterType="map" resultType="com.zinsupark.event.Event">
 		SELECT eCategoryCode, eCategoryName 
 		FROM eventCategory
 	</select>
@@ -44,11 +44,12 @@
 		</where>		
 	</select>
 	
-	<select id="listEvent" parameterType="map" resultType="com.sp.event.Event">
-		SELECT ecode, userId, TO_CHAR(sDate, 'yyyy-mm-dd') as sDate, TO_CHAR(eDate, 'yyyy-mm-dd') as eDate,
+	<select id="listEvent" parameterType="map" resultType="com.zinsupark.event.Event">
+		SELECT ecode, e.userId, TO_CHAR(sDate, 'yyyy-mm-dd') as sDate, TO_CHAR(eDate, 'yyyy-mm-dd') as eDate,
 		subject, TO_CHAR(created, 'yyyy-mm-dd') as created, imageFilename,
 		lott, eLink, mCount
-		FROM event 	
+		FROM event e
+		JOIN member m ON e.userId=m.userId
 		<where>
 			<if test="keyword != null and keyword != ''">
 				<include refid="where-list"/>
@@ -58,18 +59,21 @@
 		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
 	</select>
 	
-	<select id="readEvent" parameterType="Integer" resultType="com.sp.event.Event">
+	<select id="readEvent" parameterType="Integer" resultType="com.zinsupark.event.Event">
 		SELECT ecode, subject
 		FROM event e
 		JOIN member m ON e.userId=m.userId
 		WHERE ecode=#{ecode}
 	</select>
 	
-	<update id="updateEvent" parameterType="com.sp.event.Event">
+	<update id="updateEvent" parameterType="com.zinsupark.event.Event">
 		UPDATE event SET subject=#{subject}, imageFilename=#{imageFilename},
 				content=#{content}
 				WHERE ecode=#{ecode}
 	</update>
+	<delete id="deleteEvent" parameterType="Integer">
+		DELETE FROM event WHERE ecode=#{ecode}
+	</delete>
 	
 
 </mapper>

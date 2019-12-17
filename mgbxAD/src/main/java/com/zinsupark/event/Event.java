@@ -5,18 +5,20 @@ import org.springframework.web.multipart.MultipartFile;
 public class Event {
 	private int ecode; // 이벤트 코드
 	private String userId; // 회원 아이디
-	private String sDate; // 시작날짜
-	private String eDate; // 종료날짜
+	private String sdate; // 시작날짜
+	private String edate; // 종료날짜
 	private String subject; // 제목
 	private String content; // 내용
 	private String created; // 작성일자
 	private String imageFilename; // 이미지 파일 이름
 	private int lott; // 추첨여부
-	private String eLink; // 이벤트 링크
-	private int mCount; // 당첨자 수
-	private int eCategoryCode; // 분류 코드
-	private String eCategoryName; // 분류 이름
+	private String elink; // 이벤트 링크
+	private int mcount; // 당첨자 수
+	private int ecategoryCode; // 분류 코드
+	private String ecategoryName; // 분류 이름
 	private MultipartFile upload;
+	
+	
 	public int getEcode() {
 		return ecode;
 	}
@@ -29,17 +31,17 @@ public class Event {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public String getsDate() {
-		return sDate;
+	public String getSdate() {
+		return sdate;
 	}
-	public void setsDate(String sDate) {
-		this.sDate = sDate;
+	public void setSdate(String sdate) {
+		this.sdate = sdate;
 	}
-	public String geteDate() {
-		return eDate;
+	public String getEdate() {
+		return edate;
 	}
-	public void seteDate(String eDate) {
-		this.eDate = eDate;
+	public void setEdate(String edate) {
+		this.edate = edate;
 	}
 	public String getSubject() {
 		return subject;
@@ -71,29 +73,29 @@ public class Event {
 	public void setLott(int lott) {
 		this.lott = lott;
 	}
-	public String geteLink() {
-		return eLink;
+	public String getElink() {
+		return elink;
 	}
-	public void seteLink(String eLink) {
-		this.eLink = eLink;
+	public void setElink(String elink) {
+		this.elink = elink;
 	}
-	public int getmCount() {
-		return mCount;
+	public int getMcount() {
+		return mcount;
 	}
-	public void setmCount(int mCount) {
-		this.mCount = mCount;
+	public void setMcount(int mcount) {
+		this.mcount = mcount;
 	}
-	public int geteCategoryCode() {
-		return eCategoryCode;
+	public int getEcategoryCode() {
+		return ecategoryCode;
 	}
-	public void seteCategoryCode(int eCategoryCode) {
-		this.eCategoryCode = eCategoryCode;
+	public void setEcategoryCode(int ecategoryCode) {
+		this.ecategoryCode = ecategoryCode;
 	}
-	public String geteCategoryName() {
-		return eCategoryName;
+	public String getEcategoryName() {
+		return ecategoryName;
 	}
-	public void seteCategoryName(String eCategoryName) {
-		this.eCategoryName = eCategoryName;
+	public void setEcategoryName(String ecategoryName) {
+		this.ecategoryName = ecategoryName;
 	}
 	public MultipartFile getUpload() {
 		return upload;
@@ -102,4 +104,5 @@ public class Event {
 		this.upload = upload;
 	}
 	
+
 }
