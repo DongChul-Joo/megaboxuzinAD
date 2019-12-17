@@ -20,7 +20,7 @@ font-weight:bold;
 font-size: 10px;
 font-weight:bold; 
 }
-.dbtn{
+.selectSeat{
 width: 20px;
 height: 20px;  
 padding: 0;
@@ -30,7 +30,18 @@ font-weight:bold;
 background: white;
 border: 1px solid black;  
 }
-.dbtns{
+
+.seatSelect{
+width: 20px;
+height: 20px;  
+padding: 0;
+text-align: center;
+font-size: 10px;
+font-weight:bold;   
+background: white;
+border: 1px solid black;  
+}
+.seatRows{
 width: 22px;
 height: 22px;  
 padding: 0;
@@ -41,7 +52,7 @@ background: white;
 border: 1px solid black;  
 } 
 
-.nbtn{
+.noneSeat{
 width: 20px;
 height: 20px;  
 padding: 0;
@@ -53,19 +64,13 @@ border: 1px solid black;
 color: white
 }
 
-.nonBtn{
+.deleteSeat{
 width: 20px;
 height: 20px;  
 pointer-events:none;
 background: white;
 border: none;
 color: white;
-}
-
-.cinemaDIV{
-float: left;
-margin: 10px;
-width: 1000px;
 }
 
 
@@ -77,14 +82,14 @@ var row=0;
 var col=0;
 var totseat=0;
 
-$(document).on("click", ".dbtn", function() {
-    this.setAttribute('class','nbtn');
+$(document).on("click", ".selectSeat", function() {
+    this.setAttribute('class','noneSeat');
     this.setAttribute('data-num',"1");
     totseat--;
 });
 
-$(document).on("click", ".nbtn", function() {
-    this.setAttribute('class','dbtn');
+$(document).on("click", ".noneSeat", function() {
+    this.setAttribute('class','selectSeat');
     this.setAttribute('data-num',"0");
     totseat++;
 });
@@ -99,9 +104,9 @@ function cinemaCreated(){
 		 
 	for(var i=0;i<row;i++){
 			var a = String.fromCharCode(65+i);
-		cinemaView+="<tr><td class='dbtns'>"+a+"열</td><td>";
+		cinemaView+="<tr><td class='seatRows'>"+a+"열</td><td>";
 		for(var j=0;j<col;j++){
-			cinemaView+="<button id='"+a+(j+1)+"' class='dbtn' data-num='0' data-row='"+a+"' data-col='"+(j+1)+"'>"+(j+1)+"</button>";
+			cinemaView+="<button id='"+a+(j+1)+"' class='selectSeat' data-num='0' data-row='"+a+"' data-col='"+(j+1)+"'>"+(j+1)+"</button>";
 		}
 		cinemaView+="</td></tr>";
 	}
@@ -133,24 +138,22 @@ $(function() {
 			return;
 		}
 		
-		
 		var cinemaView = document.getElementById('cinemaView').innerHTML;
 			cinemaView+="<button type='button' onclick='gogo()'>올리기</button>";
 			
-		var go="<input type='hidden' name='cmSeatMap' value='"+cinemaView+"'><input type='hidden' name='cmSeatTot' value='"+totseat+"'>"
-		go+="<input type='hidden' name='cmName' value='"+cn+"'><input type='hidden' name='cmLocation' value='"+cl+"'>";
-		go+="<input type='hidden' name='cmRange' value='"+cr+"'>";
-		
+		$("#category-dialog").find("button").remove();
+		$("#category-dialog").find("table").remove();
 		$("#category-dialog").append(cinemaView);
-		$("#category-dialog").find("button.nbtn").setAttribute('class','nonbtn');
-		$("#insertGo").append(go);
+		$("#category-dialog").find(".noneSeat").addClass('deleteSeat').removeClass('noneSeat');
 		
 		$("#category-dialog").dialog({
 			modal: true,
 			height:500,
 			width:700,
-			title: "이름:"+cn+" 위치:"+cl+" 상영가능범위:"+(cr=="1"? "2D ONLY":"2D and 3D ")+" 총 좌석 수:"+totseat,
+			title: "현재 좌석표로 입력하시겠습니까?",
 			close: function(event, ui) {
+				$("#category-dialog").find("button").remove();
+				$("#category-dialog").find("table").remove();
 			}
 		});
 	});
@@ -158,6 +161,31 @@ $(function() {
 });
 
 function gogo(){
+	var cn=$('input[name=cName]').val();
+	if(cn.trim()==""){
+		alert("영화관 이름을 입력 해 주세요.");
+		return;
+	}
+	
+	var cl=$('input[name=cLocation]').val();
+	if(cl.trim()==""){
+		alert("영화관 위치를 입력 해 주세요.");
+		return;
+	}
+	
+	var cr=parseInt($('select[name=cRange]').val());
+	if(cr==0){
+		alert("상영 가능 범위를 지정 해 주세요.");  
+		return;
+	}
+	
+	var cinemaView = document.getElementById('category-dialog').innerHTML;
+	
+	var go="<input type='hidden' name='cmSeatMap' value='"+cinemaView+"'><input type='hidden' name='cmSeatTot' value='"+totseat+"'>"
+	go+="<input type='hidden' name='cmName' value='"+cn+"'><input type='hidden' name='cmLocation' value='"+cl+"'>";
+	go+="<input type='hidden' name='cmRange' value='"+cr+"'>";
+	
+	$("#insertGo").append(go);
 	
 	var f=document.cinemaForm;
 	f.action="<%=cp%>/cinema/created";
