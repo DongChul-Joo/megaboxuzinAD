@@ -22,7 +22,7 @@
 </head>
 <body>
 <div>
-<button type="button" onclick="javascript:location.href='<%=cp%>/cinema/created'">지점등록</button>
+<button type="button" onclick="javascript:location.href='<%=cp%>/branch/created'">지점등록</button>
 <button type="button" onclick="javascript:location.href='<%=cp%>/cinema/created'">관등록</button><button type="button" onclick="javascript:location.href='<%=cp%>/cinema/update'">관수정</button>
 	
 </div>
