@@ -20,4 +20,25 @@ public class CinemaSerbiceImpl implements CinemaService{
 		
 	}
 
+	@Override
+	public Cinema readCinema(int cmCode) {
+		Cinema dto=null;
+		try {
+			dto=dao.selectOne("cinema.readCinema",cmCode);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dto;
+	}
+
+	@Override
+	public void updateCinema(Cinema dto) {
+		try {
+			dao.updateData("cinema.updateCinema", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
 }

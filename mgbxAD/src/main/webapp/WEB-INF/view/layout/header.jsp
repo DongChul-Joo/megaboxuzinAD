@@ -42,7 +42,7 @@
     <ul class="nav" style=" margin:0px auto ; width: 1200px;"> 
     	<!--<li><img src="<%=cp%>/resource/images/susu.jpg" style="float: left;"></li>-->
         <li><a href="<%=cp%>/movie/movie">영화관리</a></li>
-        <li><a href="<%=cp%>/cinema/created">지점관리</a></li>
+        <li><a href="<%=cp%>/branch/list">지점관리</a></li>
         <li><a href="<%=cp%>/sales/sales">매출관리</a></li>   
         <li><a href="<%=cp%>/event/list">이벤트 관리</a></li>
         <li><a href="<%=cp%>/item/list">스토어 관리</a></li>

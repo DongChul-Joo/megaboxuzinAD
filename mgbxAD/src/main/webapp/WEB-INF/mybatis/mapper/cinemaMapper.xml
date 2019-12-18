@@ -7,4 +7,13 @@
 	insert into cinema(cmCode,cmName,cmLocation,cmRange,cmSeatTot,cmSeatMap) values
 				(cinema_seq.nextval,#{cmName},#{cmLocation},#{cmRange},#{cmSeatTot},#{cmSeatMap})
 </insert>
+
+<select id="readCinema" parameterType="Integer" resultType="com.zinsupark.cinema.Cinema">
+	select * from cinema where cmCode=#{cmCode}
+</select>
+
+<update id="updateCinema" parameterType="com.zinsupark.cinema.Cinema">
+	update cinema set cmName=#{cmName},cmLocation=#{cmLocation},cmRange=#{cmRange},
+						cmSeatTot=#{cmSeatTot},cmSeatMap=#{cmSeatMap} where cmCode=#{cmCode}
+</update>
 </mapper>

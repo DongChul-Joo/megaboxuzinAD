@@ -80,7 +80,17 @@ color: white;
 
 var row=0;
 var col=0;
-var totseat=0;
+var totseat="${dto.cmSeatTot}";
+
+    
+<c:if test="${mode=='update'}">
+$(function(){     
+	var s='${dto.cmSeatMap}';
+	$("#cinemaView").append(s);
+	$("#cinemaView").find(".deleteSeat").addClass('noneSeat').removeClass('deleteSeat');
+	$("#cinemaView").find(".seatSelect").addClass('selectSeat').removeClass('seatSelect');
+});
+</c:if>
 
 $(document).on("click", ".selectSeat", function() {
     this.setAttribute('class','noneSeat');
@@ -114,7 +124,8 @@ function cinemaCreated(){
 	
 	$("#cinemaView").append(cinemaView);  
 	
-	totseat=row*col;
+		totseat=row*col;
+	
 }
 
 $(function() {
@@ -132,8 +143,7 @@ $(function() {
 		}
 		
 		var cr=parseInt($('select[name=cRange]').val());
-		alert(cr);
-		if(cr==0){
+		if(cr==0||isNaN(cr)){
 			alert("상영 가능 범위를 지정 해 주세요.");  
 			return;
 		}
@@ -145,7 +155,7 @@ $(function() {
 		$("#category-dialog").find("table").remove();
 		$("#category-dialog").append(cinemaView);
 		$("#category-dialog").find(".noneSeat").addClass('deleteSeat').removeClass('noneSeat');
-		
+		$("#category-dialog").find(".selectSeat").addClass('seatSelect').removeClass('selectSeat');
 		$("#category-dialog").dialog({
 			modal: true,
 			height:500,
@@ -162,23 +172,13 @@ $(function() {
 
 function gogo(){
 	var cn=$('input[name=cName]').val();
-	if(cn.trim()==""){
-		alert("영화관 이름을 입력 해 주세요.");
-		return;
-	}
 	
 	var cl=$('input[name=cLocation]').val();
-	if(cl.trim()==""){
-		alert("영화관 위치를 입력 해 주세요.");
-		return;
-	}
 	
 	var cr=parseInt($('select[name=cRange]').val());
-	if(cr==0){
-		alert("상영 가능 범위를 지정 해 주세요.");  
-		return;
-	}
 	
+	
+	$("#category-dialog").find("table").next().remove();
 	var cinemaView = document.getElementById('category-dialog').innerHTML;
 	
 	var go="<input type='hidden' name='cmSeatMap' value='"+cinemaView+"'><input type='hidden' name='cmSeatTot' value='"+totseat+"'>"
@@ -188,7 +188,7 @@ function gogo(){
 	$("#insertGo").append(go);
 	
 	var f=document.cinemaForm;
-	f.action="<%=cp%>/cinema/created";
+	f.action="<%=cp%>/cinema/${mode}";
 	f.submit();
 	
 }
@@ -210,23 +210,24 @@ function gogo(){
 	<div> 
 		<table>
 			<tr>
-				<td>관 이름<input name="cName" type="text"> </td>
+				<td>관 이름<input name="cName" type="text" value="${dto.cmName}"></td>
 			</tr>
 		
 			<tr>
-				<td>관 위치<input name="cLocation" type="text" > </td>
+				<td>관 위치<input name="cLocation" type="text" value="${dto.cmLocation}"></td>
 			</tr>
 		
 			<tr>
 				<td>상영 가능 범위  
-					<select name="cRange">
+					<select name="cRange" value="${dto.cmRange}">
+						<option value="">::상영 범위::</option>
 						<option value="1">2D ONLY</option>
 						<option value="2">2D and 3D </option>
 					</select>
 				</td>  
 			</tr>
 		</table> 
-		<button name="viewCinema" type="button">가즈아</button>
+		<button name="viewCinema" type="button">설정 완료</button>
 		<div id="cinemaView">
 		</div>
 	</div>
