@@ -33,17 +33,6 @@ function updateItem() {
 
 }
 
-/* function checkForm() {
-	var chk = document.checkForm.checked;
-	
-	if(!chk){
-		alert("한번 더 확인하시고 체크박스를 눌러주세요.")
-		document.checkForm.focus();
-		return;
-		
-	}
-} */
-
 $(function(){
 	$(".btn_plus").click(function(){
 		var price = $(this).attr("data-price");
@@ -95,11 +84,10 @@ $(function(){
 	<div class="body-title">
 		<h3> 상품정보 </h3>
 	</div>
-</div>
 
   <div style="clear: both;">
 	<div class="box1">
-		<span>판매기간 : 2019-12-12~</span>		
+		<h3>판매기간 : 2019-12-12~</h3>		
 		 <p>
 			<img src="<%=cp%>/uploads/item/${dto.itemImg}" width="380">
 		 </p>	
@@ -158,6 +146,7 @@ $(function(){
 			</ul>
 		</div>
 		
-  </div>	
+  	</div>	
 
+	</div>
 </div>

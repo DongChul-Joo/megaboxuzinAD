@@ -35,7 +35,7 @@ public class ItemController {
 		
 		model.addAttribute("list", list);
 		model.addAttribute("mode", "created");
-		return "item/created";
+		return ".item.created";
 	}
 	
 	@RequestMapping(value="/item/created", method=RequestMethod.POST)
@@ -111,7 +111,7 @@ public class ItemController {
 		model.addAttribute("condtion", condition);
 		model.addAttribute("keyword", keyword);
 		
-		return "item/list";
+		return ".item.list";
 	}
 	
 	@RequestMapping(value="/item/article", method=RequestMethod.GET)
@@ -142,7 +142,7 @@ public class ItemController {
 		model.addAttribute("page", page);
 		model.addAttribute("query", query);
 		
-		return "item/article";
+		return ".item.article";
 	}
 	
 	@RequestMapping(value="/item/update", method=RequestMethod.GET)
@@ -162,7 +162,7 @@ public class ItemController {
 		model.addAttribute("page", page);
 		model.addAttribute("mode", "update");
 		
-		return "item/created";
+		return ".item.created";
 	}
 	
 	@RequestMapping(value="/item/update", method=RequestMethod.POST)
