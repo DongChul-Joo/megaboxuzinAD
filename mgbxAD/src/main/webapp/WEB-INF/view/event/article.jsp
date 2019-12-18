@@ -6,10 +6,6 @@
 	String cp=request.getContextPath();
 %>
 
-
-
-
-
 <style>
 .ll {
 list-style:none;
@@ -48,6 +44,27 @@ text-align: center;
 }
  </style>
 
+<script type="text/javascript">
+
+function eventUpdate() {
+	var q = "ecode=${dto.ecode}&page=${page}";
+	var url = "<%=cp%>/event/update?" + q;
+	
+	if(confirm("이벤트를 수정 하시겠습니까?"))
+		location.href=url;
+}
+
+function eventDelete() {
+	var q = "ecode=${dto.ecode}&${query}";
+	var url = "<%=cp%>/event/delete?" + q;
+	
+	if(confirm("이벤트를 삭제 하시겠습니까?"))
+		location.href=url;
+}
+
+
+</script>
+
  
  <div class="body-container" style="width: 1200px;">
 
@@ -70,7 +87,7 @@ text-align: center;
 
 <div class="body-container" style="width: 700px;">
     <div class="body-title">
-        <h3><i class="far fa-image"></i> 이벤트 이름 </h3>
+        <h3><i class="far fa-image"></i> ${dto.subject} </h3>
     </div>
     
     <div>
@@ -81,8 +98,9 @@ text-align: center;
 				</td>
 				
 				<td width="40%" align="right" style="padding-right: 10px; border-spacing: 0px; border-collapse: collapse;">
-			    	 당첨자 발표 : 당첨자 발표 날짜
+			    	당첨자 발표 : ${dto.lottDate}
 				</td>
+				
 			</tr>
     	</table>
     	
@@ -96,12 +114,11 @@ text-align: center;
     	<table style="width: 100%; margin: 0px auto 20px; border-spacing: 0px; ">
 			<tr height="45">
 			    <td width="300" align="right">			    
-			          <button type="button" class="btn" onclick="eventupdate('${dto.ecode}');">수정</button>			    
-			          <button type="button" class="btn" onclick="eventdelete('${dto.ecode}');">삭제</button>
+			          <button type="button" class="btn" onclick="eventUpdate('${dto.ecode}');">수정</button>			    
+			          <button type="button" class="btn" onclick="eventDelete('${dto.ecode}');">삭제</button>
 			    </td>
 			</tr>
 			</table>
-    	
     </div>
 </div>
 

@@ -40,7 +40,7 @@ public class EventController {
 		
 		String cp = req.getContextPath();
 		
-		int rows = 5;
+		int rows = 6;
 		int total_page = 0;
 		int dataCount = 0;
 
@@ -99,10 +99,7 @@ public class EventController {
 			Model model
 			) throws Exception {
 		
-		Map<String, Object> map=new HashMap<String, Object>();
-		map.put("eCategoryCode", null);
-		
-		List<Event> list=service.listCategory(map);
+		List<Event> list=service.listCategory();
 
 		model.addAttribute("list", list);
 		model.addAttribute("mode", "created");
@@ -150,22 +147,25 @@ public class EventController {
 		model.addAttribute("dto", dto);
 		model.addAttribute("page", page);
 		model.addAttribute("query", query);
-		
 		return ".event.article";
 	}
 	
 	@RequestMapping(value="/event/update", method=RequestMethod.GET)
 	public String updateForm(
-			@RequestParam int num,
+			@RequestParam int ecode,
 			@RequestParam String page,
 			Model model
 			) throws Exception {
 
 		
-		Event dto = service.readEvent(num);
+		Event dto = service.readEvent(ecode);
 		if (dto == null)
 			return "redirect:/event/list?page="+page;
 		
+		List<Event> list=service.listCategory();
+		
+		
+		model.addAttribute("list", list);
 		model.addAttribute("dto", dto);
 		model.addAttribute("page", page);
 		model.addAttribute("mode", "update");
@@ -188,7 +188,7 @@ public class EventController {
 		} catch (Exception e) {
 		}
 		
-		return "redirect:/event/article?num="+dto.getEcode()+"&page="+page;
+		return "redirect:/event/article?ecode="+dto.getEcode()+"&page="+page;
 	}	
 	
 	@RequestMapping(value="/event/delete", method=RequestMethod.GET)

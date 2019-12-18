@@ -120,10 +120,10 @@ public class EventServiceImpl implements EventService{
 		
 	}
 	@Override
-	public List<Event> listCategory(Map<String, Object> map) {
+	public List<Event> listCategory() {
 		List<Event> list=null;
 		try {
-			list=dao.selectList("event.listCategory", map);
+			list=dao.selectList("event.listCategory");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

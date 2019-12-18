@@ -64,49 +64,43 @@ $(function(){
 function clickRott() {
 	var f=document.eventForm;
 	
-	if(f.rott.checked) {
+	if(f.lott.checked) {
 		f.mcount.readOnly=false;
-		document.getElementById("rottCount").style.display="";
+		document.getElementById("lottCount").style.display="";
+		document.getElementById("lottLottDate").style.display="";
+		
 		
 	} else {
 		f.mcount.readOnly=true;
 		f.mcount.value="0";
-		document.getElementById("rottCount").style.display="none";
+		document.getElementById("lottCount").style.display="none";
+		document.getElementById("lottLottDate").style.display="none";
 	}
+
 }
 
-//기입 여부 얼러창 띄우기
+
+//작성 여부 얼러창 띄우기
 function send() {
 	var f = document.eventForm;
 	
 	var str;
 	
-	str = f.subject.value;
+	var str = f.subject.value;
 	if(!str) {
 		alert("제목을 입력해 주세요.");
 		f.subject.focus();
 		return;
 	}
-/*	
-	str = f.groupeCategoryNum.value;
-	if(!str) {
-		alert("분류 옵션을 선택해 주세요.");
-		f.groupeCategoryNum.focus();
-		return;
+	
+	var mode="${mode}";
+	if(mode=="created"||mode=="update" && f.upload.value!="") {
+		if(! /(\.gif|\.jpg|\.png|\.jpeg)$/i.test(f.upload.value)) {
+			alert('이미지 파일만 가능합니다.(bmp 파일은 불가) !!!');
+			f.upload.focus();
+			return;
+		}
 	}
-	str = f.sDate.value;
-	if(!str) {
-		alert("시작일을 선택해 주세요.");
-		f.sDate.focus();
-		return;
-	}
-	str = f.eDate.value;
-	if(!str) {
-		alert("종료일을 선택해 주세요.");
-		f.eDate.focus();
-		return;
-	}
-	*/
 	
 	f.action="<%=cp%>/event/${mode}";
 	f.submit();
@@ -142,18 +136,24 @@ function send() {
 			  
 			  <tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 				<td width="100" bgcolor="#eeeeee" style="text-align: center;">이벤트 정보</td>
-					<td style="padding-left:10px;"> 
-				<select class="boxTF" name="ecategoryCode" style="width: 15%;">
-					<option value="">:: 분류 옵션 ::</option>
-					<c:forEach var="vo" items="${list}">
-						<option value="${vo.ecategoryCode}">${vo.ecategoryName}</option>
-					</c:forEach>
-				</select>
-				<label>시작일 : <input name="sdate" type="date"></label>
-				<label>종료일 : <input name="edate" type="date"></label>
-				
-				<label>응모여부 : <input name="rott" type="checkbox" style="width: 20%;" onclick="clickRott();"></label>
-				<label id="rottCount" style="display: none;" class="input-mcount">당첨자 수 : <input name="mcount" type="number" style="width: 10%;" value="0" readonly="readonly"></label>
+				<td style="padding-left:10px;"> 
+					<select class="boxTF" name="ecategoryCode" style="width: 15%;">
+						<option value="">:: 분류 옵션 ::</option>
+						<c:forEach var="vo" items="${list}">
+							<option value="${vo.ecategoryCode}">${vo.ecategoryName}</option>
+						</c:forEach>
+					</select>
+					<label>시작일 : <input name="sdate" type="date"></label>
+					<label>종료일 : <input name="edate" type="date"></label>
+				</td>
+			</tr>
+
+			  <tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
+				<td width="100" bgcolor="#eeeeee" style="text-align: center;">응모 여부</td>
+				<td style="padding-left:10px;"> 
+					<label><input name="lott" type="checkbox" onclick="clickRott();" value="1" ${dto.lott==1 ? "checked='checked' ":"" }>여부</label>
+					<label id="lottCount" style="display: none;" class="input-mcount">당첨자 수 : <input name="mcount" type="number" value="0" readonly="readonly"></label>
+					<label id="lottLottDate" style="display: none;" class="input-lottDate">당첨자 발표일 : <input name="lottDate" type="date"></label>
 				</td>
 			</tr>
 			
@@ -182,10 +182,16 @@ function send() {
 			
 			  <table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
 			     <tr height="45"> 
-			      <td align="center" >
-			        <button type="button" class="btn" onclick="send()">등록하기</button>
-					<button type="button" class="btn" onclick="">다시입력</button>
-					<button type="button" class="btn" onclick="">등록취소</button>
+			      <td align="center" style="padding-bottom: 20px">
+			        <button type="button" class="btn" onclick="send();">${mode=='update'?'수정완료':'등록하기'}</button>
+					<button type="button" class="btn">다시입력</button>
+					<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/event/list';">${mode=='update'?'수정취소':'등록취소'}</button>
+						<c:if test="${mode=='update'}">
+							<input type="hidden" name="ecode" value="${dto.ecode}">
+							<input type="hidden" name="imageFilename" value="${dto.imageFilename}">
+							<input type="hidden" name="page" value="${page}">
+						</c:if>
+					
 			      </td>
 			    </tr>
 			  </table>

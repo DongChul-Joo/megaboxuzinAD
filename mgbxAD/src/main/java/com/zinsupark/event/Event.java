@@ -12,6 +12,7 @@ public class Event {
 	private String created; // 작성일자
 	private String imageFilename; // 이미지 파일 이름
 	private int lott; // 추첨여부
+	private String lottDate; // 추첨 날짜 
 	private String elink; // 이벤트 링크
 	private int mcount; // 당첨자 수
 	private int ecategoryCode; // 분류 코드
@@ -72,6 +73,12 @@ public class Event {
 	}
 	public void setLott(int lott) {
 		this.lott = lott;
+	}
+	public String getLottDate() {
+		return lottDate;
+	}
+	public void setLottDate(String lottDate) {
+		this.lottDate = lottDate;
 	}
 	public String getElink() {
 		return elink;

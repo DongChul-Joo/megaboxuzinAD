@@ -4,10 +4,10 @@
 <mapper namespace="event">
 	
 	<insert id="insertEvent" parameterType="com.zinsupark.event.Event">
-		INSERT INTO event(eCode, userId, sDate, eDate, subject, content,
-		imageFilename, lott, eLink, mCount, ecategoryCode)
-			VALUES (event_seq.NEXTVAL, #{userId}, #{sdate}, #{edate}, #{subject}, #{content}, 
-		#{imageFilename}, #{lott}, #{elink}, #{mcount}, #{ecategoryCode})
+		INSERT INTO event(ecode, userId, sdate, edate, subject, content,
+		imageFilename, lott, lottDate, elink, mcount, ecategoryCode)
+			VALUES (event_seq.NEXTVAL, #{userId}, #{sdate}, #{edate}, #{subject}, #{content},
+					#{imageFilename}, #{lott}, #{lottDate}, #{elink}, #{mcount}, #{ecategoryCode})
 	</insert>
 	
 	
@@ -28,7 +28,7 @@
 		</if>
 	</sql>
 	
-	<select id="listCategory" parameterType="map" resultType="com.zinsupark.event.Event">
+	<select id="listCategory" resultType="com.zinsupark.event.Event">
 		SELECT eCategoryCode, eCategoryName 
 		FROM eventCategory
 	</select>
@@ -45,9 +45,8 @@
 	</select>
 	
 	<select id="listEvent" parameterType="map" resultType="com.zinsupark.event.Event">
-		SELECT ecode, e.userId, TO_CHAR(sDate, 'yyyy-mm-dd') as sDate, TO_CHAR(eDate, 'yyyy-mm-dd') as eDate,
-		subject, TO_CHAR(created, 'yyyy-mm-dd') as created, imageFilename,
-		lott, eLink, mCount
+		SELECT ecode, e.userId, TO_CHAR(sdate, 'yyyy-mm-dd') as sdate, TO_CHAR(edate, 'yyyy-mm-dd') as edate,
+		subject, TO_CHAR(created, 'yyyy-mm-dd') as created, imageFilename, lott, eLink, mCount
 		FROM event e
 		JOIN member m ON e.userId=m.userId
 		<where>
@@ -60,17 +59,21 @@
 	</select>
 	
 	<select id="readEvent" parameterType="Integer" resultType="com.zinsupark.event.Event">
-		SELECT ecode, subject
+		SELECT ecode, subject, TO_CHAR(sdate, 'yyyy-mm-dd') as sdate, TO_CHAR(edate, 'yyyy-mm-dd') as edate,
+				content, TO_CHAR(created, 'yyyy-mm-dd') as created, imageFilename, lott,
+				TO_CHAR(lottDate, 'yyyy-mm-dd') as lottDate, elink, mcount
 		FROM event e
 		JOIN member m ON e.userId=m.userId
 		WHERE ecode=#{ecode}
 	</select>
 	
 	<update id="updateEvent" parameterType="com.zinsupark.event.Event">
-		UPDATE event SET subject=#{subject}, imageFilename=#{imageFilename},
-				content=#{content}
-				WHERE ecode=#{ecode}
+		UPDATE event SET sdate=#{sdate}, edate=#{edate}, subject=#{subject}, content=#{content},
+						imageFilename=#{imageFilename}, lott=#{lott}, lottDate=#{lottDate}, elink=#{elink},
+						mcount=#{mcount}, ecategoryCode=#{ecategoryCode}
+		WHERE ecode=#{ecode}
 	</update>
+	
 	<delete id="deleteEvent" parameterType="Integer">
 		DELETE FROM event WHERE ecode=#{ecode}
 	</delete>

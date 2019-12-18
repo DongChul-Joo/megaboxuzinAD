@@ -13,6 +13,6 @@ public interface EventService {
 	
 	public void insertCategory(Map<String, Object> map) throws Exception;
 	public void updateCategory(Map<String, Object> map) throws Exception;
-	public List<Event> listCategory(Map<String, Object> map);
+	public List<Event> listCategory();
 	public void deleteCategory(int categoryNum) throws Exception;
 }
