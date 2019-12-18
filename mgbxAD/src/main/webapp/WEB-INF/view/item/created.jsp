@@ -30,13 +30,6 @@ function sendOk() {
 		return;
 	}
 	
-	str = f.itemOrigin.value;
-	if(!str.trim()) {
-		alert("원산지를 입력하세요.");
-		f.itemOrigin.focus();
-		return;
-	}
-	
 	str = f.itemDetail.value;
 	if(!str.trim()) {
 		alert("상세정보를 입력하세요.");
