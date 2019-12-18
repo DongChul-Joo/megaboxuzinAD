@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="item">
+	<insert id="insertItem" parameterType="com.zinsupark.item.Item">
+		INSERT INTO item(itemCode, itemName, itemPrice, itemOrigin, itemDetail, itemImg, itemPart)
+			VALUES (item_seq.NEXTVAL, #{itemName}, #{itemPrice}, #{itemOrigin}, #{itemDetail}, #{itemImg}, #{itemPart})
+	</insert>
+	
+	<sql id="where-list">
+		<if test="condition=='all'">
+			( INSTR(itemName, #{keyword}) &gt; 0
+				OR INSTR(itemDetail, #{keyword}) &gt; 0 )
+		</if>
+		<if test="condition=='itemName'">
+			INSTR(itemName, #{keyword}) &gt; 0
+		</if>
+		<if test="condition=='itemOrigin'">
+			INSTR(itemOrigin, #{keyword}) &gt; 0 
+		</if>
+		<if test="condition=='itemDetail'">
+			itemDetail=#{keyword}
+		</if>
+	</sql>
+	
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM item
+		<where>
+			<if test="keyword!=null and keyword!='' ">
+				<include refid="where-list"/>
+			</if>
+		</where>
+	</select>
+	
+	<select id="listItem" parameterType="map" resultType="com.zinsupark.item.Item">
+		SELECT itemCode, itemName, itemPrice, itemOrigin, itemDetail, itemPart, itemImg
+		FROM item
+		<where>
+			<if test="keyword != null and keyword != '' ">
+				<include refid="where-list"/>
+			</if>
+		</where>
+		ORDER BY DECODE(itemPart, '영화티켓', 0, '특별할인', 1), itemCode
+	</select>
+	
+	<select id="readItem" parameterType="Integer" resultType="com.zinsupark.item.Item">
+		SELECT itemCode, itemName, itemPrice, itemOrigin, itemDetail, itemImg, itemPart
+		FROM item
+		WHERE itemCode=#{itemCode}
+	</select>
+	
+	<update id="updateItem" parameterType="com.zinsupark.item.Item">
+		UPDATE item SET itemName=#{itemName}, itemPrice=#{itemPrice}, itemOrigin=#{itemOrigin}, itemDetail=#{itemDetail},
+				itemImg=#{itemImg}, itemPart=#{itemPart}
+		WHERE itemCode=#{itemCode}
+	</update>
+
+	<delete id="deleteItem" parameterType="Integer">
+		DELETE FROM item WHERE itemCode = #{itemCode}
+	</delete>
+</mapper>
