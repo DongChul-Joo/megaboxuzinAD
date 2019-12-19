@@ -8,7 +8,7 @@
 
 <script type="text/javascript">
 function branInsert() {
-	var f = document.memberForm;
+	var f = document.branchForm;
 	var str;
     str = f.branName.value;
 	str = str.trim();
@@ -32,6 +32,18 @@ function branInsert() {
         return;
     }
     
+    str = f.branAddr1.value;
+    
+    var ac=f.areaCode.value;
+        ac=document.querySelector("option[name=area"+ac+"]").getAttribute('data-val');
+        alert(ac);
+    	alert(str.indexOf(ac));
+    	
+    if(str.indexOf(ac)<0||str.indexOf(ac)>1){
+    	alert("주소지와 지역분류가 일치하지 않습니다.")
+    	return;
+    }
+    
     str = f.branAddr2.value;
     if(!str) {
         alert("주소 상세를 입력하세요. ");
@@ -46,7 +58,10 @@ function branInsert() {
         return;
     }
     
+    
+    
  	f.action = "<%=cp%>/branch/${mode}";
+ 	f.submit();
 
 
 }
@@ -61,8 +76,8 @@ function branInsert() {
     </div>
     
         <div>
-			<form name="memberForm" method="post" enctype="multipart/form-data">
-			<input type="hidden" name="customerCode" value="${dto.customerCode}">
+			<form name="branchForm" method="post" enctype="multipart/form-data">
+
 			  <table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px;">
 			
 			  <tr>
@@ -87,7 +102,7 @@ function branInsert() {
 			           <select name="areaCode" style="margin-top: 5px;height: 25px;border-radius: 3px" >  
 			           		<option value="">::지역 선택::</option>
 			           			<c:forEach var="vo" items="${list}">
-			           				<option value="${vo.areaCode}">${vo.areaName}</option>
+			           				<option name="area${vo.areaCode}" value="${vo.areaCode}" data-val="${vo.areaName}">${vo.areaName}</option>
 			           			</c:forEach>
 			           </select>
 			        </p>
@@ -142,11 +157,8 @@ function branInsert() {
 			     <tr height="45"> 
 			      <td align="center" > 
 			        <button type="button" name="sendButton" class="btn" onclick="branInsert();">${mode=="created"?"지점등록":"수정완료"}</button>
-			        <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/';">${mode=="created"?"등록취소":"수정취소"}</button>
+			        <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/branch/list';">${mode=="created"?"등록취소":"수정취소"}</button>
 			      </td>
-			    </tr>
-			    <tr height="30">
-			        <td align="center" style="color: blue;">${message}</td>
 			    </tr>
 			  </table>
 			  <div id="map" style="width:500px;height:400px; margin: 0px auto"></div>

@@ -101,3 +101,34 @@ textarea:focus, input:focus{
 	background-color:#ffffff;
 	font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
 }
+
+.floating { 
+	background-color:white; 
+	position: fixed; 
+	right: 50%; 
+	top: 180px; 
+	margin-right: 450px; 
+	text-align:center; 
+	width:100px; 
+	border-radius: 8px; 
+	-webkit-border-radius: 0px; 
+	height: 500px;
+	margin-top: -40px;
+	border-spacing:0;
+	border-collapse:collapse;
+	} 
+
+	.floating div{ 
+	border:1px solid #e4e4e4;   
+	border-radius: 0px; 
+	height: 25px; 
+	text-align: center;
+	padding-top:2px;
+	font-weight: bold;
+
+	}
+	
+	.floating div:hover{
+		background:tomato;
+		font-size: 16px; 
+	}

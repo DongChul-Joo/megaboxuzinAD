@@ -7,4 +7,12 @@
 	select areaCode,areaName from area
 </select>
 
+<insert id="insertBranch" parameterType="com.zinsupark.branch.Branch">
+	insert into branch( branCode,branName,branZip,branAddr1,branAddr2,areaCode,imageFilename)
+				values(branch_seq.nextval,#{branName},#{branZip},#{branAddr1},#{branAddr2},#{areaCode},#{imageFilename})
+</insert>
+
+<select id="listBranch" resultType="com.zinsupark.branch.Branch">
+	select branCode,branName,branZip,branAddr1,branAddr2,imageFilename  from branch
+</select>
 </mapper>
