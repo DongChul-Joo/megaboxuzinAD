@@ -12,7 +12,6 @@
 	height: 205px;
 	padding: 10px 5px 10px;
 	margin: 5px;
-	border: 1px solid #DAD9FF;
 	cursor: pointer;
 }
 .itemName {

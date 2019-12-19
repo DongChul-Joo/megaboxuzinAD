@@ -80,7 +80,7 @@ $(function(){
 
 </script>
 
-<div class="body-container" style="width: 1200px;">
+<div class="body-container" style="width: 1400px;">
 	<div class="body-title">
 		<h3> 상품정보 </h3>
 	</div>
