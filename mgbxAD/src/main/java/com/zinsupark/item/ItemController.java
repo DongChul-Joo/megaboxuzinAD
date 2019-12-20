@@ -130,8 +130,11 @@ public class ItemController {
 		}
 		
 		Item dto = service.readItem(itemCode);
-		if(dto == null)
+		if(dto == null) {
 			return "redirect:/item/list?"+query;
+		}
+		
+		dto.setItemDetail(dto.getItemDetail().replaceAll("\n", "<br>"));
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("condition", condition);

@@ -4,7 +4,7 @@
 <mapper namespace="item">
 	<insert id="insertItem" parameterType="com.zinsupark.item.Item">
 		INSERT INTO item(itemCode, itemName, itemPrice, itemOrigin, itemDetail, itemImg, itemPart)
-			VALUES (item_seq.NEXTVAL, #{itemName}, #{itemPrice}, #{itemOrigin}, #{itemDetail}, #{itemImg}, #{itemPart})
+			VALUES (item_seq.NEXTVAL, #{itemName}, #{itemPrice}, #{itemOrigin, jdbcType=VARCHAR}, #{itemDetail}, #{itemImg}, #{itemPart})
 	</insert>
 	
 	<sql id="where-list">
@@ -51,7 +51,7 @@
 	</select>
 	
 	<update id="updateItem" parameterType="com.zinsupark.item.Item">
-		UPDATE item SET itemName=#{itemName}, itemPrice=#{itemPrice}, itemOrigin=#{itemOrigin}, itemDetail=#{itemDetail},
+		UPDATE item SET itemName=#{itemName}, itemPrice=#{itemPrice}, itemOrigin=#{itemOrigin, jdbcType=VARCHAR}, itemDetail=#{itemDetail},
 				itemImg=#{itemImg}, itemPart=#{itemPart}
 		WHERE itemCode=#{itemCode}
 	</update>

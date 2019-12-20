@@ -64,7 +64,7 @@ function sendOk() {
 			<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;">
 				<td width="100" bgcolor="#DAD9FF" style="text-align: center;">상품명</td>
 				<td style="padding-left:10px;">
-					<input type="text" name="itemName" maxlength="100" value="${dto.itemName}">
+					<input type="text" name="itemName" maxlength="100" style="width: 170px;" value="${dto.itemName}">
 				</td>
 			</tr>
 			<tr align="left" height="40" style="border-bottom: 1px solid #cccccc;">
@@ -103,15 +103,12 @@ function sendOk() {
 				</td>
 				
 				<td valign="top" style="padding:5px 0px 5px 10px;">
-					<p><textarea name="itemDetail" rows="12" style="width: 90%; resize: none;">
+					<p>
+		<textarea name="itemDetail" rows="12" style="width: 90%; resize: none;"><c:out value="${dto.itemDetail}"/>
 ·사용가능 영화관 : 전체 영화관
-
 ·유효기간 : 예매가능 유효기간은 구매일부터 2년간 입니다.(일자 기준)
-
-·구매 후 취소 : 구매한 관람권 일괄 환불만 가능, 부분 환불 불가하며, 구매 일로 일주일 이내에만 취소가 가능합니다.
-	
-	${dto.itemDetail}
-					</textarea></p>
+·구매 후 취소 : 구매한 관람권 일괄 환불만 가능, 부분 환불 불가하며, 구매 일로 일주일 이내에만 취소가 가능합니다.</textarea>
+</p>
 				</td>
 			</tr>
 		</table>

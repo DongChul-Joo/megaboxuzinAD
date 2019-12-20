@@ -11,21 +11,18 @@
 	width: 190px;
 	height: 205px;
 	padding: 10px 5px 10px;
-	margin: 5px;
+	margin: 40px 5px 5px 5px;
 	cursor: pointer;
 }
 .itemName {
      width:180px;
-     height:25px;
+     height:70px;
      line-height:25px;
      margin:5px auto;
-     border-top: 1px solid #DAD9FF;
-     display: inline-block;
-     white-space:nowrap;
-     overflow:hidden;
-     text-overflow:ellipsis;
+     border: 1px solid #DAD9FF;
      cursor: pointer;
 }
+
 </style>
 
 <script type="text/javascript">
@@ -43,7 +40,9 @@ function article(itemCode) {
 <div class="body-container" style="width: 840px;">
 	<div class="body-title">
 		<h3>| 상품</h3>
-		<button type="button" onclick="javascript:location.href='<%=cp%>/item/created';"> 상품등록</button>
+		<span style="margin-left: 450px;">
+			<button class="btn" type="button" onclick="javascript:location.href='<%=cp%>/item/created';"> 상품등록</button>
+		</span>
 	</div>
 	
 	<div>
@@ -67,15 +66,15 @@ function article(itemCode) {
 				    <c:out value="</tr>" escapeXml="false"/>
 				</c:if>
 
-				<c:if test="${cnt==0 || itemPart != dto.itemPart}">
+				<c:if test="${status.index==0 || itemPart != dto.itemPart}">
 					<c:set var="cnt" value="0"/>
 					<c:set var="itemPart" value="${dto.itemPart}"/>
-					<tr height="5">
+					<!-- <tr height="5">
 					  <td colspan="4" align="left">&nbsp;</td>
-					</tr>
+					</tr> -->
 					
 					<tr height="35">
-					  <td colspan="4" align="left">${dto.itemPart}</td>
+					  <td colspan="4" align="left" style="padding: 50px 10px 10px 10px;"><h3 style="">${dto.itemPart}</h3></td>
 					</tr>
 					<tr>
 				</c:if>
@@ -85,9 +84,10 @@ function article(itemCode) {
 					<div class="imgLayout">
 						<img src="<%=cp%>/uploads/item/${dto.itemImg}" width="180" 
 							height="180" border="0" onclick="javascript:article('${dto.itemCode}');">
-						<span class="itemName" onclick="javascript:article('${dto.itemCode}')">
-							${dto.itemName}
-						</span>
+						<div class="itemName" onclick="javascript:article('${dto.itemCode}')">	
+							<div style="display:block; width: 150px; height: 20px; word-wrap:break-word;">${dto.itemName}</div>
+							<div style="text-align: right;margin-right: 5px;padding-top: 25px;">${dto.itemPrice}원</div>
+						</div>
 					</div>
 				</td>	
 			</c:forEach>
@@ -112,4 +112,5 @@ function article(itemCode) {
 	
 	</div>
 	
+
 </div>

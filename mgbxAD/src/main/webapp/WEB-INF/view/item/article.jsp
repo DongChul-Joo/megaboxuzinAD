@@ -8,9 +8,19 @@
 
 <style>
 .box1 {
-	float:left; width:500px; height:100px;}
+	float:left; width:500px; height:100px;
+	}
 .box2 {
-  float:left;  width:500px; height:100px;
+  float:left;  width:400px; height:100px;
+}
+.count {
+	width: 30px; height: 20px;
+}
+.btn_sub {
+	width: 30px; height: 25px;
+}
+.btn_plus {
+	width: 30px; height: 25px;
 }
 </style>
 
@@ -31,6 +41,13 @@ function updateItem() {
 		var url = "<%=cp%>/item/update?" + q;
 		location.href=url;
 
+}
+
+function sendOk() {
+	if(! $('input:checkbox[id="ok"]').is(":checked")) {
+	    alert ( "check");
+	    return;
+	}
 }
 
 $(function(){
@@ -77,36 +94,39 @@ $(function(){
 		$("#payAmt").html(amt);
 	});	
 });
-
 </script>
 
-<div class="body-container" style="width: 1400px;">
+<div class="body-container" style="width: 900px;margin-left: 400px;">
 	<div class="body-title">
 		<h3> 상품정보 </h3>
 	</div>
 
   <div style="clear: both;">
 	<div class="box1">
-		<h3>판매기간 : 2019-12-12~</h3>		
+		<h3 style="margin:border-bottom-width: 10px;margin-bottom: 10px;">판매기간 : 2019-12-19~</h3>
+			
 		 <p>
 			<img src="<%=cp%>/uploads/item/${dto.itemImg}" width="380">
 		 </p>	
+		 <div>
+		 	<span>${dto.itemOrigin}</span>
+		 </div>
 	</div>
 	
 	<div class="box2">
-		<div class="itemName">
-			<h2>${dto.itemName}</h2>
-			<span>${dto.itemPart}</span>
+		<div class="itemName" style="margin-bottom: 20px;padding-bottom: 10px; border-bottom: 2px #878787;">
+			<h2 style="margin-bottom: 10px;">${dto.itemName}</h2>
+			<h4 style="text-align: right; margin-right: 10px;">${dto.itemPart}</h4>
 		</div>
 		<div class="itemDetail">
 			<ul class="detail">
 				<li class="detail">
-					<p>
+					<p style="margin-bottom: 20px;">
 						${dto.itemDetail}
 					</p>
 				</li>
 				<li class="itemDetail2">
-					<p>
+					<p style="margin-bottom: 20px;">
 						<strong>
 							스토어 판매가
 						</strong>
@@ -115,33 +135,35 @@ $(function(){
 							${dto.itemPrice}
 						</span>
 					</p>
+				</li>
+				<li>	
 					<div>
-						<p class="itemAmount">
+						<p class="itemAmount" style="margin-bottom: 20px;">
 							<strong> 수량 : </strong>
 							<button type="button" class="btn_sub" title="수량 1 감소" data-price="${dto.itemPrice}">-</button>
-							<input type="text"  id="itemCount" style="width: 50px;" title="티켓 수량 입력" value="1" readonly>
+							<input type="text" class="count"  id="itemCount" title="티켓 수량 입력" value="1" readonly>
 							<button type="button" class="btn_plus" title="수량 1 증가" data-price="${dto.itemPrice}">+</button>
 						</p>	
 					</div>
 				</li>
 				<li class="totalAmount">
-					<p>
+					<p style="margin-bottom: 20px;">
 						<span>
-							<span id="payAmt">${dto.itemPrice}</span>원
+							<strong>총 합계 : </strong><span id="payAmt">${dto.itemPrice}</span>원
 						</span>
 					</p>
-					<p>
-						<strong>
-							
+					<form name="okForm" method="post">
+					
+						<h3 style="margin-bottom: 30px;">
+							<input type="checkbox" id="ok">
 							* 구매 전 상품과 수량을 확인했습니다.*
-						</strong>
-					</p>
+						</h3>		
+					<button type="button" class="btn" onclick="sendOk();">구매하기</button>
+					<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/item/list';">뒤로가기</button>
+					<button type="button" class="btn" onclick="updateItem();">상품수정</button>
+					<button type="button" class="btn" onclick="deleteItem();">상품삭제</button>
 					
-					<button type="button" onclick="">구매하기</button>
-					<button type="button" onclick="javascript:location.href='<%=cp%>/item/list';">뒤로가기</button>
-					<button type="button" onclick="updateItem();">상품수정</button>
-					<button type="button" onclick="deleteItem();">상품삭제</button>
-					
+					</form>
 				</li>
 			</ul>
 		</div>
