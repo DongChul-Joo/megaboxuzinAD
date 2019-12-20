@@ -102,15 +102,4 @@ public class ItemServiceImpl implements ItemService {
 		return dto;
 	}
 
-	@Override
-	public Item payItem(int itemCode) {
-		Item dto = readItem(itemCode);
-		try {
-			dto=dao.selectOne("item.readItem", itemCode);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return dto;
-	}
-
 }
