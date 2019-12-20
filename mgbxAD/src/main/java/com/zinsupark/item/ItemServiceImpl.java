@@ -59,12 +59,11 @@ public class ItemServiceImpl implements ItemService {
 	public void updateItem(Item dto, String pathname) throws Exception {
 		try {
 			String saveFileName = fileManager.doFileUpload(dto.getUpload(), pathname);
-			// System.out.println(saveFileName);
+			
 			if (saveFileName != null) {
 				if(dto.getItemImg().length()!=0) {
 					fileManager.doFileDelete(dto.getItemImg(), pathname);
 				}
-				System.out.println(saveFileName);
 				dto.setItemImg(saveFileName);
 			}
 			dao.updateData("item.updateItem", dto);
@@ -94,7 +93,18 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public Item readItem(int itemCode) {
-		Item dto = null;
+		Item dto = readItem(itemCode);
+		try {
+			dto=dao.selectOne("item.readItem", itemCode);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dto;
+	}
+
+	@Override
+	public Item payItem(int itemCode) {
+		Item dto = readItem(itemCode);
 		try {
 			dto=dao.selectOne("item.readItem", itemCode);
 		} catch (Exception e) {

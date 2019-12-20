@@ -45,7 +45,7 @@ function updateItem() {
 
 function sendOk() {
 	if(! $('input:checkbox[id="ok"]').is(":checked")) {
-	    alert ( "check");
+	    alert ( "체크이후에 다시 눌러주세요.");
 	    return;
 	}
 }
@@ -96,7 +96,7 @@ $(function(){
 });
 </script>
 
-<div class="body-container" style="width: 900px;margin-left: 400px;">
+<div class="body-container" style="min-height: 700px;margin-bottom: 20px;">
 	<div class="body-title">
 		<h3> 상품정보 </h3>
 	</div>
