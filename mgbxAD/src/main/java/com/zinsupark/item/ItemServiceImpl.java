@@ -93,7 +93,7 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public Item readItem(int itemCode) {
-		Item dto = readItem(itemCode);
+		Item dto = null;
 		try {
 			dto=dao.selectOne("item.readItem", itemCode);
 		} catch (Exception e) {
