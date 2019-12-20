@@ -103,13 +103,13 @@
 	
 	<!-- 댓글 -->
 	<insert id="insertReply" parameterType="com.zinsupark.event.Reply">
-		INSERT INTO bbsReply(rcode, ecode, userId, content, created)
-			VALUES (bbsReply_seq.NEXTVAL, #{ecode}, #{userId}, #{content}, #{created})
+		INSERT INTO eventReply(rcode, ecode, answer, userId, content)
+			VALUES (eventReply_seq.NEXTVAL, #{ecode}, #{answer}, #{userId}, #{content})
 	</insert>
 
 	<select id="replyCount" parameterType="map" resultType="Integer">
 		SELECT NVL(COUNT(*), 0) FROM eventReply
-		WHERE rcode=#{rcode} AND answer=0
+		WHERE ecode=#{ecode} AND answer=0
 	</select>
 	
 	<select id="listReply" parameterType="map" resultType="com.zinsupark.event.Reply">

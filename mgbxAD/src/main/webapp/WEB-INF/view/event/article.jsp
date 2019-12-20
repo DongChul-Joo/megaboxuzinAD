@@ -62,6 +62,10 @@ function eventDelete() {
 		location.href=url;
 }
 
+function login() {
+	location.href="<%=cp%>/member/login";
+}
+
 function ajaxJSON(url, type, query, fn) {
 	$.ajax({
 		type:type
@@ -113,7 +117,7 @@ $(function(){
 
 function listPage(page) {
 	var url = "<%=cp%>/event/listReply";
-	var query = "rcode=${dto.rcode}&pageNo="+page;
+	var query = "ecode=${dto.ecode}&pageNo="+page;
 	var selector = "#listReply";
 	
 	ajaxHTML(url, "get", query, selector);
@@ -122,7 +126,7 @@ function listPage(page) {
 //리플 등록
 $(function(){
 	$(".btnSendReply").click(function(){
-		var rcode="${dto.rcode}";
+		var ecode="${dto.ecode}";
 		var $tb = $(this).closest("table");
 		var content=$tb.find("textarea").val().trim();
 		if(! content) {
@@ -132,7 +136,7 @@ $(function(){
 		content = encodeURIComponent(content);
 		
 		var url="<%=cp%>/event/insertReply";
-		var query="rcode="+rcode+"&content="+content+"&answer=0";
+		var query="ecode="+ecode+"&content="+content+"&answer=0";
 		
 		var fn = function(data){
 			$tb.find("textarea").val("");
@@ -148,9 +152,6 @@ $(function(){
 		ajaxJSON(url, "post", query, fn);
 	});
 });
-
-
-
 
 </script>
 
@@ -214,7 +215,7 @@ $(function(){
 	<table style='width: 100%; margin: 15px auto 0px; border-spacing: 0px;'>
 		<tr height='30'> 
 			 <td align='left' >
-				<span style='font-weight: bold;' >댓글${dto.scode}</span><span> - 타인을 비방하거나 개인정보를 유출하는 글의 게시를 삼가 주세요.</span>
+				<span style='font-weight: bold;' >댓글쓰기</span><span> - 타인을 비방하거나 개인정보를 유출하는 글의 게시를 삼가 주세요.</span>
 			 </td>
 		</tr>
 		<tr>

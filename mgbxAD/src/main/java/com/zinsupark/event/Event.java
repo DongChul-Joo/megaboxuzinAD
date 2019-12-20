@@ -4,6 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class Event {
 	private int ecode; // 이벤트 코드
+	private int rcode; // 댓글 코드
 	private String userId; // 회원 아이디
 	private String sdate; // 시작날짜
 	private String edate; // 종료날짜
@@ -19,12 +20,17 @@ public class Event {
 	private String ecategoryName; // 분류 이름
 	private MultipartFile upload;
 	
-	
 	public int getEcode() {
 		return ecode;
 	}
 	public void setEcode(int ecode) {
 		this.ecode = ecode;
+	}
+	public int getRcode() {
+		return rcode;
+	}
+	public void setRcode(int rcode) {
+		this.rcode = rcode;
 	}
 	public String getUserId() {
 		return userId;
@@ -110,6 +116,5 @@ public class Event {
 	public void setUpload(MultipartFile upload) {
 		this.upload = upload;
 	}
-	
 
 }
