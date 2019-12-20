@@ -129,6 +129,50 @@ public class EventServiceImpl implements EventService{
 		}
 		return list;
 	}
+	@Override
+	public void insertReply(Reply dto) throws Exception {
+		try {
+			dao.insertData("event.insertReply", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+	@Override
+	public List<Reply> listReply(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public int replyCount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public void deleteReply(Map<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public List<Reply> listReplyAnswer(int answer) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public int replyAnswerCount(int answer) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public void insertReplyLike(Map<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public Map<String, Object> replyLikeCount(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 
 	

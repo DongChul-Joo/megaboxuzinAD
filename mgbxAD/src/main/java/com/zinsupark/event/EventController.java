@@ -32,6 +32,8 @@ public class EventController {
 	@RequestMapping(value="/event/list")
 	public String list(
 			@RequestParam(value="page", defaultValue="1") int current_page,
+			@RequestParam(value="ecategoryCode", defaultValue="0") int ecategoryCode,
+			@RequestParam(value="state", defaultValue="1") int state,
 			@RequestParam(defaultValue="all") String condition,
 			@RequestParam(defaultValue="") String keyword,
 			HttpServletRequest req,
@@ -49,6 +51,8 @@ public class EventController {
 		}
 		// 전체 페이지 수
 		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("ecategoryCode", ecategoryCode);
+		map.put("state", state);
 		map.put("condition", condition);
 		map.put("keyword", keyword);
 		
@@ -66,16 +70,16 @@ public class EventController {
 	    List<Event> list = service.listEvent(map);
 	    
 	    String query = "";
-        String listUrl = cp+"/event/list";
-        String articleUrl = cp+"/event/article?page=" + current_page;
+        String listUrl = cp+"/event/list?ecategoryCode="+ecategoryCode+"&state="+state;
+        String articleUrl = cp+"/event/article?ecategoryCode="+ecategoryCode+"&page="+current_page+"&state="+state;
         if(keyword.length()!=0) {
         	query = "condition=" +condition + 
         	           "&keyword=" + URLEncoder.encode(keyword, "utf-8");	
         }
 	    
         if(query.length()!=0) {
-        	listUrl = cp+"/event/list?" + query;
-        	articleUrl = cp+"/event/article?page=" + current_page + "&"+ query;
+        	listUrl+="&"+query;
+        	articleUrl+="&"+query;
         }
         
         String paging = myUtil.paging(current_page, total_page, listUrl);
@@ -86,8 +90,8 @@ public class EventController {
 		model.addAttribute("articleUrl", articleUrl);
 		model.addAttribute("page", current_page);
 		model.addAttribute("paging", paging);
-		
 		model.addAttribute("condition", condition);
+		model.addAttribute("ecategoryCode", ecategoryCode);
 		model.addAttribute("keyword", keyword);
 		
 		return ".event.list";
@@ -216,7 +220,52 @@ public class EventController {
 		} catch (Exception e) {
 		}
 		
-		return "redirect:/event/list?"+query;
-		
+		return "redirect:/event/list?"+query;	
 	}
+	
+	// 댓글 리스트
+	@RequestMapping(value="/event/listReply")
+	public String listReply(
+			@RequestParam int rcode,
+			@RequestParam(value="pageNo", defaultValue="1") int current_page,
+			Model model
+			) throws Exception {
+		
+		int rows=5;
+		int total_page=0;
+		int dataCount=0;
+		
+		Map<String, Object> map=new HashMap<>();
+		map.put("rcode", rcode);
+		
+		dataCount=service.replyCount(map);
+		total_page = myUtil.pageCount(rows, dataCount);
+		if(current_page>total_page)
+			current_page=total_page;
+		
+		 int offset = (current_page-1) * rows;
+			if(offset < 0) offset = 0;
+	        map.put("offset", offset);
+	        map.put("rows", rows);
+			List<Reply> listReply=service.listReply(map);
+		
+		for(Reply dto : listReply) {
+			dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
+			}	
+			
+		// AJAX용 페이징
+		String paging=myUtil.pagingMethod(current_page, total_page, "listPage");
+				
+		// 포워딩할 jsp로 넘길 데이터
+		model.addAttribute("listReply", listReply);
+		model.addAttribute("pageNo", current_page);
+		model.addAttribute("replyCount", dataCount);
+		model.addAttribute("total_page", total_page);
+		model.addAttribute("paging", paging);
+				
+		return "event/listReply";
+	}
+	
+	
+	
 }

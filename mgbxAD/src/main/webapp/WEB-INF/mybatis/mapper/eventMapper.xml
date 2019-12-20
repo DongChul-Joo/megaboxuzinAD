@@ -24,8 +24,9 @@
 		</if>
 		<if test="condition=='created'">
 			( TO_CHAR(created, 'YYYY-MM-DD') = #{keyword}
-				OR TO_CHAR(created, 'YYYYMMDD') = #{keyword} )
+				OR TO_CHAR(created, 'YYYYMMDD') = #{keyword})
 		</if>
+		
 	</sql>
 	
 	<select id="listCategory" resultType="com.zinsupark.event.Event">
@@ -38,8 +39,19 @@
 		FROM event e
 		JOIN member m ON e.userId=m.userId
 		<where>
-			<if test="keyword!=null and keyword!='' ">
-				<include refid="where-list"/>
+			<if test="ecategoryCode!=0">
+				ecategoryCode = #{ecategoryCode}
+			</if>
+			<choose>
+				<when test="state==1">
+				    AND edate &gt;= SYSDATE
+				</when>
+				<otherwise>
+				    AND edate &lt; SYSDATE
+				</otherwise>
+			</choose>
+			<if test="keyword != null and keyword != ''">
+				AND <include refid="where-list"/>
 			</if>
 		</where>		
 	</select>
@@ -50,8 +62,19 @@
 		FROM event e
 		JOIN member m ON e.userId=m.userId
 		<where>
+			<if test="ecategoryCode!=0">
+				ecategoryCode = #{ecategoryCode}
+			</if>
+			<choose>
+				<when test="state==1">
+				    AND edate &gt;= SYSDATE
+				</when>
+				<otherwise>
+				    AND edate &lt; SYSDATE
+				</otherwise>
+			</choose>
 			<if test="keyword != null and keyword != ''">
-				<include refid="where-list"/>
+				AND <include refid="where-list"/>
 			</if>
 		</where>
 		ORDER BY ecode DESC
@@ -77,6 +100,17 @@
 	<delete id="deleteEvent" parameterType="Integer">
 		DELETE FROM event WHERE ecode=#{ecode}
 	</delete>
+	
+	<!-- 댓글 -->
+	<insert id="insertReply" parameterType="com.zinsupark.event.Reply">
+		INSERT INTO bbsReply(rcode, ecode, userId, content, created)
+			VALUES (bbsReply_seq.NEXTVAL, #{ecode}, #{userId}, #{content}, #{created})
+	</insert>
+
+	<select id="replyCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0) FROM eventReply
+		WHERE rcode=#{rcode} AND answer=0
+	</select>
 	
 
 </mapper>

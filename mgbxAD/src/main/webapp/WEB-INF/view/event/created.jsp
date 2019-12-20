@@ -113,11 +113,11 @@ function send() {
 
 <div style="width: 100%; height:100px; background-color: white; ">
     <ul class="ll" > 
-        <li><a href="<%=cp%>">전체</a></li>
-        <li><a href="<%=cp%>">메가박수진이벤트</a></li>
-        <li><a href="<%=cp%>">영화 이벤트</a></li>   
-        <li><a href="<%=cp%>">제휴 이벤트</a></li>
-        <li><a href="<%=cp%>">영화관이벤트</a></li>
+        <li><a href="<%=cp%>/event/list?ecategoryCode=0">전체</a></li>
+        <li><a href="<%=cp%>/event/list?ecategoryCode=1">메가박수진이벤트</a></li>
+        <li><a href="<%=cp%>/event/list?ecategoryCode=2">영화 이벤트</a></li>   
+        <li><a href="<%=cp%>/event/list?ecategoryCode=3">제휴 이벤트</a></li>
+        <li><a href="<%=cp%>/event/list?ecategoryCode=4">영화관이벤트</a></li>
         <li><a href="<%=cp%>">당첨자발표</a></li>
         <li><a href="<%=cp%>">현황 통계</a></li>
     </ul>
