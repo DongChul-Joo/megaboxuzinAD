@@ -223,6 +223,29 @@ public class EventController {
 		return "redirect:/event/list?"+query;	
 	}
 	
+	// 댓글 및 댓글의 답글 등록 : AJAX-JSON
+//		@RequestMapping(value="/event/insertReply", method=RequestMethod.POST)
+//		@ResponseBody
+//		public Map<String, Object> insertReply(
+//				Reply dto,
+//				HttpSession session
+//				) {
+//			SessionInfo info=(SessionInfo)session.getAttribute("member");
+//			String state="true";
+//			
+//			try {
+//				dto.setUserId(info.getUserId());
+//				service.insertReply(dto);
+//			} catch (Exception e) {
+//				state="false";
+//			}
+//			
+//			Map<String, Object> model = new HashMap<>();
+//			model.put("state", state);
+//			return model;
+//		}
+	
+	
 	// 댓글 리스트
 	@RequestMapping(value="/event/listReply")
 	public String listReply(

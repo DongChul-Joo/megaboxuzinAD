@@ -112,5 +112,9 @@
 		WHERE rcode=#{rcode} AND answer=0
 	</select>
 	
+	<select id="listReply" parameterType="map" resultType="com.sp.bbs.Reply">
+		SELECT r.rcode, r,userId, 
+	</select>
+	
 
 </mapper>
