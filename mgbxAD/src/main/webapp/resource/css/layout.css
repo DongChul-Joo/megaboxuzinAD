@@ -198,12 +198,15 @@ ul.nav li a{
   text-align: center;
 }
 
+
+
 ul.nav .current a, ul.nav li:hover > a{
   color: #333;
   font-weight : bold;
   font-size:15px;
   text-decoration: none;
 }
+
 
 /* information*/
 .alert-info {

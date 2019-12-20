@@ -169,7 +169,7 @@ function branInsert() {
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
     function daumPostcode() {
-    	var branName=document.memberForm.branName.value;
+    	var branName=document.branchForm.branName.value;
     	if(branName.trim()==""){
     		alert("지점명을 입력한 후 주소를 입력해 주세요");
     		return;

@@ -1,5 +1,7 @@
 package com.zinsupark.cinema;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,5 +42,20 @@ public class CinemaSerbiceImpl implements CinemaService{
 		}
 		
 	}
+
+	@Override
+	public List<Cinema> listCinema(int branCode) {
+		List<Cinema> list=null;{
+			try {
+				list=dao.selectList("cinema.listCinema",branCode);
+			} catch (Exception e) {
+			
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+	
+	
 
 }

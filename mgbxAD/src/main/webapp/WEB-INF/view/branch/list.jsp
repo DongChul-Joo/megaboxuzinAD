@@ -6,14 +6,118 @@
 	String cp=request.getContextPath();
 %>
 <style type="text/css">
+.ui-dialog-content {
+font-size: 10px;
+font-weight:bold; 
+}
+
+.ui-widget-content{
+font-size: 10px;
+font-weight:bold; 
+}
+.selectSeat{
+width: 20px;
+height: 20px;  
+padding: 0;
+text-align: center;
+font-size: 10px;
+font-weight:bold;   
+background: white;
+border: 1px solid black;  
+}
+
+.seatSelect{
+width: 20px;
+height: 20px;  
+padding: 0;
+text-align: center;
+font-size: 10px;
+font-weight:bold;   
+background: white;
+border: 1px solid black;  
+}
+.seatRows{
+width: 22px;
+height: 22px;  
+padding: 0;
+text-align: center;
+font-size: 10px;
+font-weight:bold;   
+background: white;
+border: 1px solid black;  
+} 
+
+.noneSeat{
+width: 20px;
+height: 20px;  
+padding: 0;
+text-align: center;
+font-size: 9px;
+font-weight:bold;   
+background: purple;
+border: 1px solid black;
+color: white
+}
+
+.deleteSeat{
+width: 20px;
+height: 20px;  
+pointer-events:none;
+background: white;
+border: none;
+color: white;
+}
+
 
 </style>
+<script type="text/javascript">
+ function listCinema(branCode){
+	 var url="<%=cp%>/cinema/list";
+	 var query="branCode="+branCode;
+	 var type="post";
+	 
+	 $.ajax({
+			type:type
+			,url:url
+			,data:query
+			,dataType:"json"
+			,success:function(data) {
+				$("#map").find().remove();
+					alert(data);
+				for(var i=0;i<data.length;i++){
+					$("#map").append(data[i].cmSeatMap);
+				}
+				
+				$("#map").dialog({
+					modal: true,
+					height:700,
+					width:800,
+					title: "",
+					close: function(event, ui) {
+					}
+				});
+			}
+		    ,error:function(jqXHR) {
+		
+		    }
+		});
+ }
+  
+ </script>
+    
 
+<div class="menu" style=" width: 100%; background-color: white; padding: 0;margin: 0px; border: none;">
+    <ul class="nav" style=" margin:0px auto ; width: 1500px;">  
+        <c:forEach var="vo" items="${areaList}">
+			 <li><a  style="width: 30px;line-height: 50px;color:white;background-color: #221f1f; border: none; href="<%=cp%>/branch/list?areaCode=${vo.areaCode}">${vo.areaName}</a></li>
+		</c:forEach>	
+    </ul>
 
-
+</div>
 <div class="body-container" style="width: 700px; padding-top: 30px;" >
+
  <c:forEach var="dto" items="${list}">
-	<div style="width: 800px; height:150px;" >    
+	<div style="width: 800px; height:150px; margin-bottom: 20px" >    
 			
 			<div style="width: 25%; height:100%; border:1px solid black ; 
 			border-right:1px solid white; float: left" onclick="maps('${dto.branAddr1}','${dto.branName}');">
@@ -21,28 +125,32 @@
 				height="100%" border="0" onclick="maps('${dto.branAddr1}','${dto.branName}');">
 			</div>
 			
-			<div style="width: 74%;height:100%;float: left;border: 1px solid black" 
-			onclick="maps('${dto.branAddr1}','${dto.branName}');">   
-			
-					<div style="width: 100%;height: 30%; border-bottom:  1px solid black">
-						<p style="margin: 5px;">지점명 : ${dto.branName}</p>
-					</div> 
-				
+			<div style="width: 60%;height:100%;float: left;border: 1px solid black" 
+			onclick="maps('${dto.branAddr1}','${dto.branName}');">    
+					<div style="width: 100%;height: 25%; border-bottom:  1px solid black">
+						<p style="margin: 5px; margin-left: 38px; margin-top: 10px">지점명 : ${dto.branName}</p>
+					</div>  
+				  
 					<div style="width: 100%;height: 70%;"> 
-						<p style="margin: 5px; margin-top: 10px">주소 : ${dto.branAddr1}&nbsp;${dto.branAddr2}</p>
-						<p style="margin: 5px;">우편번호 : ${dto.branZip}</p>
+						<p style="margin: 5px; margin-left: 38px;margin-top: 20px;">우편번호 : ${dto.branZip}</p>
+						<p style="margin: 5px; margin-top: 10px;margin-left: 38px;margin-top: 20px;">주소 : ${dto.branAddr1}&nbsp;${dto.branAddr2}</p>
 					</div>
+			</div> 
+			<div style="width: 10%; float: left ;"  >
+				<button class="btn" style="width: 65px; height:50px; border: 1px solid black;border-left:none; border-radius: 0; font-weight:bold;
+					border-spacing: 0;border-collapse: collapse;" type="button" onclick="listCinema('${dto.branCode}')">관목록</button>
+				<br>
+				<button class="btn" style="width: 65px;height:51px; border: 1px solid black;border-top:none; border-left:none;  font-weight: bold;
+					 border-radius: 0; border-spacing: 0;border-collapse: collapse;"" type="button" onclick="javascript:location.href='<%=cp%>/branch/update?branCode=${dto.branCode}'">수정</button>
+				<br>
+				<button class="btn" style="width: 65px;height:51px; border: 1px solid black;border-top:none; border-left:none; font-weight: bold;
+					 border-radius: 0; border-spacing: 0;border-collapse: collapse;"" type="button" onclick="javascript:location.href='<%=cp%>/branch/delete?branCode=${dto.branCode}'">삭제</button>
 			</div>
 	</div>
 	</c:forEach>    
-	
-	<div class="floating">
-		<c:forEach var="vo" items="${areaList}">
-			<div value="${vo.areaCode}">${vo.areaName}</div>
-		</c:forEach>				
-	  </div>
-<button type="button" onclick="javascript:location.href='<%=cp%>/branch/created'">지점등록</button>
-<button type="button" onclick="javascript:location.href='<%=cp%>/cinema/created'">관등록</button><button type="button" onclick="javascript:location.href='<%=cp%>/cinema/update'">관수정</button>
+
+<button class="btn" type="button" onclick="javascript:location.href='<%=cp%>/branch/created'">지점등록</button>
+<button class="btn" type="button" onclick="javascript:location.href='<%=cp%>/cinema/created'">관등록</button><button class="btn" type="button" onclick="javascript:location.href='<%=cp%>/cinema/update'">관수정</button>
 	
 </div>
 		<div id="map" style="display: none;height: 700px;width: 800px;">
