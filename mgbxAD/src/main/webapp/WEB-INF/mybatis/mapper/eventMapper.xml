@@ -103,8 +103,8 @@
 	
 	<!-- 댓글 -->
 	<insert id="insertReply" parameterType="com.zinsupark.event.Reply">
-		INSERT INTO eventReply(rcode, ecode, answer, userId, content)
-			VALUES (eventReply_seq.NEXTVAL, #{ecode}, #{answer}, #{userId}, #{content})
+		INSERT INTO eventReply(rcode, answer, ecode, userId, content)
+			VALUES (eventReply_seq.NEXTVAL, #{answer}, #{ecode}, #{userId}, #{content})
 	</insert>
 
 	<select id="replyCount" parameterType="map" resultType="Integer">

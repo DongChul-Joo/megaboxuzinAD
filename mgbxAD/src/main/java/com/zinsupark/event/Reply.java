@@ -1,13 +1,13 @@
 package com.zinsupark.event;
 
 public class Reply {
+ 
 	private int rcode; // 댓글 코드
-	private int answer; // 대댓글 코드
+	private int answer; // 답글 코드
 	private int ecode; // 이벤트 코드
 	private String content; // 내용
 	private String created; // 생성일
 	private String userId; // 유저 아이디
-	
 	
 	public int getRcode() {
 		return rcode;
@@ -46,5 +46,4 @@ public class Reply {
 		this.userId = userId;
 	}
 	
-
 }

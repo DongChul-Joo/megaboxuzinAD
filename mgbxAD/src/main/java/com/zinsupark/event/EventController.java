@@ -290,7 +290,5 @@ public class EventController {
 		return model;
 	}
 		
-		
-	
 	
 }
