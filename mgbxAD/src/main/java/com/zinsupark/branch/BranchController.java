@@ -48,7 +48,7 @@ public class BranchController {
 		
 		model.addAttribute("list",list);
 		model.addAttribute("mode","created");
-		return ".branch.created";
+		return ".branch.created";  
 	}
 	
 	@RequestMapping(value="/branch/created",method=RequestMethod.POST)
@@ -66,6 +66,10 @@ public class BranchController {
 			return ".error.dataAccessFailure";
 		}
 		return "redirect:/branch/list";
+	}
+	
+	public String updateForm() {
+		return "";
 	}
 	
 }
