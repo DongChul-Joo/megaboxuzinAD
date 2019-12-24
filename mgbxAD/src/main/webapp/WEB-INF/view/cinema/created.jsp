@@ -183,7 +183,7 @@ function gogo(){
 	
 	var go="<input type='hidden' name='cmSeatMap' value='"+cinemaView+"'><input type='hidden' name='cmSeatTot' value='"+totseat+"'>"
 	go+="<input type='hidden' name='cmName' value='"+cn+"'><input type='hidden' name='cmLocation' value='"+cl+"'>";
-	go+="<input type='hidden' name='cmRange' value='"+cr+"'>";
+	go+="<input type='hidden' name='cmRange' value='"+cr+"'><input type='hidden' name='branCode' value='${branCode}'>";
 	
 	$("#insertGo").append(go);
 	
@@ -197,7 +197,7 @@ function gogo(){
 </head>
 <body>
 <div>
-
+	<div><p>${branName}</p></div>
 	<div>
 		<table>
 			<tr>

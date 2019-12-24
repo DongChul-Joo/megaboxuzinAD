@@ -34,9 +34,14 @@ public class CinemaController {
 	
 	@RequestMapping(value="/cinema/created",method=RequestMethod.GET)
 	public String createForm(
-			Model model) {
+			@RequestParam int branCode
+			,@RequestParam String branName
+			,Model model) {
+		
 		
 		model.addAttribute("mode","created");
+		model.addAttribute("branCode",branCode);
+		model.addAttribute("branName",branName);
 		return ".cinema.created";
 	}
 	
@@ -46,7 +51,6 @@ public class CinemaController {
 			) {
 		
 		try {
-			dto.setBranCode(1);
 			dto.setCmSeatMap(dto.getCmSeatMap().trim());
 			service.insertCinema(dto);
 		} catch (Exception e) {
@@ -57,11 +61,20 @@ public class CinemaController {
 	}
 	
 	@RequestMapping(value="/cinema/update",method=RequestMethod.GET)
-	public String updateForm(Model model) {
+	public String updateForm(
+			@RequestParam int cmCode
+			,@RequestParam int branCode
+			,@RequestParam String branName
+			,Model model
+			) {
+		
+		Cinema dto=service.readCinema(cmCode);
+		
 		model.addAttribute("mode","update");
-		Cinema dto=service.readCinema(3);
 		model.addAttribute("dto",dto);
-		model.addAttribute("mode","update");
+		model.addAttribute("branCode","branCode");
+		model.addAttribute("branName","branName");
+		
 		return ".cinema.created";
 	}
 	
@@ -69,7 +82,6 @@ public class CinemaController {
 	public String updateSubmit(Cinema dto) {
 		
 		try {
-			dto.setCmCode(3);
 			dto.setCmSeatMap(dto.getCmSeatMap().trim());
 			service.updateCinema(dto);
 		} catch (Exception e) {

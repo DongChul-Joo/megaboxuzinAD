@@ -6,15 +6,7 @@
 	String cp=request.getContextPath();
 %>
 <style type="text/css">
-.ui-dialog-content {
-font-size: 10px;
-font-weight:bold; 
-}
 
-.ui-widget-content{
-font-size: 10px;
-font-weight:bold; 
-}
 .selectSeat{
 width: 20px;
 height: 20px;  
@@ -61,38 +53,65 @@ color: white
 
 .deleteSeat{
 width: 20px;
-height: 20px;  
+height: 20px;   
 pointer-events:none;
 background: white;
 border: none;
 color: white;
 }
-
-
+.ui-button  {
+    background: none;
+	color:#333333;
+	font-weight:500;
+	border:1px solid #cccccc;
+	background-color:#ffffff;
+	text-align:center;
+	cursor:pointer;
+	padding:3px 10px 5px;
+	border-radius:4px;
+	font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
+}
 </style>
 <script type="text/javascript">
- function listCinema(branCode){
+ function listCinema(branCode,branName){
 	 var url="<%=cp%>/cinema/list";
 	 var query="branCode="+branCode;
 	 var type="post";
-	 
 	 $.ajax({
 			type:type
 			,url:url
 			,data:query
 			,dataType:"json"
 			,success:function(data) {
-				$("#map").find().remove();
-					alert(data);
-				for(var i=0;i<data.length;i++){
-					$("#map").append(data[i].cmSeatMap);
+				$("#viewCinemas").empty(); 
+				var cinemaView="<div >";
+				for(var i=0;i<data.length;i++){ 
+					cinemaView+="<div style='margin-left:80px;margin-bottom:30px;'><table style='font-size:12px;'>";
+					cinemaView+="<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;이름:</td><td>&nbsp;"+data[i].cmName+"</td></tr>";
+					cinemaView+="<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;번호:</td><td>&nbsp;No_"+data[i].cmCode+"</td></tr>";
+					cinemaView+="<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;위치:</td><td>&nbsp;"+data[i].cmLocation+"</td></tr>";
+					cinemaView+="<tr><td>상영 범위:</td><td>&nbsp;"+data[i].cmRange+"</td></tr>";
+					cinemaView+="<tr><td>총 좌석수:</td><td>&nbsp;"+data[i].cmSeatTot+" 석</td></tr></table>";
+					cinemaView+=data[i].cmSeatMap+"<button class='btn' type='button' onclick='updateCinema(\""+branCode+"\",\""+branName+"\",\""+data[i].cmCode+"\")'>관 수정</button><button class='btn' type='button' onclick='deleteCinema(\""+data[i].cmCode+"\")'>삭제</button>";
+					cinemaView+="</div><p>-------------------------------------------------------------------</p>"; 
+				 
 				}
+				cinemaView+="</div>";
+				$("#viewCinemas").append(cinemaView);
 				
-				$("#map").dialog({
+				$("#viewCinemas").dialog({
 					modal: true,
-					height:700,
-					width:800,
-					title: "",
+					height:550,
+					width:550,
+					title: "영화관 목록", 
+					buttons: {
+					       " 관 등록 " : function() {
+					    	   insertCinema(branCode,branName);
+					        },
+					        "돌아가기 " : function() {
+					        	  $(this).dialog("close");
+						        },
+					  },
 					close: function(event, ui) {
 					}
 				});
@@ -102,17 +121,33 @@ color: white;
 		    }
 		});
  }
-  
+ 
+ function insertCinema(branCode,branName){
+	 
+	 location.href = "<%=cp%>/cinema/created?branCode="+branCode+"&branName="+encodeURIComponent(branName);
+	 
+ }
+ 
+ function updateCinema(branCode,branName,cmCode){
+	 
+	 location.href = "<%=cp%>/cinema/update?branCode="+branCode+"&branName="+encodeURIComponent(branName)+"&cmCode="+cmCode;
+	 
+ }
+ 
+ function deleteCinema(cmCode){
+	 
+	 location.href = "<%=cp%>/cinema/delete?cmCode="+cmCode;
+	 
+ }
  </script>
     
 
-<div class="menu" style=" width: 100%; background-color: white; padding: 0;margin: 0px; border: none;">
-    <ul class="nav" style=" margin:0px auto ; width: 1500px;">  
+<div class="menu" >
+    <ul class="nav" style="margin:0px auto ; width: 1500px;">  
         <c:forEach var="vo" items="${areaList}">
 			 <li><a  style="width: 30px;line-height: 50px;color:white;background-color: #221f1f; border: none; href="<%=cp%>/branch/list?areaCode=${vo.areaCode}">${vo.areaName}</a></li>
 		</c:forEach>	
     </ul>
-
 </div>
 <div class="body-container" style="width: 700px; padding-top: 30px;" >
 
@@ -138,22 +173,23 @@ color: white;
 			</div> 
 			<div style="width: 10%; float: left ;"  >
 				<button class="btn" style="width: 65px; height:50px; border: 1px solid black;border-left:none; border-radius: 0; font-weight:bold;
-					border-spacing: 0;border-collapse: collapse;" type="button" onclick="listCinema('${dto.branCode}')">관목록</button>
+					border-spacing: 0;border-collapse: collapse;" type="button" onclick="listCinema('${dto.branCode}','${dto.branName}')">관목록</button>
 				<br>
 				<button class="btn" style="width: 65px;height:51px; border: 1px solid black;border-top:none; border-left:none;  font-weight: bold;
-					 border-radius: 0; border-spacing: 0;border-collapse: collapse;"" type="button" onclick="javascript:location.href='<%=cp%>/branch/update?branCode=${dto.branCode}'">수정</button>
+					 border-radius: 0; border-spacing: 0;border-collapse: collapse;" type="button" onclick="javascript:location.href='<%=cp%>/branch/update?branCode=${dto.branCode}'">수정</button>
 				<br>
 				<button class="btn" style="width: 65px;height:51px; border: 1px solid black;border-top:none; border-left:none; font-weight: bold;
-					 border-radius: 0; border-spacing: 0;border-collapse: collapse;"" type="button" onclick="javascript:location.href='<%=cp%>/branch/delete?branCode=${dto.branCode}'">삭제</button>
+					 border-radius: 0; border-spacing: 0;border-collapse: collapse;" type="button" onclick="javascript:location.href='<%=cp%>/branch/delete?branCode=${dto.branCode}'">삭제</button>
 			</div>
 	</div>
 	</c:forEach>    
 
 <button class="btn" type="button" onclick="javascript:location.href='<%=cp%>/branch/created'">지점등록</button>
-<button class="btn" type="button" onclick="javascript:location.href='<%=cp%>/cinema/created'">관등록</button><button class="btn" type="button" onclick="javascript:location.href='<%=cp%>/cinema/update'">관수정</button>
 	
 </div>
-		<div id="map" style="display: none;height: 700px;width: 800px;">
+		<div id="map" style="display: none;width: 1000px;">
+		</div>
+		<div id="viewCinemas" style="display: none;width: 1000px;">
 		</div>
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04e4431a8f42ef7f22f5a23dfe0e8324&libraries=servicesappkey=APIKEY&libraries=services"></script>
