@@ -17,6 +17,12 @@
 </select>
 
 <select id="readBranch" parameterType="Integer" resultType="com.zinsupark.branch.Branch">
-	select branCode,branName,branZip,branAddr1,branAddr2,imageFilename  from branch where branCode=#{branCode}
+	select branCode,branName,branZip,branAddr1,branAddr2,imageFilename,areaCode  from branch where branCode=#{branCode}
 </select>
+
+<update id="updateBranch">
+	update branch set branName=#{branName},branZip=#{branZip},branAddr1=#{branAddr1},branAddr2=#{branAddr2}
+	,areaCode=#{areaCode},imageFilename=#{imageFilename} where branCode=#{branCode}
+</update>
+
 </mapper>

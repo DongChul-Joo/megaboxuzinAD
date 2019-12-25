@@ -52,7 +52,8 @@ function branInsert() {
     }
     
     str = f.upload.value;
-    if(!str) {
+    mode="${mode}";
+    if(mode!="update"&&!str) {
         alert("지점 이미지를 올려주세요. ");
         f.upload.focus();
         return;
@@ -66,7 +67,16 @@ function branInsert() {
 
 }
 
-
+<c:if test="${mode=='update'}">
+$(function(){
+	
+	$("select[name=areaCode]").val("${dto.areaCode}");
+	
+	maps();
+	
+	 
+});
+</c:if>
 
 
 </script>
@@ -138,16 +148,27 @@ function branInsert() {
 			        </p>
 			      </td>
 			  </tr>
+			
 			  
-			   <tr>
+			  <c:if test="${mode=='update'}">  
+			  <tr>
+			      <td width="100" valign="top" style="text-align: right; padding-top: 60px;">
+			            <label style="font-weight: 900;">등록된 이미지</label>
+			      </td>  
+			      <td style="padding: 0 0 15px 15px;">
+			            <img src="<%=cp%>/branchImg/branch/${dto.imageFilename}" style="width: 200px;height: 150px">
+			      </td>
+			  </tr>
+			  </c:if>
+			  
+			  <tr>
 			      <td width="100" valign="top" style="text-align: right; padding-top: 5px;">
-			            <label style="font-weight: 900;">지점 이미지</label>
+			            <label style="font-weight: 900;">${mode=="update"? "이미지 수정":"지점 이미지"}</label>
 			      </td>
 			      <td style="padding: 0 0 15px 15px;">
 			        <p style="margin-top: 1px; margin-bottom: 5px;">
-			            <input type="file" name="upload" value="${dto.imageFilename}" maxlength="30" class="boxTF"
-		                      style="width: 95%;"
-		                      >
+			            <input type="file" name="upload" maxlength="30" class="boxTF" 
+		                      style="width: 95%;">
 			        </p>
 			      </td>
 			  </tr>
@@ -158,6 +179,10 @@ function branInsert() {
 			      <td align="center" > 
 			        <button type="button" name="sendButton" class="btn" onclick="branInsert();">${mode=="created"?"지점등록":"수정완료"}</button>
 			        <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/branch/list';">${mode=="created"?"등록취소":"수정취소"}</button>
+			        <c:if test="${mode=='update'}">
+			        	<input type="hidden" name="imageFilename" value="${dto.imageFilename}">
+			        	<input type="hidden" name="branCode" value="${dto.branCode}">
+			        </c:if>
 			      </td>
 			    </tr>
 			  </table>

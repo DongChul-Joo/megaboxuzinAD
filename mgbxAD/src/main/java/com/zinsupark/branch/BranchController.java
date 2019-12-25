@@ -11,6 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.zinsupark.cinema.Cinema;
 
 @Controller("branch.branchController")
 public class BranchController {
@@ -68,7 +71,43 @@ public class BranchController {
 		return "redirect:/branch/list";
 	}
 	
-	public String updateForm() {
-		return "";
+	
+	@RequestMapping(value="/branch/update",method=RequestMethod.GET)
+	public String updateForm(
+			@RequestParam int branCode
+			,Model model
+			) {
+		List<Branch> list=null;
+		Branch dto=null;
+		try {
+			dto=service.readBranch(branCode);
+			list=service.listArea();
+		} catch (Exception e) {
+			return ".error.dataAccessFailure";
+		}
+		
+		
+		model.addAttribute("list",list);	
+		model.addAttribute("dto",dto);	
+		model.addAttribute("mode","update");
+		
+		return ".branch.created";
+	}
+	
+	@RequestMapping(value="/branch/update",method=RequestMethod.POST)
+	public String updateSubmit(
+			Branch dto
+			,Model model
+			,HttpSession session
+			) {
+		String root=session.getServletContext().getRealPath("/");
+		String pathname=root+"branchImg"+File.separator+"branch";
+		try {
+			service.updateBranch(dto,pathname);
+		} catch (Exception e) {
+			
+			return ".error.dataAccessFailure";
+		}
+		return "redirect:/branch/list";
 	}
 }

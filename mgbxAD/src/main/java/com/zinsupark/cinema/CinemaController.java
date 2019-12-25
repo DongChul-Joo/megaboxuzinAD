@@ -1,5 +1,7 @@
 package com.zinsupark.cinema;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,11 @@ public class CinemaController {
 			,@RequestParam String branName
 			,Model model) {
 		
+		try {
+			branName=URLDecoder.decode(branName, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 		
 		model.addAttribute("mode","created");
 		model.addAttribute("branCode",branCode);
@@ -70,10 +77,17 @@ public class CinemaController {
 		
 		Cinema dto=service.readCinema(cmCode);
 		
+		try {
+			branName=URLDecoder.decode(branName, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		
 		model.addAttribute("mode","update");
 		model.addAttribute("dto",dto);
-		model.addAttribute("branCode","branCode");
-		model.addAttribute("branName","branName");
+		model.addAttribute("branCode",branCode);
+		model.addAttribute("branName",branName);
 		
 		return ".cinema.created";
 	}

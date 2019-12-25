@@ -51,6 +51,32 @@ public class BranchSerbiceImpl implements BranchService {
 		}
 		return list;
 	}
+
+	@Override
+	public Branch readBranch(int branCode) throws Exception {
+		Branch dto=null;
+		try {
+			dto=dao.selectOne("branch.readBranch",branCode);
+		} catch (Exception e) {
+			throw e;
+		}
+		return dto;
+	}
+
+	@Override
+	public void updateBranch(Branch dto, String pathname) throws Exception {
+		try {
+			if(! dto.getUpload().isEmpty()) {
+				fileManager.doFileDelete(dto.getImageFilename(), pathname);
+				String imageFilename = fileManager.doFileUpload(dto.getUpload(), pathname);
+				dto.setImageFilename(imageFilename);
+		}
+			dao.updateData("branch.updateBranch",dto);
+		} catch (Exception e) {
+			throw e;
+		}
+		
+	}
 	
 	
 
