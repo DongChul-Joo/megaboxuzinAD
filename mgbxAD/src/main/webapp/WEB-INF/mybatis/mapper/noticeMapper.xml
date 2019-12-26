@@ -47,13 +47,10 @@
 	</select>
 	
 	<select id="listNotice" parameterType="map" resultType="com.zinsupark.notice.Notice">
-		SELECT n.code, subject, created, n.userId
+		SELECT code, subject, TO_CHAR(created, 'YYYY-MM-DD') created, n.userId,
+		(select NVL(count(*),0) from noticeFIle where code=48) fileCount
 		FROM notice n
 		JOIN member m ON n.userId=m.userId
-		LEFT OUTER JOIN (
-			SELECT code, COUNT(*) fileCount FROM noticeFile
-			GROUP BY code
-		) f ON n.code = f.code
 		<where>
 			<if test="keyword != null and keyword != ''">
 				<include refid="where-list"/>
@@ -63,22 +60,69 @@
 		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
 	</select>
 	
-	<select id="listNoticeTop" resultType="com.zinsupark.notice.Notice">
-		SELECT n.code, subject, created, n.userId
+	<select id="readNotice" parameterType="Integer" resultType="com.zinsupark.notice.Notice">
+		SELECT code, subject, content, TO_CHAR(created, 'YYYY-MM-DD') created, n.userId
 		FROM notice n
 		JOIN member m ON n.userId=m.userId
-		LEFT OUTER JOIN (
-			SELECT code FROM noticeFile
-			GROUP BY code
-		) f ON n.code=f.code
-		WHERE notice = 1
-		ORDER BY code DESC
+		WHERE code=  #{code}
 	</select>
 	
+	<select id="preReadNotice" parameterType="map" resultType="com.zinsupark.notice.Notice">
+		SELECT code, subject
+		FROM notice n
+		JOIN member m ON n.userId=m.userId
+		<where>
+			<if test="keyword != null and keyword != '' ">
+				<include refid="where-list"/>
+			</if>
+			AND (code &gt; #{code})
+		</where>
+		ORDER BY code ASC
+		FETCH FIRST 1 ROWS ONLY
+	</select>
+	
+	<select id="nextReadNotice" parameterType="map" resultType="com.zinsupark.notice.Notice">
+		SELECT code, subject
+		FROM notice n
+		JOIN member m ON n.userId=m.userId
+		<where>
+			<if test="keyword != null and keyword != '' ">
+				<include refid="where-list"/>
+			</if>
+			AND (code &lt; #{code})
+		</where>
+		ORDER BY code DESC
+		FETCH FIRST 1 ROWS ONLY
+	</select>
+	
+	<update id="updateNotice" parameterType="com.zinsupark.notice.Notice">
+		UPDATE notice SET subject=#{subject}, content=#{content}
+		WHERE code= #{code}
+	</update>
+	
+	<delete id="deleteNotice" parameterType="Integer">
+		DELETE FROM notice WHERE code = #{code}
+	</delete>
+	
 	<select id="listFile" parameterType="Integer" resultType="com.zinsupark.notice.Notice">
-		SELECT fileNum, saveFilename, originalFilename, fileSize, code
+		SELECT fileNum, saveFilename, originalFilename, code
 		FROM noticeFile
 		WHERE code=#{code}
 	</select>
+	
+	<select id="fileCount" parameterType="Integer" resultType="Integer">
+		SELECT NVL(count(*),0) from noticeFile
+		WHERE code=#{code}
+	</select>
+	
+	<select id="readFile" parameterType="Integer" resultType="com.zinsupark.notice.Notice">
+		SELECT fileNum, saveFilename, originalFilename, fileSize, code
+		FROM noticeFile
+		WHERE fileNum=#{fileNum}
+	</select>
+	
+	<delete id="deleteFile" parameterType="map">
+		DELETE FROM noticeFile WHERE ${field} = #{code}
+	</delete>
 	
 </mapper>

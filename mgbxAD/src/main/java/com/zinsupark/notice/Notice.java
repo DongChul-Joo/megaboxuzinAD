@@ -10,7 +10,8 @@ public class Notice {
 	
 	private int fileNum;
 	private String saveFilename, originalFilename;
-	private long fileSize;	
+	private long fileSize;
+	private int fileCount;
 	
 	private List<MultipartFile> upload;
 
@@ -92,5 +93,14 @@ public class Notice {
 
 	public void setUpload(List<MultipartFile> upload) {
 		this.upload = upload;
-	}	
+	}
+
+	public int getFileCount() {
+		return fileCount;
+	}
+
+	public void setFileCount(int fileCount) {
+		this.fileCount = fileCount;
+	}
+	
 }
