@@ -1,6 +1,7 @@
 package com.zinsupark.branch;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,10 +43,10 @@ public class BranchSerbiceImpl implements BranchService {
 	}
 
 	@Override
-	public List<Branch> listBranch() throws Exception {
+	public List<Branch> listBranch(Map<String,Object> map) throws Exception {
 		List<Branch> list = null;
 		try {
-			list=dao.selectList("branch.listBranch");
+			list=dao.selectList("branch.listBranch",map);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -76,6 +77,17 @@ public class BranchSerbiceImpl implements BranchService {
 			throw e;
 		}
 		
+	}
+
+	@Override
+	public int branchCount(Map<String, Object> map) throws Exception {
+		int result=0;
+		try {
+			result=dao.selectOne("branch.branchCount",map);
+		} catch (Exception e) {
+			throw e;
+		}
+		return result;
 	}
 	
 	

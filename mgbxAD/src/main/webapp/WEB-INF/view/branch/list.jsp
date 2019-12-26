@@ -71,88 +71,23 @@ color: white;
 	border-radius:4px;
 	font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
 }
-</style>
-<script type="text/javascript">
- function listCinema(branCode,branName){
-	 var url="<%=cp%>/cinema/list";
-	 var query="branCode="+branCode;
-	 var type="post";
-	 $.ajax({
-			type:type
-			,url:url
-			,data:query
-			,dataType:"json"
-			,success:function(data) {
-				$("#viewCinemas").empty(); 
-				var cinemaView="<div >";
-				for(var i=0;i<data.length;i++){ 
-					cinemaView+="<div style='margin-left:80px;margin-bottom:30px;'><table style='font-size:12px;'>";
-					cinemaView+="<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;이름:</td><td>&nbsp;"+data[i].cmName+"</td></tr>";
-					cinemaView+="<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;번호:</td><td>&nbsp;No_"+data[i].cmCode+"</td></tr>";
-					cinemaView+="<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;위치:</td><td>&nbsp;"+data[i].cmLocation+"</td></tr>";
-					cinemaView+="<tr><td>상영 범위:</td><td>&nbsp;"+data[i].cmRange+"</td></tr>";
-					cinemaView+="<tr><td>총 좌석수:</td><td>&nbsp;"+data[i].cmSeatTot+" 석</td></tr></table>";
-					cinemaView+=data[i].cmSeatMap+"<button class='btn' type='button' onclick='updateCinema(\""+branCode+"\",\""+branName+"\",\""+data[i].cmCode+"\")'>관 수정</button><button class='btn' type='button' onclick='deleteCinema(\""+data[i].cmCode+"\")'>삭제</button>";
-					cinemaView+="</div><p>-------------------------------------------------------------------</p>"; 
-				 
-				}
-				cinemaView+="</div>";
-				$("#viewCinemas").append(cinemaView);
-				
-				$("#viewCinemas").dialog({
-					modal: true,
-					height:550,
-					width:550,
-					title: "영화관 목록", 
-					buttons: {
-					       " 관 등록 " : function() {
-					    	   insertCinema(branCode,branName);
-					        },
-					        "돌아가기 " : function() {
-					        	  $(this).dialog("close");
-						        },
-					  },
-					close: function(event, ui) {
-					}
-				});
-			}
-		    ,error:function(jqXHR) {
-		
-		    }
-		});
- }
- 
- function insertCinema(branCode,branName){
-	 
-	 location.href = "<%=cp%>/cinema/created?branCode="+branCode+"&branName="+encodeURIComponent(branName);
-	 
- }
- 
- function updateCinema(branCode,branName,cmCode){
-	 
-	 location.href = "<%=cp%>/cinema/update?branCode="+branCode+"&branName="+encodeURIComponent(branName)+"&cmCode="+cmCode;
-	 
- }
- 
- function deleteCinema(cmCode){
-	 
-	 location.href = "<%=cp%>/cinema/delete?cmCode="+cmCode;
-	 
- }
- </script>
-    
+</style>  
 
-<div class="menu" >
+<div class="menu" style="background: white;border: none">
     <ul class="nav" style="margin:0px auto ; width: 1500px;">  
         <c:forEach var="vo" items="${areaList}">
-			 <li><a  style="width: 30px;line-height: 50px;color:white;background-color: #221f1f; border: none; href="<%=cp%>/branch/list?areaCode=${vo.areaCode}">${vo.areaName}</a></li>
+        	<c:if test="${vo.areaCode==areaCode}">
+        		 <li><a  style="width: 30px;line-height: 50px;color:white;background-color: #ca0909; border: none; " href="javascript:searchList('${vo.areaCode}','${page}');">${vo.areaName}</a></li>
+			</c:if>
+			<c:if test="${vo.areaCode!=areaCode}">
+				 <li><a  style="width: 30px;line-height: 50px;color:white;background-color: #221f1f; border: none; " href="javascript:searchList('${vo.areaCode}','${page}');">${vo.areaName}</a></li>
+			</c:if>
 		</c:forEach>	
     </ul>
-</div>
-<div class="body-container" style="width: 700px; padding-top: 30px;" >
+</div> 
 
  <c:forEach var="dto" items="${list}">
-	<div style="width: 800px; height:150px; margin-bottom: 20px" >    
+	<div style="width: 800px; height:150px;margin: 0px auto; margin-bottom: 20px;" >    
 			
 			<div style="width: 25%; height:100%; border:1px solid black ; 
 			border-right:1px solid white; float: left" onclick="maps('${dto.branAddr1}','${dto.branName}');">
@@ -183,70 +118,13 @@ color: white;
 			</div>
 	</div>
 	</c:forEach>    
-
-<button class="btn" type="button" onclick="javascript:location.href='<%=cp%>/branch/created'">지점등록</button>
-	
+	<div>${paging}</div>
+<div style="margin:0px auto;margin-left:500px; width: 200px; ">
+	<button  class="btn" type="button" onclick="javascript:location.href='<%=cp%>/branch/created'">지점등록</button>
 </div>
 		<div id="map" style="display: none;width: 1000px;">
 		</div>
 		<div id="viewCinemas" style="display: none;width: 1000px;">
 		</div>
 
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04e4431a8f42ef7f22f5a23dfe0e8324&libraries=servicesappkey=APIKEY&libraries=services"></script>
-	<script>
-function maps(addr,bn){
-		
-	var addr1=addr;
-	var branName=bn;
-	
-	
-	$("#map").dialog({
-		modal: true,
-		height:700,
-		width:800,
-		title: "",
-		close: function(event, ui) {
-		}
-	});
-	
-		
-		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-	    mapOption = {
-	        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-	        level: 3 // 지도의 확대 레벨
-	    };  
 
-	// 지도를 생성합니다    
-	var map = new kakao.maps.Map(mapContainer, mapOption); 
-
-	// 주소-좌표 변환 객체를 생성합니다
-	var geocoder = new kakao.maps.services.Geocoder();
-
-	// 주소로 좌표를 검색합니다
-	geocoder.addressSearch(addr1, function(result, status) {
-
-	    // 정상적으로 검색이 완료됐으면 
-	     if (status === kakao.maps.services.Status.OK) {
-
-	        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-	        // 결과값으로 받은 위치를 마커로 표시합니다
-	        var marker = new kakao.maps.Marker({
-	            map: map,
-	            position: coords
-	        });
-
-	        // 인포윈도우로 장소에 대한 설명을 표시합니다
-	        var infowindow = new kakao.maps.InfoWindow({
-	            content: '<div style="width:150px;text-align:center;padding:6px 0;">'+branName+'</div>'
-	        });
-	        infowindow.open(map, marker);
-
-	        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-	        map.setCenter(coords);
-	    } 
-	    
-	    
-	});    
-	}
-	</script>
