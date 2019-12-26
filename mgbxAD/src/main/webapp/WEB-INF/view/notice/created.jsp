@@ -102,7 +102,7 @@
 					<tr id="fileTr${vo.fileNum}" align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
 						<td width="100" bgcolor="#eeeeee" style="text-align: center;">첨부된파일</td>
 						<td style="padding-left:10px;">
-							<a href="javascript:deleteFile('${vo.fileNum}')"><i class="far fa-trash-alt"></i></a>&nbsp;${vo.originalFilename}
+							<a href="javascript:deleteFile('${vo.fileNum}')">삭제</a>&nbsp;${vo.originalFilename}
 						</td>
 					</tr>
 				</c:forEach>			

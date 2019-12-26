@@ -21,7 +21,7 @@ function searchList() {
 		<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px;">
 		   <tr height="35">
 		      <td align="left" width="50%">
-		          ${dataCount}개(${page}/${total_page} 페이지)
+		          ${fileCount}개(${page}/${total_page} 페이지)
 		      </td>
 		      <td align="right">
 		          &nbsp;
@@ -35,24 +35,8 @@ function searchList() {
 		      <th style="color: #787878;">제목</th>
 		      <th width="100" style="color: #787878;">작성자</th>
 		      <th width="80" style="color: #787878;">작성일</th>
-		      <!-- <th width="50" style="color: #787878;">첨부</th> -->
+		      <th width="70" style="color: #787878;">첨부</th>
 		  </tr>
-		 
-		<c:forEach var="dto" items="${notice}">
-		  <tr align="center" bgcolor="#ffffff" height="35" style="border-bottom: 1px solid #cccccc;"> 
-		      <td><span style="display: inline-block;padding:1px 3px;background: #ED4C00;color: #FFFFFF">공지</span></td>
-		      <td align="left" style="padding-left: 10px;">
-		           <a href="${articleUrl}&code=${dto.code}">${dto.subject}</a>
-		      </td>
-		      <td></td>
-		      <td>created</td>
-		      <%-- <td>
-                   <c:if test="${dto.fileCount != 0}">
-                        <a href="<%=cp%>/notice/zipdownload?code=${dto.code}"><i class="far fa-file"></i></a>
-                   </c:if>
-		      </td> --%>
-		  </tr>
-		</c:forEach>
 		 
 		<c:forEach var="dto" items="${list}">
 		  <tr align="center" bgcolor="#ffffff" height="35" style="border-bottom: 1px solid #cccccc;"> 
@@ -62,11 +46,11 @@ function searchList() {
 		      </td>
 		      <td>${dto.userId}</td>
 		      <td>${dto.created}</td>
-		      <%-- <td>
+		      <td>
                    <c:if test="${dto.fileCount != 0}">
-                        <a href="<%=cp%>/notice/zipdownload?code=${dto.code}"><i class="far fa-file"></i></a>
+                        <a href="<%=cp%>/notice/zipdownload?code=${dto.code}">받기</a>
                    </c:if>
-		      </td> --%>
+		      </td>
 		  </tr>
 		  </c:forEach>
 		</table>
