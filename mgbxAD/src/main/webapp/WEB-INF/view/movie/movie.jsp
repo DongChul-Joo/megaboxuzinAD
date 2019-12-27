@@ -6,6 +6,7 @@
 	String cp=request.getContextPath();
 %>
 
+
 <script type="text/javascript">
 
 jQuery(function(){
@@ -59,7 +60,8 @@ jQuery(function(){
 function detailMovie(movieCd){
 	var url="<%=cp%>/movie/movieDetail";
 	var query="movieCd="+movieCd;
-	      
+	    
+	
 	      jQuery.ajax({
 	         type:"get"
 	         ,url:url
@@ -68,67 +70,225 @@ function detailMovie(movieCd){
 	         ,success:function(data){
 	            console.log(data);
 	            
-	            var movieNm= data.movieInfoResult.movieInfo.movieNm;
-	            
-	            var director = "";
-	            for(var i=0; i<data.movieInfoResult.movieInfo.directors.length; i++){
-	        	  	director +=data.movieInfoResult.movieInfo.directors[i].peopleNm;
+	            showTime="";
+				movieOpen="";
+				country="";
+				prdtYear="";
+	            movieNm="";
+			
+	            movieNm= data.movieInfoResult.movieInfo.movieNm;
+				country = data.movieInfoResult.movieInfo.nations[0].nationNm
+	        	
+	        	var director="";
+	        	if(data.movieInfoResult.movieInfo.directors.length > 0){
+		        	for(var i=0; i<data.movieInfoResult.movieInfo.directors.length; i++){
+		            	director +=data.movieInfoResult.movieInfo.directors[i].peopleNm+"/";
+		        	}
+		            	
+		        	jQuery("input[name=moviedirector]").val(director);
+	        	} else {
+	        		jQuery("input[name=moviedirector]").val("unknown");
+	        	}
+	        	
+	        	var showType="";
+	        	if(data.movieInfoResult.movieInfo.showTypes.length> 0){
+		            for(var i=0; i<data.movieInfoResult.movieInfo.showTypes.length; i++){
+		            	showType += data.movieInfoResult.movieInfo.showTypes[i].showTypeGroupNm+"("
+		        	  		+data.movieInfoResult.movieInfo.showTypes[i].showTypeNm+")/\n";
+		            }
+		           		 jQuery("textarea[name=showing]").val(showType);
+		            
+	        	} else {
+	        		jQuery("textarea[name=showing]").val("unknown");
+	        	}
+	        	
+	            var limit="";
+	            if(data.movieInfoResult.movieInfo.audits.length > 0){
+		            for(var i=0; i<data.movieInfoResult.movieInfo.audits.length; i++){
+		        		limit =data.movieInfoResult.movieInfo.audits[0].watchGradeNm;
+		            }
+		            jQuery("input[name=audits]").val(limit);
+	            } else {
+	            	jQuery("input[name=movieLimit]").val("unknown");
 	            }
-	            
-	            
-	            for(var i=0; i<data.movieInfoResult.movieInfo.showTypes.length; i++){
-	        	  	var showTypeGroupNm =data.movieInfoResult.movieInfo.showTypes[i].showTypeGroupNm;
-	        	  	var showTypeNm = data.movieInfoResult.movieInfo.showTypes[i].showTypeNm;
+		            
+	        	
+	            var actors="";
+	        	for(var i=0; i<data.movieInfoResult.movieInfo.actors.length; i++){
+	        	  	actors += data.movieInfoResult.movieInfo.actors[i].peopleNm+"/";
 	        	  
 	            }
 	            
-	            var limit="";
-	            for(var i=0; i<data.movieInfoResult.movieInfo.audits.length; i++){
-	        	  	limit +=data.movieInfoResult.movieInfo.audits[i].watchGradeNm;
-	            }
-	            
-	            var production= data.movieInfoResult.movieInfo.companys[0].companyNm;
+	        	var production="";
+	        	if(data.movieInfoResult.movieInfo.companys.length >0 ){
+		        	for(var i=0; i<data.movieInfoResult.movieInfo.companys.length; i++){
+		        		production += data.movieInfoResult.movieInfo.companys[0].companyNm+"/";
+		            }
+		        	 
+		        	jQuery("input[name=production]").val(production);
+	        	} else {
+		        	jQuery("input[name=production]").val("unknown");
+
+	        	}
+				
+	        	var prdtYear="";
+	        	
+	        	prdtYear = data.movieInfoResult.movieInfo.prdtYear;
+	        	 	
+			    jQuery("input[name=mcreated]").val(prdtYear);
 	           
-	            var prdtYear = data.movieInfoResult.movieInfo.prdtYear;
 	            
 	            var genre="";
-	            for(var i=0; i<data.movieInfoResult.movieInfo.genres.length; i++){
-	        	  	
-	            	genre +=data.movieInfoResult.movieInfo.genres[i].genreNm;
-	        	  	
+	            if(data.movieInfoResult.movieInfo.genres.length > 0){
+		            for(var i=0; i<data.movieInfoResult.movieInfo.genres.length; i++){
+		            	genre +=data.movieInfoResult.movieInfo.genres[i].genreNm+"/" ;
+		            }
+		            jQuery("input[name=genre]").val(genre);
+	            } else {
+	            	jQuery("input[name=genre]").val("unknown");
 	            }
 	            
+	            if(data.movieInfoResult.movieInfo.showTm > 0){
+		            showTime= data.movieInfoResult.movieInfo.showTm+"분";
+	            	
+		            jQuery("input[name=mtime]").val(showTime);
+	            } else {
+	            	jQuery("input[name=mtime]").val("unknown");
+	            }
+	          	
 	            
-	            var showTime= data.movieInfoResult.movieInfo.showTm;
-	           
-				var movieOpen = data.movieInfoResult.movieInfo.openDt            
 	            
-				var country = data.movieInfoResult.movieInfo.nations[0].nationNm
+	            if(data.movieInfoResult.movieInfo.openDt >0){
+	            	movieOpen = data.movieInfoResult.movieInfo.openDt   
+	            	
+	            	jQuery("input[name=mstartDate]").val(movieOpen);
+	            } else {
+	            	jQuery("input[name=mstartDate]").val("unknown");
+	            }
 				
 		        jQuery("input[name=movieCode]").val(movieCd);
-		        jQuery("input[name=title]").val(movieNm);
-		        jQuery("input[name=moviedirector]").val(director);
-		        jQuery("input[name=showing]").val(showTypeGroupNm);
-		        jQuery("input[name=showingDetail]").val(showTypeNm);
-		        jQuery("input[name=movieLimit]").val(limit);
-		        
-		        jQuery("textarea[name=production]").val(production);
-		        jQuery("textarea[name=genre]").val(genre);
-		        jQuery("input[name=mcreated]").val(prdtYear);
-		        jQuery("input[name=mtime]").val(showTime);
-		        jQuery("input[name=mstartDate]").val(movieOpen);
+		        jQuery("input[name=movieNm]").val(movieNm);
+		        jQuery("textarea[name=actor]").val(actors);
 		        jQuery("input[name=country]").val(country);
-	         
+		       
+	         	
+		        getMovieTitle(movieNm, prdtYear,country);
+		       
 	         }
 	         ,error:function(e){
 	            console.log(e.responseText);
 	        
 	         }
-	      
 	   });
+}
+
+
+
+function changeCode(text){
+	var code;
+	
+	if(text == "한국"){
+		code = "KR";
+	} else if(text == "일본") {
+		code = "JP";
+	} else if(text == "미국"){
+		code = "US";
+	} else if(text == "홍콩"){
+		code = "HK";
+	} else if(text == "영국"){
+		code = "GB";
+	} else if(text == "프랑스"){
+		code = "FR";
+	} else if(text == "기타"){
+		code = "ETC";
+	}
+	
+	
+	return code;
+}
+
+function getMovieTitle(movieTitle, year, country) {
+	var url="<%=cp%>/movie/movieImage";
+	var query="movieTitle="+encodeURIComponent(movieTitle)+"&year="+year+"&country="+changeCode(country);
+
+	jQuery.ajax({
+        type:"get"
+        ,url:url
+        ,data:query
+        ,dataType:"json"
+        ,success:function(data){
+           console.log(data);
+       		if(data.items.length > 0){
+       			var movieImage= data.items[0].image;
+       			
+       			jQuery("input[name=thumbNail]").val(movieImage);
+       		} else {
+       			jQuery("input[name=thumbNail]").val("No images");
+       		}
+           
+           
+           
+        }
+        ,error:function(e){
+           console.log(e.responseText);
+       
+        }
+  });
+	
+	          	
+};
+	          	
+function submitMovie(){
+	        var f = document.movieForm;
+	
+	    	var str = f.movieCode.value;
+	        if(!str) {
+	            alert("영화코드를 입력하세요. ");
+	            f.movieCode.focus();
+	            return;
+	        }
+
+	        str = f.movieNm.value;
+	        if(!str) {
+	            alert("영화제목을 입력하세요. ");
+	            f.movieNm.focus();
+	            return;
+	        }
+	        
+	        str = f.audits.value;
+	        if(!str) {
+	            alert("영화등급을 입력하세요. ");
+	            f.audits.focus();
+	            return;
+	        }
+	        
+	        str = f.thumbNail.value;
+	        if(!str) {
+	            alert("썸네일 주소를 입력하세요. ");
+	            f.thumbNail.focus();
+	            return;
+	        }
+	        
+	        str = f.movieStory.value;
+	        if(!str) {
+	            alert("줄거리를 입력하세요. ");
+	            f.movieStory.focus();
+	            return;
+	        }
+	        
+	    	f.action="<%=cp%>/movie/${mode}";
+
+	        f.submit();
+	
+}
+
+function resetMovie(){
+	jQuery(".movieForm").empty();
 	
 	
 }
+
+
 
 </script>
 
@@ -138,6 +298,7 @@ function detailMovie(movieCd){
 td, tr{
 list-style: none;
 }
+
 
 </style>
 
@@ -150,7 +311,7 @@ list-style: none;
 
 
 
-	<form action="">
+	<form name="movieForm" method="post">
 		<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
 				 <tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 				 	
@@ -183,97 +344,119 @@ list-style: none;
 				<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 				     <td width="100" bgcolor="#eeeeee" style="text-align: center;">영&nbsp;화&nbsp;코&nbsp;&nbsp;드</td>
 				 	 <td style="padding-left:10px;"> 
-						<input name="movieCode" type="text"/>
+						<input name="movieCode" type="text" style="width: 200px;">
 					 </td> 
 				</tr>
 				
 				<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 				     <td width="100" bgcolor="#eeeeee" style="text-align: center;">영&nbsp;&nbsp;화&nbsp;&nbsp;명</td>
 				 	 <td style="padding-left:10px;"> 
-						<input name="title" type="text"/>
+						<input name="movieNm" type="text" style="width: 200px;">
 					 </td> 
 				</tr>
 				
 				<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 				     <td width="100" bgcolor="#eeeeee" style="text-align: center;">감&nbsp;&nbsp;독&nbsp;&nbsp;명</td>
 				 	 <td style="padding-left:10px;"> 
-						<input name="moviedirector" type="text"/>
+						<input name="moviedirector" type="text" style="width: 200px;">
+					 </td> 
+				</tr>
+				
+				<tr align="left" height="100" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
+				     <td width="100" bgcolor="#eeeeee" style="text-align: center;">출&nbsp;연&nbsp;진&nbsp;&nbsp;</td>
+				 	 <td style="padding-left:10px;"> 
+						<textarea name="actor" style="width: 250px; height: 90px;"/></textarea>
 					 </td> 
 				</tr>
 				
 				<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 				     <td width="100" bgcolor="#eeeeee" style="text-align: center;">장&nbsp;&nbsp;&nbsp;&nbsp;르</td>
 				 	 <td style="padding-left:10px;"> 
-						<textarea name="genre"></textarea>
+						<input name="genre" type="text" style="width: 200px;">
 					 </td> 
 				</tr>
 				
-				<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
+				<tr align="left" height="80" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 				     <td width="100" bgcolor="#eeeeee" style="text-align: center;">상&nbsp;영&nbsp;분&nbsp;&nbsp;류</td>
 				 	 <td style="padding-left:10px;"> 
-						<input name="showing" type="text"/>
-					 </td> 
-				</tr>
-				
-				<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-				     <td width="100" bgcolor="#eeeeee" style="text-align: center;">분&nbsp;류&nbsp;상&nbsp;&nbsp;세</td>
-				 	 <td style="padding-left:10px;"> 
-						<input name="showingDetail" type="text"/>
+						<textarea name="showing" style="width: 250px; height: 72px;"/></textarea>
 					 </td> 
 				</tr>
 				
 				<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 				     <td width="100" bgcolor="#eeeeee" style="text-align: center;">영&nbsp;화&nbsp;등&nbsp;&nbsp;급</td>
 				 	 <td style="padding-left:10px;"> 
-						<input name="movieLimit" type="text"/>
+						<input name="audits" type="text" style="width: 200px;">
 					 </td> 
 				</tr>
 				
 				<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 				     <td width="100" bgcolor="#eeeeee" style="text-align: center;">제&nbsp;&nbsp;작&nbsp;&nbsp;사</td>
 				 	 <td style="padding-left:10px;"> 
-						<textarea name="production"></textarea>
+						<input name="production" type="text" style="width: 200px;">
 					 </td> 
 				</tr>
 				
 				<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 				     <td width="100" bgcolor="#eeeeee" style="text-align: center;">제&nbsp;작&nbsp;년&nbsp;&nbsp;도</td>
 				 	 <td style="padding-left:10px;"> 
-						<input name="mcreated" type="text"/>
+						<input name="mcreated" type="text" style="width: 200px;">
 					 </td> 
 				</tr>
 				
 				<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 				     <td width="100" bgcolor="#eeeeee" style="text-align: center;">상&nbsp;영&nbsp;시&nbsp;&nbsp;간</td>
 				 	 <td style="padding-left:10px;"> 
-						<input name="mtime" type="text"/>
+						<input name="mtime" type="text" style="width: 200px;">
 					 </td> 
 				</tr>
 				
 				<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 				     <td width="100" bgcolor="#eeeeee" style="text-align: center;">개&nbsp;봉&nbsp;날&nbsp;&nbsp;짜</td>
 				 	 <td style="padding-left:10px;"> 
-						<input name="mstartDate" type="text"/>
+						<input name="mstartDate" type="text" style="width: 200px;">
 					 </td> 
 				</tr>
 				
 				<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 				     <td width="100" bgcolor="#eeeeee" style="text-align: center;">제&nbsp;작&nbsp;국&nbsp;&nbsp;가</td>
 				 	 <td style="padding-left:10px;"> 
-						<input name="country" type="text"/>
+						<input name="country" type="text" style="width: 200px;">
 					 </td> 
 				</tr>
 				
-				<tr align="left" height="80" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-				     <td width="100" bgcolor="#eeeeee" style="text-align: center;">줄&nbsp;&nbsp;거&nbsp;&nbsp;리</td>
+				<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
+				     <td width="100" bgcolor="#eeeeee" style="text-align: center;">썸&nbsp;네&nbsp;일&nbsp;&nbsp;</td>
 				 	 <td style="padding-left:10px;"> 
-						<textarea name="mstory"></textarea>
+						<input name="thumbNail" type="text" style="width: 200px;">
 					 </td> 
 				</tr>
-			</table>
-	</form>
-	
-	
+				
+				<tr align="left" height="110" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
+				     <td width="100" bgcolor="#eeeeee" style="text-align: center;">줄&nbsp;&nbsp;거&nbsp;&nbsp;리</td>
+				 	 <td style="padding-left:10px;"> 
+						<textarea name="movieStory" style="width: 500px; height: 95px;"></textarea>
+					 </td> 
+				</tr>
+				</table>
+				
+				
+				<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
+			     	<tr height="45"> 
+			      		<td align="center" >
+			        		<button type="button" onclick="submitMovie();">${mode=='update'?'수정완료':'등록하기'}</button>
+			        		<button type="reset" name="resetMovie">다시입력</button>
+				 		</td>
+			    	</tr>
+			  </table>
+		</form>
+</div>
+
+<div class="youtube" style="width: 100%; min-height: 500px">
+  <div class="youtube-selected">
+    <div id="youtube-player"></div>
+    <p id="video-title" class="video-title"></p>
+  </div>
 </div>
 
 
