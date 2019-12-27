@@ -9,7 +9,7 @@
 <script type="text/javascript" src="<%=cp%>/resource/se/js/HuskyEZCreator.js" charset="utf-8"></script>
 <script type="text/javascript">
 	function check() {
-		var f = document.boardForm;
+		var f = document.noticeForm;
 		
 		var str = f.subject.value;
 		if(!str) {
@@ -49,11 +49,16 @@
     });
 
     <c:if test="${mode=='update'}">
+    
     	function deleteFile(fileNum) {
     		var url="<%=cp%>/notice/deleteFile";
+    		if(confirm("정말 삭제하시겠습니까? (서버에서 완전히 지워집니다.)")) {
     		$.post(url, {fileNum:fileNum}, function(data){
     			$("#fileTr"+fileNum).remove();
-    		}, "json");
+    		}, "json");		
+    		} else {
+    			return false;
+    		}
     	}
     </c:if>
 	
@@ -65,7 +70,7 @@
     </div>
     
     <div>
-			<form name="boardForm" method="post" onsubmit="return submitContents(this);" enctype="multipart/form-data">
+			<form name="noticeForm" method="post" onsubmit="return submitContents(this);" enctype="multipart/form-data">
 			  <table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
 			  <tbody id="noticetb">
 			  <tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 

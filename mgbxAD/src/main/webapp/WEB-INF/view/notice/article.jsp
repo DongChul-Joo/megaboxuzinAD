@@ -68,7 +68,7 @@ function updateNotice() {
 				<tr height="35" style="border-bottom: 1px solid #cccccc;">
 				    <td colspan="2" align="left" style="padding-left: 5px;">
 				      <a href="<%=cp%>/notice/download?fileNum=${vo.fileNum}">${vo.originalFilename}</a>
-			          (<fmt:formatNumber value="${vo.fileSize/1024}" pattern="0.00"/> KByte)
+			          <%-- (<fmt:formatNumber value="${vo.fileSize/1024}" pattern="0.00"/> KByte) --%>
 				    </td>
 				</tr>
 			</c:forEach>

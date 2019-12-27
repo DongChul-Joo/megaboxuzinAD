@@ -42,6 +42,7 @@ public class MovieController {
 	public String createdSubmit(Movie dto) {
 		try {
 			service.insertMovie(dto);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
