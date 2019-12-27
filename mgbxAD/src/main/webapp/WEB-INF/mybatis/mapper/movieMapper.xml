@@ -4,7 +4,7 @@
 <mapper namespace="movie">
 	<insert id="insertMovie" parameterType="com.zinsupark.movie.Movie">
 		INSERT INTO movie(movieCode, movieNm, audits, thumbNail, movieStory, openDate, startDate, endDate)
-			VALUES (movie_seq.NEXTVAL, #{movieNm}, #{audits}, #{thumbNail}, #{movieStory}, #{openDate}, #{startDate}, #{endDate})
+			VALUES (#{movieCode}, #{movieNm}, #{audits}, #{thumbNail}, #{movieStory}, #{openDate}, #{startDate}, #{endDate})
 	</insert>
 	
 	

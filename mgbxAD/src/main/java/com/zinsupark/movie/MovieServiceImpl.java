@@ -14,7 +14,13 @@ public class MovieServiceImpl implements MovieService{
 	@Override
 	public void insertMovie(Movie dto) throws Exception {
 		try {
+			
+			if(dto.getAudits().startsWith("청소년")) {
+				dto.setAudits("청불");
+			}
+			
 			dao.insertData("movie.insertMovie", dto);
+			
 		} catch (Exception e) {
 			throw e;
 		}
