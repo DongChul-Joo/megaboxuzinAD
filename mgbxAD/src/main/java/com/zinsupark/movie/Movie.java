@@ -7,6 +7,7 @@ public class Movie {
 		private String audits;
 		private String thumbNail;
 		private String movieStory;
+		private String openDate;
 		private String startDate;
 		private String endDate;
 		
@@ -29,6 +30,14 @@ public class Movie {
 		private String reportUserId;
 
 		
+		public String getOpenDate() {
+			return openDate;
+		}
+
+		public void setOpenDate(String openDate) {
+			this.openDate = openDate;
+		}
+
 		public String getStartDate() {
 			return startDate;
 		}

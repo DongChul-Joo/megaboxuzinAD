@@ -161,9 +161,9 @@ function detailMovie(movieCd){
 	            if(data.movieInfoResult.movieInfo.openDt >0){
 	            	movieOpen = data.movieInfoResult.movieInfo.openDt   
 	            	
-	            	jQuery("input[name=startDate]").val(movieOpen);
+	            	jQuery("input[name=openDate]").val(movieOpen);
 	            } else {
-	            	jQuery("input[name=startDate]").val("unknown");
+	            	jQuery("input[name=openDate]").val("unknown");
 	            }
 				
 		        jQuery("input[name=movieCode]").val(movieCd);
@@ -276,16 +276,23 @@ function submitMovie(){
 	            return;
 	        }
 	        
+	        str = f.openDate.value;
+	        if(!str) {
+	            alert("개봉일을 입력하세요. ");
+	            f.openDate.focus();
+	            return;
+	        }
+	        
 	        str = f.startDate.value;
 	        if(!str) {
-	            alert("줄거리를 입력하세요. ");
+	            alert("상영시작일 입력하세요. ");
 	            f.startDate.focus();
 	            return;
 	        }
 	        
 	        str = f.endDate.value;
 	        if(!str) {
-	            alert("줄거리를 입력하세요. ");
+	            alert("상영종료일 입력하세요. ");
 	            f.endDate.focus();
 	            return;
 	        }
@@ -451,13 +458,20 @@ list-style: none;
 				<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 				     <td width="100" bgcolor="#eeeeee" style="text-align: center;">개&nbsp;봉&nbsp;날&nbsp;&nbsp;짜</td>
 				 	 <td style="padding-left:10px;"> 
-						<input name="startDate" type="text" style="width: 200px;">
+						<input name="openDate" type="text" style="width: 200px;">
+					 </td> 
+				</tr>
+				
+				<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
+				     <td width="100" bgcolor="#eeeeee" style="text-align: center;">상&nbsp;영&nbsp;시&nbsp;작&nbsp;일(ex:20191227)</td>
+				 	 <td style="padding-left:10px;"> 
+						<input name="startDate" type="text"  style="width: 200px;">
 					 </td> 
 				</tr>
 				
 				
 				<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-				     <td width="100" bgcolor="#eeeeee" style="text-align: center;">상&nbsp;영&nbsp;종&nbsp;료&nbsp;일(ex:20200122)</td>
+				     <td width="100" bgcolor="#eeeeee" style="text-align: center;">상&nbsp;영&nbsp;종&nbsp;료&nbsp;일(ex:20200127)</td>
 				 	 <td style="padding-left:10px;"> 
 						<input name="endDate" type="text"  style="width: 200px;">
 					 </td> 

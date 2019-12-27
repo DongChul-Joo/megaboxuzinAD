@@ -3,8 +3,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="movie">
 	<insert id="insertMovie" parameterType="com.zinsupark.movie.Movie">
-		INSERT INTO movie(movieCode, movieNm, audits, thumbNail, movieStory, startDate, endDate)
-			VALUES (movie_seq.NEXTVAL, #{movieNm}, #{audits}, #{thumbNail}, #{movieStory}, #{startDate}, #{endDate})
+		INSERT INTO movie(movieCode, movieNm, audits, thumbNail, movieStory, openDate, startDate, endDate)
+			VALUES (movie_seq.NEXTVAL, #{movieNm}, #{audits}, #{thumbNail}, #{movieStory}, #{openDate}, #{startDate}, #{endDate})
 	</insert>
 	
 	
