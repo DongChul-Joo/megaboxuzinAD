@@ -161,9 +161,9 @@ function detailMovie(movieCd){
 	            if(data.movieInfoResult.movieInfo.openDt >0){
 	            	movieOpen = data.movieInfoResult.movieInfo.openDt   
 	            	
-	            	jQuery("input[name=mstartDate]").val(movieOpen);
+	            	jQuery("input[name=startDate]").val(movieOpen);
 	            } else {
-	            	jQuery("input[name=mstartDate]").val("unknown");
+	            	jQuery("input[name=startDate]").val("unknown");
 	            }
 				
 		        jQuery("input[name=movieCode]").val(movieCd);
@@ -276,6 +276,20 @@ function submitMovie(){
 	            return;
 	        }
 	        
+	        str = f.startDate.value;
+	        if(!str) {
+	            alert("줄거리를 입력하세요. ");
+	            f.startDate.focus();
+	            return;
+	        }
+	        
+	        str = f.endDate.value;
+	        if(!str) {
+	            alert("줄거리를 입력하세요. ");
+	            f.endDate.focus();
+	            return;
+	        }
+	        
 	    	f.action="<%=cp%>/movie/${mode}";
 
 	        f.submit();
@@ -362,10 +376,10 @@ list-style: none;
 					 </td> 
 				</tr>
 				
-				<tr align="left" height="100" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
+				<tr align="left" height="110" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 				     <td width="100" bgcolor="#eeeeee" style="text-align: center;">출&nbsp;연&nbsp;진&nbsp;&nbsp;</td>
 				 	 <td style="padding-left:10px;"> 
-						<textarea name="actor" style="width: 250px; height: 90px;"/></textarea>
+						<textarea name="actor" style="width: 250px; height: 95px;"/></textarea>
 					 </td> 
 				</tr>
 				
@@ -376,10 +390,10 @@ list-style: none;
 					 </td> 
 				</tr>
 				
-				<tr align="left" height="80" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
+				<tr align="left" height="110" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 				     <td width="100" bgcolor="#eeeeee" style="text-align: center;">상&nbsp;영&nbsp;분&nbsp;&nbsp;류</td>
 				 	 <td style="padding-left:10px;"> 
-						<textarea name="showing" style="width: 250px; height: 72px;"/></textarea>
+						<textarea name="showing" style="width: 250px; height: 95px;"/></textarea>
 					 </td> 
 				</tr>
 				
@@ -411,12 +425,7 @@ list-style: none;
 					 </td> 
 				</tr>
 				
-				<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-				     <td width="100" bgcolor="#eeeeee" style="text-align: center;">개&nbsp;봉&nbsp;날&nbsp;&nbsp;짜</td>
-				 	 <td style="padding-left:10px;"> 
-						<input name="mstartDate" type="text" style="width: 200px;">
-					 </td> 
-				</tr>
+				
 				
 				<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 				     <td width="100" bgcolor="#eeeeee" style="text-align: center;">제&nbsp;작&nbsp;국&nbsp;&nbsp;가</td>
@@ -436,6 +445,21 @@ list-style: none;
 				     <td width="100" bgcolor="#eeeeee" style="text-align: center;">줄&nbsp;&nbsp;거&nbsp;&nbsp;리</td>
 				 	 <td style="padding-left:10px;"> 
 						<textarea name="movieStory" style="width: 500px; height: 95px;"></textarea>
+					 </td> 
+				</tr>
+				
+				<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
+				     <td width="100" bgcolor="#eeeeee" style="text-align: center;">개&nbsp;봉&nbsp;날&nbsp;&nbsp;짜</td>
+				 	 <td style="padding-left:10px;"> 
+						<input name="startDate" type="text" style="width: 200px;">
+					 </td> 
+				</tr>
+				
+				
+				<tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
+				     <td width="100" bgcolor="#eeeeee" style="text-align: center;">상&nbsp;영&nbsp;종&nbsp;료&nbsp;일(ex:20200122)</td>
+				 	 <td style="padding-left:10px;"> 
+						<input name="endDate" type="text"  style="width: 200px;">
 					 </td> 
 				</tr>
 				</table>
