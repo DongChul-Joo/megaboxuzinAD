@@ -28,8 +28,18 @@ public class BranchController {
 
 	
 	@RequestMapping(value="/branch/branch",method=RequestMethod.GET)
-		public String branchForm() {
+		public String branchForm(
+				Model model
+				) {
+			List<Branch> areaList=null;
 			
+			try {
+				areaList=service.listArea();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			model.addAttribute("areaList",areaList);
 		return ".branch.branch";
 	}
 	
@@ -40,7 +50,6 @@ public class BranchController {
 			,Model model) {
 		
 		List<Branch> list=null;
-		List<Branch> areaList=null;
 		
 		int nowPage=pageNo;
 		int rows=5;
@@ -72,15 +81,14 @@ public class BranchController {
 			map.put("rows", rows);
 			map.put("offset", offset);
 			list=service.listBranch(map);
-			areaList=service.listArea();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		model.addAttribute("dataCount",dataCount);
 		model.addAttribute("areaCode",areaCode);
 		model.addAttribute("page",nowPage);
 		model.addAttribute("paging",paging);
 		model.addAttribute("list",list);
-		model.addAttribute("areaList",areaList);
 		return "branch/list";
 	}
 	

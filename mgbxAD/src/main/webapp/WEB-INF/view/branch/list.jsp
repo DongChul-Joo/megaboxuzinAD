@@ -5,89 +5,10 @@
 <%
 	String cp=request.getContextPath();
 %>
-<style type="text/css">
-
-.selectSeat{
-width: 20px;
-height: 20px;  
-padding: 0;
-text-align: center;
-font-size: 10px;
-font-weight:bold;   
-background: white;
-border: 1px solid black;  
-}
-
-.seatSelect{
-width: 20px;
-height: 20px;  
-padding: 0;
-text-align: center;
-font-size: 10px;
-font-weight:bold;   
-background: white;
-border: 1px solid black;  
-}
-.seatRows{
-width: 22px;
-height: 22px;  
-padding: 0;
-text-align: center;
-font-size: 10px;
-font-weight:bold;   
-background: white;
-border: 1px solid black;  
-} 
-
-.noneSeat{
-width: 20px;
-height: 20px;  
-padding: 0;
-text-align: center;
-font-size: 9px;
-font-weight:bold;   
-background: purple;
-border: 1px solid black;
-color: white
-}
-
-.deleteSeat{
-width: 20px;
-height: 20px;   
-pointer-events:none;
-background: white;
-border: none;
-color: white;
-}
-.ui-button  {
-    background: none;
-	color:#333333;
-	font-weight:500;
-	border:1px solid #cccccc;
-	background-color:#ffffff;
-	text-align:center;
-	cursor:pointer;
-	padding:3px 10px 5px;
-	border-radius:4px;
-	font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
-}
-</style>  
-
-<div class="menu" style="background: white;border: none">
-    <ul class="nav" style="margin:0px auto ; width: 1500px;">  
-        <c:forEach var="vo" items="${areaList}">
-        	<c:if test="${vo.areaCode==areaCode}">
-        		 <li><a  style="width: 30px;line-height: 50px;color:white;background-color: #ca0909; border: none; " href="javascript:searchList('${vo.areaCode}','${page}');">${vo.areaName}</a></li>
-			</c:if>
-			<c:if test="${vo.areaCode!=areaCode}">
-				 <li><a  style="width: 30px;line-height: 50px;color:white;background-color: #221f1f; border: none; " href="javascript:searchList('${vo.areaCode}','${page}');">${vo.areaName}</a></li>
-			</c:if>
-		</c:forEach>	
-    </ul>
-</div> 
+ 
 
  <c:forEach var="dto" items="${list}">
-	<div style="width: 800px; height:150px;margin: 0px auto; margin-bottom: 20px;" >    
+	<div style="width: 800px; height:150px;margin: 0px auto; margin-bottom: 10px;" >    
 			
 			<div style="width: 25%; height:100%; border:1px solid black ; 
 			border-right:1px solid white; float: left" onclick="maps('${dto.branAddr1}','${dto.branName}');">
@@ -117,14 +38,9 @@ color: white;
 					 border-radius: 0; border-spacing: 0;border-collapse: collapse;" type="button" onclick="javascript:location.href='<%=cp%>/branch/delete?branCode=${dto.branCode}'">삭제</button>
 			</div>
 	</div>
-	</c:forEach>    
-	<div>${paging}</div>
-<div style="margin:0px auto;margin-left:500px; width: 200px; ">
-	<button  class="btn" type="button" onclick="javascript:location.href='<%=cp%>/branch/created'">지점등록</button>
-</div>
-		<div id="map" style="display: none;width: 1000px;">
-		</div>
-		<div id="viewCinemas" style="display: none;width: 1000px;">
-		</div>
+	</c:forEach>
+	
+	<div>${dataCount==0?"등록된 게시물이 없습니다.":paging}</div>
+	
 
 
