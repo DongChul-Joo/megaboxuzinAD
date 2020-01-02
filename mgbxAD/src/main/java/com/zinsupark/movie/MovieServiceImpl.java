@@ -17,6 +17,12 @@ public class MovieServiceImpl implements MovieService{
 			
 			if(dto.getAudits().startsWith("청소년")) {
 				dto.setAudits("청불");
+			} else if (dto.getAudits().startsWith("12세")) {
+				dto.setAudits("12");
+			} else if (dto.getAudits().startsWith("15세")) {
+				dto.setAudits("15");
+			} else {
+				dto.setAudits("전체");
 			}
 			
 			dao.insertData("movie.insertMovie", dto);
