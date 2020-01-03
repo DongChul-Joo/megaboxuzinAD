@@ -112,7 +112,19 @@
 		WHERE ecode=#{ecode} AND answer=0
 	</select>
 	
-	<select id="listReply" parameterType="map" resultType="com.zinsupark.event.Reply">
+	<select id="listDott" parameterType="map" resultType="com.zinsupark.event.Event">
+	SELECT e.ecode, e.userId, TO_CHAR(sdate, 'yyyy-mm-dd') as sdate, TO_CHAR(edate, 'yyyy-mm-dd') as edate,
+		subject, TO_CHAR(created, 'yyyy-mm-dd') as created, imageFilename, lott, eLink, mCount, ecategoryCode
+		FROM event e
+		JOIN eventrequest d ON e.userId=d.userId
+		ORDER BY e.ecode DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	</select>
+	
+	<select id="dottCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM event e
+		JOIN member m ON e.userId=m.userId
 	</select>
 	
 
