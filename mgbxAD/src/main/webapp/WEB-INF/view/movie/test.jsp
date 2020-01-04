@@ -40,9 +40,9 @@ $.ajax({
 	        });
 	    }
 	    
-	    $('#video-title').text(data.items[0].snippet.title);
+	   /* $('#video-title').text(data.items[0].snippet.title);
 	    
-	    /* List */
+	     List 
 	    var length = data.items.length;
 	    
 	    for(var i=0; i<length; i++){
@@ -51,12 +51,12 @@ $.ajax({
 	        var videoTitle = item.snippet.title;
 	        
 	        li = '<li>'+                    
-	                            '<img src="'+videoThumb+'" class="thumb">'+
-	                            '<p class="title"><span class="outer"><span class="inner">'+videoTitle+'</span></span></p>'+
-	                    '</li>';
+	             '<img src="'+videoThumb+'" class="thumb">'+
+	             '<p class="title"><span class="outer"><span class="inner">'+videoTitle+'</span></span></p>'+
+	             '</li>';
 	        $('ul').append(li);
 	    }
-	    
+	    */
 	 });
 
 
@@ -124,8 +124,6 @@ function movieVideo(movieNm){
 <div class="youtube">
   <div class="youtube-selected">
     <div id="youtube-player"></div>
-    <img style="width: 230px; height: 336px;"  src="https://ssl.pstatic.net/imgmovie/mdi/mit110/1879/187940_P47_164605.jpg">
-    <p id="video-title" class="video-title"></p>
   </div>
 </div>
 
