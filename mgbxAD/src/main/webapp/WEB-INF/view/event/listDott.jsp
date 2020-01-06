@@ -103,15 +103,13 @@ height :100px;
 		
 		<table style="width: 100%; margin: 0px auto; border-spacing: 0px; border-collapse: collapse;">
 		  <tr align="center" bgcolor="#eeeeee" height="35" style="border-top: 2px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-		      <th width="80" style="color: #787878;">번호</th>
-		      <th width="80" style="color: #787878;">분류</th>
-		      <th width="60" style="color: #787878;">제목</th>
+		      <th width="50" style="color: #787878;">분류</th>
+		      <th width="80" style="color: #787878;">제목</th>
 		      <th width="50" style="color: #787878;">이벤트 시작</th>
 		      <th width="50" style="color: #787878;">이벤트 종료</th>
 		  </tr>
 	<c:forEach var="dto" items="${list}">
 		  <tr align="center" bgcolor="#ffffff" height="35" style="border-bottom: 1px solid #cccccc;"> 
-		      <td>${dto.ecode}</td>
 		      <td>${dto.ecategoryCode}</td>
 		      <td>${dto.subject}</td>
 		      <td>${dto.sdate}</td>
@@ -123,7 +121,7 @@ height :100px;
 
 
 </table>
-
+</div>
 
 
 <table style="width: 100%; margin: 0px auto; border-spacing: 0px;">

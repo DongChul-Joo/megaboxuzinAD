@@ -55,6 +55,27 @@ public class EventServiceImpl implements EventService{
 		
 		return result;
 	}
+	
+	@Override
+	public void eventRequest(Event dto) throws Exception {
+		try {
+			dao.insertData("event.eventRequest", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}	
+	}
+	
+	@Override
+	public void eventPic(Event dto) throws Exception {
+		try {
+			dao.insertData("event.eventPic", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}	
+	}
+	
 	@Override
 	public Event readEvent(int num) {
 		Event dto=null;

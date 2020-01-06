@@ -46,6 +46,22 @@ text-align: center;
 
 <script type="text/javascript">
 
+function eventRequest(){
+	var q = "ecode=${dto.ecode}&page=${page}";
+	var url = "<%=cp%>/event/request?" +q;
+	
+	if(confirm("이벤트를 응모 하시겠습니까?"))
+		location.href=url;
+ }
+
+function eventPic(){
+	var q = "ecode=${dto.ecode}&page=${page}";
+	var url = "<%=cp%>/event/?" +q;
+	
+	if(confirm("이벤트를 추첨 하시겠습니까?"))
+		location.href=url;
+ }
+
 function eventUpdate() {
 	var q = "ecode=${dto.ecode}&page=${page}";
 	var url = "<%=cp%>/event/update?" + q;
@@ -204,8 +220,10 @@ $(function(){
     	<table style="width: 100%; margin: 0px auto 20px; border-spacing: 0px; ">
 			<tr height="45">
 			    <td width="300" align="right">			    
-			          <button type="button" class="btn" onclick="eventUpdate('${dto.ecode}');">수정</button>			    
-			          <button type="button" class="btn" onclick="eventDelete('${dto.ecode}');">삭제</button>
+			          <button type="button" class="btn" onclick="eventUpdate();">수정</button>			    
+			          <button type="button" class="btn" onclick="eventDelete();">삭제</button>
+			          <button type="button" class="btn" onclick="eventRequest()">응모하기!</button>
+			          <button type="button" class="btn" onclick="eventPic()">당첨자 발표</button>
 			    </td>
 			</tr>
 			</table>

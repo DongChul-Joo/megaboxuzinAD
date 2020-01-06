@@ -97,6 +97,23 @@ public class EventController {
 		return ".event.list";
 	}
 	
+	//응모 등록
+	@RequestMapping(value="/event/request", method=RequestMethod.GET)
+	public String requestcreated(
+			Event dto,
+			HttpSession session
+			) throws Exception {
+
+		try {
+
+			service.eventRequest(dto);
+		} catch (Exception e) {
+		}
+		
+		return ".event.article";
+
+	}
+	
 	// 분류 등록
 	@RequestMapping(value="/event/created", method=RequestMethod.GET)
 	public String createdForm(
