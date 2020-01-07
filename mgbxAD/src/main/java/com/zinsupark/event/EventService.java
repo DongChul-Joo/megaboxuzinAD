@@ -8,9 +8,6 @@ public interface EventService {
 	public List<Event> listEvent(Map<String, Object> map);
 	public int dataCount(Map<String, Object> map);
 	
-	public void eventRequest(Event dto) throws Exception;
-	public void eventPic(Event dto) throws Exception;
-	
 	public Event readEvent(int num);
 	public void updateEvent(Event dto, String pathname) throws Exception;
 	public void deleteEvent(int num, String pathname, String userId) throws Exception;
@@ -20,4 +17,7 @@ public interface EventService {
 	public int DottCount(Map<String, Object> map);
 	
 	
+	public List<Event> selectListPic(Map<String, Object> map);
+	public Map<String, Object> insertEventPic(int ecode) throws Exception;
+	public void insertEventPic(Map<String, Object> map)  throws Exception;
 }

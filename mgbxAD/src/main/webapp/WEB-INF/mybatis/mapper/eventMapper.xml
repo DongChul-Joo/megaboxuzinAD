@@ -81,16 +81,31 @@
 		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
 	</select>
 	
-	<!-- 이벤트 응모자 -->
-	<insert id="eventRequest" parameterType="com.zinsupark.event.Event">
-		INSERT INTO eventrequest(ecode, userId)
-		VALUES (#{ecode}, #{userId})
-	</insert>
+	<!-- 이벤트 당첨자 만들기 -->
+	<select id="selectRequestPick" parameterType="map" resultType="com.zinsupark.event.Event">
+		SELECT tb.* FROM (
+		     SELECT ecode, userId FROM eventrequest
+		     WHERE ecode = #{ecode}
+		     ORDER BY DBMS_RANDOM.VALUE
+		) tb WHERE ROWNUM &lt;= 5
+	</select>
 	
-	<!-- 이벤트 당첨자 -->
-	<insert id="insertPick" parameterType="com.zinsupark.event.Event">
-		INSERT INTO eventrequest(ecode, userId)
-		VALUES (#{ecode}, #{userId})
+	<!-- 이벤트 당첨자 수 -->
+	<select id="selectPickCount" parameterType="map" resultType="Integer">
+		     SELECT COUNT(*) FROM eventPic
+		     WHERE ecode = #{ecode}
+	</select>
+
+	<!-- 이벤트 당첨자 리스트 만들기 -->
+	<select id="selectPickList" parameterType="map" resultType="com.zinsupark.event.Event">
+		     SELECT ecode, userId FROM eventPic
+		     WHERE ecode = #{ecode}
+	</select>
+	
+	<!-- 당첨자 저장 -->
+	<insert id="insertPic" parameterType="map">
+	   INSERT INTO eventPic(ecode, userId)
+	   VALUES(#{ecode}, #{userId})
 	</insert>
 	
 	<!-- 글 등록 -->

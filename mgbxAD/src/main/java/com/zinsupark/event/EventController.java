@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zinsupark.common.MyUtil;
 import com.zinsupark.member.SessionInfo;
@@ -28,7 +29,7 @@ public class EventController {
 	@Autowired
 	private MyUtil myUtil;
 	
-	// 리스트 만들기
+	// 이벤트 리스트
 	@RequestMapping(value="/event/list")
 	public String list(
 			@RequestParam(value="page", defaultValue="1") int current_page,
@@ -97,23 +98,6 @@ public class EventController {
 		return ".event.list";
 	}
 	
-	//응모 등록
-	@RequestMapping(value="/event/request", method=RequestMethod.GET)
-	public String requestcreated(
-			Event dto,
-			HttpSession session
-			) throws Exception {
-
-		try {
-
-			service.eventRequest(dto);
-		} catch (Exception e) {
-		}
-		
-		return ".event.article";
-
-	}
-	
 	// 분류 등록
 	@RequestMapping(value="/event/created", method=RequestMethod.GET)
 	public String createdForm(
@@ -126,7 +110,8 @@ public class EventController {
 		model.addAttribute("mode", "created");
 		return ".event.created";
 	}
-	// 글 등록
+	
+	// 이벤트 등록
 	@RequestMapping(value="/event/created", method=RequestMethod.POST)
 	public String createdSubmit(
 			Event dto,
@@ -145,10 +130,13 @@ public class EventController {
 		return "redirect:/event/list";
 	}
 	
+	// 이벤트 보기
 	@RequestMapping(value="/event/article", method=RequestMethod.GET)
 	public String article(
 			@RequestParam int ecode,
 			@RequestParam String page,
+			@RequestParam(value="ecategoryCode", defaultValue="0") int ecategoryCode,
+			@RequestParam(value="state", defaultValue="1") int state,
 			@RequestParam(defaultValue="all") String condition,
 			@RequestParam(defaultValue="") String keyword,
 			Model model
@@ -156,7 +144,7 @@ public class EventController {
 		
 		keyword = URLDecoder.decode(keyword, "utf-8");
 		
-		String query="page="+page;
+		String query="page="+page+"&ecategoryCode="+ecategoryCode+"&state="+state;
 		if(keyword.length()!=0) {
 			query+="&condition="+condition+"&keyword="+URLEncoder.encode(keyword,"UTF-8");
 		}
@@ -168,9 +156,13 @@ public class EventController {
 		model.addAttribute("dto", dto);
 		model.addAttribute("page", page);
 		model.addAttribute("query", query);
+		model.addAttribute("ecategoryCode", ecategoryCode);
+		model.addAttribute("state", state);
+		
 		return ".event.article";
 	}
 	
+	// 수정 폼
 	@RequestMapping(value="/event/update", method=RequestMethod.GET)
 	public String updateForm(
 			@RequestParam int ecode,
@@ -195,6 +187,7 @@ public class EventController {
 		
 	}
 	
+	// 수정 완료
 	@RequestMapping(value="/event/update", method=RequestMethod.POST)
 	public String updateSubmit(
 			Event dto,
@@ -210,8 +203,9 @@ public class EventController {
 		}
 		
 		return "redirect:/event/article?ecode="+dto.getEcode()+"&page="+page;
-	}	
+	}
 	
+	// 이벤트 삭제
 	@RequestMapping(value="/event/delete", method=RequestMethod.GET)
 	public String delete(
 			@RequestParam int ecode,
@@ -240,6 +234,29 @@ public class EventController {
 		return "redirect:/event/list?"+query;	
 	}
 	
+	// 이벤트 당첨자 등록
+	@RequestMapping(value="/event/insertPic", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> selectPic(
+			@RequestParam Map<String, Object> paramMap,
+			HttpSession session
+			) {
+		String state="true";
+		
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		Map<String, Object> model=new HashMap<>();
+		
+		try {
+			
+			service.insertEventPic(paramMap);
+		} catch (Exception e) {
+			state="false";
+		}
+		model.put("state", state);
+		return model;
+	}
+	
+	//  당첨자 리스트
 	@RequestMapping(value="/event/listDott")
 	public String eventRequest(
 			@RequestParam(value="page", defaultValue="1") int current_page,

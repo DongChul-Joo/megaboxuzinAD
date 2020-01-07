@@ -1,5 +1,6 @@
 package com.zinsupark.event;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,26 +55,6 @@ public class EventServiceImpl implements EventService{
 		}
 		
 		return result;
-	}
-	
-	@Override
-	public void eventRequest(Event dto) throws Exception {
-		try {
-			dao.insertData("event.eventRequest", dto);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		}	
-	}
-	
-	@Override
-	public void eventPic(Event dto) throws Exception {
-		try {
-			dao.insertData("event.eventPic", dto);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		}	
 	}
 	
 	@Override
@@ -135,6 +116,8 @@ public class EventServiceImpl implements EventService{
 		}
 		return list;
 	}
+	
+	// 이벤트 추첨 완료 리스트
 	@Override
 	public List<Event> listDott(Map<String, Object> map) {
 		List<Event> list=null;
@@ -145,7 +128,7 @@ public class EventServiceImpl implements EventService{
 		}
 		return list;
 	}
-	
+	// 이벤트 추첨 완료 개수
 	@Override
 	public int DottCount(Map<String, Object> map) {
 		int result=0;
@@ -158,4 +141,51 @@ public class EventServiceImpl implements EventService{
 		
 		return result;
 	}
+	// 이벤트 당첨자 리스트
+	@Override
+	public List<Event> selectListPic(Map<String, Object> map) {
+		List<Event> list=null;
+		
+		try {
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	// 이벤트 추첨 저장
+	@Override
+	public Map<String, Object> insertEventPic(int ecode) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("ecode", ecode);
+		
+		try {
+			int cnt = dao.selectOne("event.selectPickCount", map);
+			if(cnt>0) {
+				new Exception("당첨자 처리가 이미 끝났습니다.");
+			}
+			
+			List<Event> list = dao.selectList("event.selectRequestPick", map);
+			for(Event evt : list) {
+				map.put("userId", evt.getUserId());
+				
+				dao.insertData("event.insertPic", map);
+			}
+		} catch (Exception e) {
+			throw e;
+		}
+		return map;
+	}
+	@Override
+	public void insertEventPic(Map<String, Object> map) throws Exception {
+		try {
+			dao.insertData("event.insertEventPic", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+	}
+
 }

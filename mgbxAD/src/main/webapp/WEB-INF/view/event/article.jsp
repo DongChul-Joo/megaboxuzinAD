@@ -45,37 +45,22 @@ text-align: center;
  </style>
 
 <script type="text/javascript">
-
-function eventRequest(){
-	var q = "ecode=${dto.ecode}&page=${page}";
-	var url = "<%=cp%>/event/request?" +q;
-	
-	if(confirm("이벤트를 응모 하시겠습니까?"))
-		location.href=url;
- }
-
-function eventPic(){
-	var q = "ecode=${dto.ecode}&page=${page}";
-	var url = "<%=cp%>/event/?" +q;
-	
-	if(confirm("이벤트를 추첨 하시겠습니까?"))
-		location.href=url;
- }
-
 function eventUpdate() {
 	var q = "ecode=${dto.ecode}&page=${page}";
 	var url = "<%=cp%>/event/update?" + q;
 	
-	if(confirm("이벤트를 수정 하시겠습니까?"))
+	if(confirm("이벤트를 수정 하시겠습니까?")) {
 		location.href=url;
+	}
 }
 
 function eventDelete() {
 	var q = "ecode=${dto.ecode}&${query}";
 	var url = "<%=cp%>/event/delete?" + q;
 	
-	if(confirm("이벤트를 삭제 하시겠습니까?"))
+	if(confirm("이벤트를 삭제 하시겠습니까?")) {
 		location.href=url;
+	}
 }
 
 function login() {
@@ -126,7 +111,7 @@ function ajaxHTML(url, type, query, selector) {
 	});
 }
 
-//페이징 처리
+// 페이징 처리
 $(function(){
 	listPage(1);
 });
@@ -139,7 +124,7 @@ function listPage(page) {
 	ajaxHTML(url, "get", query, selector);
 }
 
-//리플 등록
+// 리플 등록
 $(function(){
 	$(".btnSendReply").click(function(){
 		var ecode="${dto.ecode}";
@@ -168,6 +153,33 @@ $(function(){
 		ajaxJSON(url, "post", query, fn);
 	});
 });
+
+// 이벤트 당첨
+$(function(){
+	$("body").on("click", ".btnSendEventPic", function(){
+		var ecode="${dto.ecode}";
+		var $btn = $(this);
+		
+		var msg="이벤트 추첨하시겠습니까?";
+		if(! confirm(msg)) {
+			return false;
+		}
+		
+		var url="<%=cp%>/event/insertPic";
+		var query="ecode="+ecode;
+		
+		var fn = function(data) {
+			var state=data.state;
+			if(state=="true") {
+				alert("추첨 완료");
+			} else if(state=="false") {
+				alert("추첨은 한번만 가능합니다.");
+			}
+		};
+		ajaxJSON(url, "post", query, fn);
+	});
+});
+
 
 </script>
 
@@ -222,8 +234,7 @@ $(function(){
 			    <td width="300" align="right">			    
 			          <button type="button" class="btn" onclick="eventUpdate();">수정</button>			    
 			          <button type="button" class="btn" onclick="eventDelete();">삭제</button>
-			          <button type="button" class="btn" onclick="eventRequest()">응모하기!</button>
-			          <button type="button" class="btn" onclick="eventPic()">당첨자 발표</button>
+			          <button type="button" class="btn btnSendEventPic" >당첨자 발표</button>
 			    </td>
 			</tr>
 			</table>
