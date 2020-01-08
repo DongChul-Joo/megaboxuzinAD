@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="question">
+
+	<insert parameterType="com.sp.customer.question.Question" id="insertQuestion2">
+	INSERT INTO questionAnswer (code, content, userId)VALUES 
+	(#{parent} , #{content} , #{userId}) 
+	</insert>
 	
 	<sql id="where-list">
 		<if test="condition=='all' ">
