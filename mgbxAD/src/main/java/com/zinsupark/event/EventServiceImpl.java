@@ -1,6 +1,5 @@
 package com.zinsupark.event;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -141,13 +140,14 @@ public class EventServiceImpl implements EventService{
 		
 		return result;
 	}
+	
 	// 이벤트 당첨자 리스트
 	@Override
-	public List<Event> selectListPic(Map<String, Object> map) {
+	public List<Event> listEventPic(Map<String, Object> map) {
 		List<Event> list=null;
 		
 		try {
-
+			list = dao.selectList("event.listEventPic", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -156,33 +156,20 @@ public class EventServiceImpl implements EventService{
 	
 	// 이벤트 추첨 저장
 	@Override
-	public Map<String, Object> insertEventPic(int ecode) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("ecode", ecode);
-		
+	public void insertEventPic(Map<String, Object> map) throws Exception {
 		try {
-			int cnt = dao.selectOne("event.selectPickCount", map);
+			int cnt = dao.selectOne("event.eventPickCount", map);
 			if(cnt>0) {
 				new Exception("당첨자 처리가 이미 끝났습니다.");
 			}
 			
-			List<Event> list = dao.selectList("event.selectRequestPick", map);
+			List<Event> list = dao.selectList("event.listRequestPick", map);
 			for(Event evt : list) {
 				map.put("userId", evt.getUserId());
 				
-				dao.insertData("event.insertPic", map);
+				dao.insertData("event.insertEventPic", map);
 			}
 		} catch (Exception e) {
-			throw e;
-		}
-		return map;
-	}
-	@Override
-	public void insertEventPic(Map<String, Object> map) throws Exception {
-		try {
-			dao.insertData("event.insertEventPic", map);
-		} catch (Exception e) {
-			e.printStackTrace();
 			throw e;
 		}
 		

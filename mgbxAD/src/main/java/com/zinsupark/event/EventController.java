@@ -150,14 +150,21 @@ public class EventController {
 		}
 		
 		Event dto = service.readEvent(ecode);
-		if(dto==null)
+		if(dto==null) {
 			return "redirect:/event/list?"+query;
+		}
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("ecode", ecode);
+		List<Event> listPic = service.listEventPic(map);
+		
 		
 		model.addAttribute("dto", dto);
 		model.addAttribute("page", page);
 		model.addAttribute("query", query);
 		model.addAttribute("ecategoryCode", ecategoryCode);
 		model.addAttribute("state", state);
+		model.addAttribute("listPic", listPic);
 		
 		return ".event.article";
 	}
@@ -242,17 +249,15 @@ public class EventController {
 			HttpSession session
 			) {
 		String state="true";
-		
-		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		Map<String, Object> model=new HashMap<>();
 		
 		try {
-			
 			service.insertEventPic(paramMap);
 		} catch (Exception e) {
 			state="false";
 		}
 		model.put("state", state);
+		
 		return model;
 	}
 	

@@ -2,7 +2,7 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="event">
-	
+	<!-- 글 등록 -->
 	<insert id="insertEvent" parameterType="com.zinsupark.event.Event">
 		INSERT INTO event(ecode, userId, sdate, edate, subject, content,
 		imageFilename, lott, lottDate, elink, mcount, ecategoryCode)
@@ -29,11 +29,13 @@
 		
 	</sql>
 	
+	<!-- 분류 코드 등록 -->
 	<select id="listCategory" resultType="com.zinsupark.event.Event">
 		SELECT eCategoryCode, eCategoryName 
 		FROM eventCategory
 	</select>
 	
+	<!-- 데이터 개수 -->
 	<select id="dataCount" parameterType="map" resultType="Integer">
 		SELECT NVL(COUNT(*), 0)
 		FROM event e
@@ -56,6 +58,7 @@
 		</where>		
 	</select>
 	
+	<!-- 리스트 출력 -->
 	<select id="listEvent" parameterType="map" resultType="com.zinsupark.event.Event">
 		SELECT ecode, e.userId, TO_CHAR(sdate, 'yyyy-mm-dd') as sdate, TO_CHAR(edate, 'yyyy-mm-dd') as edate,
 		subject, TO_CHAR(created, 'yyyy-mm-dd') as created, imageFilename, lott, eLink, mCount
@@ -82,7 +85,7 @@
 	</select>
 	
 	<!-- 이벤트 당첨자 만들기 -->
-	<select id="selectRequestPick" parameterType="map" resultType="com.zinsupark.event.Event">
+	<select id="listRequestPick" parameterType="map" resultType="com.zinsupark.event.Event">
 		SELECT tb.* FROM (
 		     SELECT ecode, userId FROM eventrequest
 		     WHERE ecode = #{ecode}
@@ -91,24 +94,28 @@
 	</select>
 	
 	<!-- 이벤트 당첨자 수 -->
-	<select id="selectPickCount" parameterType="map" resultType="Integer">
+	<select id="eventPickCount" parameterType="map" resultType="Integer">
 		     SELECT COUNT(*) FROM eventPic
 		     WHERE ecode = #{ecode}
 	</select>
 
-	<!-- 이벤트 당첨자 리스트 만들기 -->
-	<select id="selectPickList" parameterType="map" resultType="com.zinsupark.event.Event">
-		     SELECT ecode, userId FROM eventPic
-		     WHERE ecode = #{ecode}
+	<!-- 이벤트 당첨자 리스트 출력 -->
+	<select id="listEventPic" parameterType="map" resultType="com.zinsupark.event.Event">
+		     SELECT e1.ecode, e1.userId, c.userName, e2.subject, c.tel, c.email
+             FROM eventPic e1
+             JOIN event e2 ON e1.ecode=e2.ecode
+             JOIN member m ON e1.userId=m.userId
+             JOIN CUSTOMER c ON m.customerCode = c.customerCode
+		     WHERE e1.ecode = #{ecode}
 	</select>
 	
 	<!-- 당첨자 저장 -->
-	<insert id="insertPic" parameterType="map">
+	<insert id="insertEventPic" parameterType="map">
 	   INSERT INTO eventPic(ecode, userId)
 	   VALUES(#{ecode}, #{userId})
 	</insert>
 	
-	<!-- 글 등록 -->
+	<!-- 글 보기 -->
 	<select id="readEvent" parameterType="Integer" resultType="com.zinsupark.event.Event">
 		SELECT ecode, subject, TO_CHAR(sdate, 'yyyy-mm-dd') as sdate, TO_CHAR(edate, 'yyyy-mm-dd') as edate,
 				content, TO_CHAR(created, 'yyyy-mm-dd') as created, imageFilename, lott,
@@ -118,6 +125,7 @@
 		WHERE ecode=#{ecode}
 	</select>
 	
+	<!-- 글 수정 -->
 	<update id="updateEvent" parameterType="com.zinsupark.event.Event">
 		UPDATE event SET sdate=#{sdate}, edate=#{edate}, subject=#{subject}, content=#{content},
 						imageFilename=#{imageFilename}, lott=#{lott}, lottDate=#{lottDate}, elink=#{elink},
@@ -125,6 +133,7 @@
 		WHERE ecode=#{ecode}
 	</update>
 	
+	<!-- 글 삭제 -->
 	<delete id="deleteEvent" parameterType="Integer">
 		DELETE FROM event WHERE ecode=#{ecode}
 	</delete>

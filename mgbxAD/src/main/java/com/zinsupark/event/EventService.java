@@ -17,7 +17,6 @@ public interface EventService {
 	public int DottCount(Map<String, Object> map);
 	
 	
-	public List<Event> selectListPic(Map<String, Object> map);
-	public Map<String, Object> insertEventPic(int ecode) throws Exception;
+	public List<Event> listEventPic(Map<String, Object> map);
 	public void insertEventPic(Map<String, Object> map)  throws Exception;
 }

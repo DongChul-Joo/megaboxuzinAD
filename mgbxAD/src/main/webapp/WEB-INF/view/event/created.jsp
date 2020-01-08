@@ -154,6 +154,7 @@ function send() {
 					<label><input name="lott" type="checkbox" onclick="clickRott();" value="1" ${dto.lott==1 ? "checked='checked' ":"" }>여부</label>
 					<label id="lottCount" style="display: none;" class="input-mcount">당첨자 수 : <input name="mcount" type="number" value="0" readonly="readonly"></label>
 					<label id="lottLottDate" style="display: none;" class="input-lottDate">당첨자 발표일 : <input name="lottDate" type="date"></label>
+					<label>${dto.rotbtn}</label>
 				</td>
 			</tr>
 			

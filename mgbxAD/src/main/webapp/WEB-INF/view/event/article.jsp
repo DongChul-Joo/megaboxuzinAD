@@ -172,10 +172,12 @@ $(function(){
 			var state=data.state;
 			if(state=="true") {
 				alert("추첨 완료");
+				location.href="<%=cp%>/event/article?ecode="+ecode+"&${query}";
 			} else if(state=="false") {
 				alert("추첨은 한번만 가능합니다.");
 			}
 		};
+		
 		ajaxJSON(url, "post", query, fn);
 	});
 });
@@ -224,17 +226,46 @@ $(function(){
     	</table>
     	
     </div>
-    <div style="width: 80%; margin: 10px auto 0px; text-align: center;">
-    	<a href="${dto.elink}">
+    
+    <div style="width: 100%; margin: 10px auto 0px; text-align: center;">
+        <div style="border-bottom: 2px solid #cccccc;">
+    	   <a href="${dto.elink}">
     		<img src="<%=cp%>/uploads/event/${dto.imageFilename}" width="70%" style="margin: 0px 10px;">
-    	</a>
-
+    	   </a>
+        </div>
+        
+        <c:if test="${listPic.size()!=0}">
+        <div>
+    	<table style="width: 100%; margin: 10px auto 0px; border-spacing: 0px; border-collapse: collapse;">
+    		<caption style="height:35px;"><span style="font-weight: 700; font-size: 16px;">이벤트 당첨자 명단</span></caption>
+			<tr height="35" align="center" style="border-top: 1px solid #cccccc;border-bottom: 1px solid #cccccc;">
+			    <th>아이디</th>
+			    <th>이름</th>
+			    <th>전화번호</th>
+			    <th>이메일</th>
+			</tr>
+			
+			<c:forEach var="vo" items="${listPic}">
+				<tr height="35" align="center" style="border-bottom: 1px solid #cccccc;">
+				    <td>${vo.userId}</td>
+				    <td>${vo.userName}</td>
+				    <td>${vo.tel}</td>
+				    <td>${vo.email}</td>
+				</tr>
+			</c:forEach>
+		</table>
+        </div>
+        </c:if>
+        
     	<table style="width: 100%; margin: 0px auto 20px; border-spacing: 0px; ">
 			<tr height="45">
-			    <td width="300" align="right">			    
+			    <td align="right">			    
+			         <c:if test="${dto.lott==1 && listPic.size()==0}"> 
+			            <button type="button" class="btn btnSendEventPic" >당첨자 발표</button>
+			         </c:if>
 			          <button type="button" class="btn" onclick="eventUpdate();">수정</button>			    
 			          <button type="button" class="btn" onclick="eventDelete();">삭제</button>
-			          <button type="button" class="btn btnSendEventPic" >당첨자 발표</button>
+			          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/event/list?${query}';">리스트</button>
 			    </td>
 			</tr>
 			</table>
