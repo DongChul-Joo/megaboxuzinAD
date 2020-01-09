@@ -265,6 +265,8 @@ public class EventController {
 	@RequestMapping(value="/event/listDott")
 	public String eventRequest(
 			@RequestParam(value="page", defaultValue="1") int current_page,
+			@RequestParam(value="ecategoryCode", defaultValue="0") int ecategoryCode,
+			@RequestParam(value="state", defaultValue="1") int state,
 			@RequestParam(defaultValue="all") String condition,
 			@RequestParam(defaultValue="") String keyword,
 			HttpServletRequest req,
@@ -281,10 +283,13 @@ public class EventController {
 		}
 		 // 전체 페이지 수
         Map<String, Object> map = new HashMap<String, Object>();
+		map.put("ecategoryCode", ecategoryCode);
+		map.put("state", state);
         map.put("condition", condition);
         map.put("keyword", keyword);
 
         dataCount = service.dataCount(map);
+        
         if(dataCount != 0)
             total_page = myUtil.pageCount(rows, dataCount) ;
 
@@ -299,7 +304,7 @@ public class EventController {
         map.put("rows", rows);
         
         // 글 리스트
-        List<Event> list = service.listDott(map);
+        List<Event> list = service.listEvent(map);
         
         // 리스트의 번호
         int ecode, n = 0;
@@ -309,8 +314,8 @@ public class EventController {
         	n++;
         }
         String query = "";
-        String listDottUrl = cp+"/event/listDott";
-        String articleDottUrl = cp+"/event/articleDott?page=" + current_page;
+        String listDottUrl = cp+"/event/listDott?ecategoryCode="+ecategoryCode+"&state="+state;
+        String articleDottUrl = cp+"/event/articleDott?ecategoryCode="+ecategoryCode+"&page="+current_page+"&state="+state;
         if(keyword.length()!=0) {
         	query = "condition=" +condition + 
         	         "&keyword=" + URLEncoder.encode(keyword, "utf-8");	
@@ -328,11 +333,47 @@ public class EventController {
         model.addAttribute("dataCount", dataCount);
         model.addAttribute("total_page", total_page);
         model.addAttribute("paging", paging);
+        model.addAttribute("ecategoryCode", ecategoryCode);
         
 		model.addAttribute("condition", condition);
 		model.addAttribute("keyword", keyword);
 	
 		return ".event.listDott";
 	}
+	
+	// 분류 등록
+	@RequestMapping(value="/event/createdDott", method=RequestMethod.GET)
+	public String dottCreatedForm(
+			Model model
+			) throws Exception {
+		List<Event> list=service.listCategory();
+
+		model.addAttribute("list", list);
+		model.addAttribute("mode", "createdDott");
+		
+		return ".event.createdDott";
+	}
+	
+	// 이벤트 등록
+		@RequestMapping(value="/event/createdDott", method=RequestMethod.POST)
+		public String dottCreatedSubmit(
+				Event dto,
+				HttpSession session
+				) throws Exception {
+			String root=session.getServletContext().getRealPath("/");
+			String path=root+"uploads"+File.separator+"event";
+			
+			SessionInfo info = (SessionInfo)session.getAttribute("member");
+			
+			try {
+				dto.setUserId(info.getAdminId());
+				service.insertEvent(dto, path);
+			} catch (Exception e) {
+			}
+			return "redirect:/event/listDott";
+		}
+		
+	
+	
 
 }

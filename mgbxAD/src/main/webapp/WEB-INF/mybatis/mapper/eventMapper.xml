@@ -150,8 +150,7 @@
 	</select>
 	
 	<select id="listDott" parameterType="map" resultType="com.zinsupark.event.Event">
-	SELECT e.ecode, e.userId, TO_CHAR(sdate, 'yyyy-mm-dd') as sdate, TO_CHAR(edate, 'yyyy-mm-dd') as edate,
-		subject, TO_CHAR(created, 'yyyy-mm-dd') as created, imageFilename, lott, eLink, mCount, ecategoryCode
+	SELECT e.ecode, subject, TO_CHAR(created, 'yyyy-mm-dd') as created, mCount, ecategoryCode
 		FROM event e
 		JOIN eventrequest d ON e.userId=d.userId
 		ORDER BY e.ecode DESC
@@ -164,5 +163,13 @@
 		JOIN member m ON e.userId=m.userId
 	</select>
 	
+	<!-- 당첨자 리스트 글 보기 -->
+	<select id="readDott" parameterType="Integer" resultType="com.zinsupark.event.Event">
+		SELECT ecode, subject, content, TO_CHAR(created, 'yyyy-mm-dd') as created,
+				mcount
+		FROM event e
+		JOIN member m ON e.userId=m.userId
+		WHERE ecode=#{ecode}
+	</select>
 
 </mapper>

@@ -105,14 +105,12 @@ height :100px;
 		  <tr align="center" bgcolor="#eeeeee" height="35" style="border-top: 2px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 		      <th width="50" style="color: #787878;">분류</th>
 		      <th width="80" style="color: #787878;">제목</th>
-		      <th width="50" style="color: #787878;">이벤트 시작</th>
-		      <th width="50" style="color: #787878;">이벤트 종료</th>
+		      <th width="50" style="color: #787878;">이벤트 종료일</th>
 		  </tr>
 	<c:forEach var="dto" items="${list}">
 		  <tr align="center" bgcolor="#ffffff" height="35" style="border-bottom: 1px solid #cccccc;"> 
 		      <td>${dto.ecategoryCode}</td>
 		      <td>${dto.subject}</td>
-		      <td>${dto.sdate}</td>
 		      <td>${dto.edate}</td>
 		      <td>	      
 		      </td>
@@ -131,7 +129,9 @@ height :100px;
 		</td>
 	</tr>
 </table>
-
+	<div style="float: right;">
+		<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/event/createdDott';">등록하기</button> 
+	</div>
 </div>
 
 

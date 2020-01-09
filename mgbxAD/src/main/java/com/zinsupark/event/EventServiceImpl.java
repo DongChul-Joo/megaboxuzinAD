@@ -105,41 +105,6 @@ public class EventServiceImpl implements EventService{
 		}
 		
 	}
-	@Override
-	public List<Event> listCategory() {
-		List<Event> list=null;
-		try {
-			list=dao.selectList("event.listCategory");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return list;
-	}
-	
-	// 이벤트 추첨 완료 리스트
-	@Override
-	public List<Event> listDott(Map<String, Object> map) {
-		List<Event> list=null;
-		try {
-			list=dao.selectList("event.listDott", map);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return list;
-	}
-	// 이벤트 추첨 완료 개수
-	@Override
-	public int DottCount(Map<String, Object> map) {
-		int result=0;
-		
-		try {
-			result=dao.selectOne("event.dottCount", map);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return result;
-	}
 	
 	// 이벤트 당첨자 리스트
 	@Override
@@ -172,6 +137,78 @@ public class EventServiceImpl implements EventService{
 		} catch (Exception e) {
 			throw e;
 		}
+	}
+	
+	// 이벤트 당첨자 리스트 페이지
+	@Override
+	public List<Event> listCategory() {
+		List<Event> list=null;
+		try {
+			list=dao.selectList("event.listCategory");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	// 이벤트 당첨자 수
+	@Override
+	public int PiCount(Map<String, Object> map) {
+		int result=0;
+		
+		try {
+			result=dao.selectOne("event.PiCount", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	// 당첨자 이벤트 리스트
+	@Override
+	public List<Event> listDott(Map<String, Object> map) {
+		List<Event> list=null;
+		try {
+			list=dao.selectList("event.listDott", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	// 당첨자 이벤트 개수
+	@Override
+	public int DottCount(Map<String, Object> map) {
+		int result=0;
+		
+		try {
+			result=dao.selectOne("event.dottCount", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+	// 당첨자 이벤트 글보기
+	@Override
+	public Event readDott(int num) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	// 당첨자 이벤트 수정
+	@Override
+	public void updateDott(Event dto, String pathname) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	// 당첨자 이벤트 삭제
+	@Override
+	public void deleteDott(int num, String pathname, String userId) throws Exception {
+		// TODO Auto-generated method stub
 		
 	}
 
