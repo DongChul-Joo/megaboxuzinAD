@@ -18,7 +18,7 @@
   .questionSubject{
     display: inline-block;
     position:absolute;
-    width:1091px;
+    width:1175px;
     overflow:hidden;
     text-overflow:ellipsis;
     word-spacing:nowrap;
@@ -40,7 +40,7 @@
   .answerSubject{
     display: inline-block;
     position:absolute;
-     width:1091px;
+     width:1175px;
     overflow:hidden;
     text-overflow:ellipsis;
     word-spacing:nowrap;
@@ -51,12 +51,110 @@
 	color: #ffffff;
 	background: #cc4901;
   }
+  
+.container{
+width: 70%;
+margin: 0 auto;
+}
+  
+  
 </style>
 
 
+<script type="text/javascript">
+function login() {
+	location.href="<%=cp%>/member/login";
+}
+
+function ajaxJSON(url, type, query, fn) {
+	$.ajax({
+		type:type
+		,url:url
+		,data:query
+		,dataType:"json"
+		,success:function(data) {
+			fn(data);
+		}
+		,beforeSend:function(jqXHR) {
+	        jqXHR.setRequestHeader("AJAX", true);
+	    }
+	    ,error:function(jqXHR) {
+	    	if(jqXHR.status==403) {
+	    		login();
+	    		return false;
+	    	}
+	    	console.log(jqXHR.responseText);
+	    }
+	});
+}
+
+function ajaxHTML(url, type, query, selector) {
+	$.ajax({
+		type:type
+		,url:url
+		,data:query
+		,success:function(data) {
+			$(selector).html(data);
+		}
+		,beforeSend:function(jqXHR) {
+	        jqXHR.setRequestHeader("AJAX", true);
+	    }
+	    ,error:function(jqXHR) {
+	    	if(jqXHR.status==403) {
+	    		login();
+	    		return false;
+	    	}
+	    	console.log(jqXHR.responseText);
+	    }
+	});
+}
+
+//리플 등록
+$(function(){
+	$(".btnSendReply").click(function(){
+		var code="${dto.code}";
+		console.log(code);
+		var $tb = $(this).closest("table");
+		var content=$tb.find("textarea").val().trim();
+		console.log(content);
+		if(! content) {
+			$tb.find("textarea").focus();
+			return false;
+		}
+		content = encodeURIComponent(content);
+		
+		var url="<%=cp%>/question/reply";
+		var query="code="+code+"&content="+content+"&isAnswer=0";
+		
+		var fn = function(data){
+			$tb.find("textarea").val("");
+			
+			var isAnswer=data.isAnswer;
+			if(isAnswer=="true") {
+				listPage(1);
+			} else if(isAnswer=="false") {
+				alert("댓글을 추가 하지 못했습니다.");
+			}
+		};
+		
+		ajaxJSON(url, "post", query, fn);
+	});
+});
+
+function deleteNotice() {
+	var q = "code=${dto.code}&${query}";
+	var url = "<%=cp%>/question/delete?" +q;
+	
+	if(confirm("해당 글을 삭제하시겠습니까?")) {
+		location.href=url;
+	}
+};
+
+
+</script>
+
 
 <table style="width: 100%; margin: 50px auto 0px; border-spacing: 0px; border-collapse: collapse;">
-
 
 	<tr height="35">
 	    <td colspan="2">
@@ -80,7 +178,7 @@
 	      ${dto.content}
 	   </td>
 	</tr>
-
+	
 
 <c:if test="${dto.type==1}">
 	<tr height="35">
@@ -102,12 +200,13 @@
 	      <div style="min-height: 75px; ">${adto.content}</div>
 	      <c:if test="${sessionScope.member.adminId=='admin'}">
 	         <div style="margin-top: 5px; margin-bottom: 5px; text-align: right;">
-                  <a href="javascript:deleteBoard('${dto.code}', '${pageNo}')">답변삭제</a>
+                 <button type="button" class="btn" onclick="deleteNotice();" ${sessionScope.member.adminId!="admin" ? "style='pointer-events:none;'":"" }>답변삭제</button>
 	         </div>
 	      </c:if>
 	   </td>
 	</tr>
 </c:if>
+
 
 <tr height="45" style="border-top: 1px solid #cccccc;">
     <td align="left">
@@ -134,7 +233,7 @@
     </tr>
     <tr>
         <td align='right'>
-            <button type='button' class='btn' style='padding:10px 20px;' onclick="sendOk('reply', '${pageNo}');">답변 등록</button>
+            <button type='button' class='btn btnSendReply' style='padding:10px 20px;'>답변 등록</button>
         </td>
     </tr>
 </table>

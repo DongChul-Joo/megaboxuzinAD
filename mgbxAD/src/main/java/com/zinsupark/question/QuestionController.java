@@ -113,15 +113,14 @@ public class QuestionController {
 			query+="&condition="+condition+"&keyword="+URLEncoder.encode(keyword, "UTF-8");
 		}
 
+		
 		Question dto = service.readQuestion1(code);
 		if(dto==null) {
 			return "redirect:/question/list?"+query;
 		}
 		
 		Question adto = service.readQuestion2(code);
-		if(adto==null) {
-			return "redirect:/question/list?"+query;
-		}
+		
 		
 		dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
 
@@ -139,6 +138,8 @@ public class QuestionController {
 	@RequestMapping(value="/question/reply" ,method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> replySubmit(
+			@RequestParam int code,
+			@RequestParam String content,
 			Question dto, 
 			HttpSession session
 			) throws Exception {
@@ -148,7 +149,10 @@ public class QuestionController {
 		
 		if(info.getAdminId().equals("admin")) {
 			try {
+				dto.setCode(code);
 				dto.setUserId(info.getAdminId());
+				dto.setContent(content);
+
 				service.insertQuestionAnswer(dto, "reply");
 				isAnswer="true";			
 			} catch (Exception e) {
@@ -158,9 +162,33 @@ public class QuestionController {
 		
 		Map<String, Object> model = new HashMap<>();
 		model.put("isAnswer", isAnswer);
-		
+		model.put("dto", dto);
 		return model;	
 		
+	}
+	
+	@RequestMapping(value="/question/delete", method=RequestMethod.GET)
+	public String delete(
+			@RequestParam int code,
+			@RequestParam String page,
+			@RequestParam(defaultValue="all") String condition,
+			@RequestParam(defaultValue="") String keyword,
+			HttpSession session,
+			Model model	
+			) throws Exception {
+		
+		keyword = URLDecoder.decode(keyword, "UTF-8");
+		
+		String query="page="+page;
+		if(keyword.length()!=0) {
+			query+="&condition="+condition+"&keyword="+URLEncoder.encode(keyword, "UTF-8");
+		}
+		
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		Question dto = service.readQuestion2(code);	
+		
+		
+		return "redirect:/question/list?"+query;
 	}
 
 

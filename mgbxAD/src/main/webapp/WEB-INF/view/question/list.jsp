@@ -12,6 +12,19 @@ text-align: center;
 
 }
 
+.container{
+width: 75%;
+margin: 0 auto;
+}
+
+.questionSubject{
+width: 1000px;
+}
+
+.questionAnswer{
+width: 1100px;
+}
+
 </style>
 
 <script type="text/javascript">
@@ -86,7 +99,7 @@ function searchList() {
         </form>
       </td>
       <td align="right" width="100">
-          <button type="button" class="btn" onclick="insertForm();">글올리기</button>
+          
       </td>
    </tr>
 </table>

@@ -32,11 +32,12 @@ public class QuestionServiceImpl implements QuestionService{
 			if(mode.equals("reply")) {
 				dto.setType(1);
 				dto.setIsAnswer(1);
+				int code = dto.getCode();
 				
 				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("code", dto.getParent());
 				map.put("isAnswer", "1");
 				map.put("type", "1");
+				map.put("code", code);
 				updateQuestionQisanswer(map);
 			} else {
 				dto.setType(0);
@@ -118,8 +119,12 @@ public class QuestionServiceImpl implements QuestionService{
 	}
 
 	@Override
-	public void deleteQuestion(int num) throws Exception {
-		// TODO Auto-generated method stub
+	public void deleteQuestionisanswer(int code) throws Exception {
+		try {
+			dao.deleteData("question.deleteQuestionisanswer", code);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 
