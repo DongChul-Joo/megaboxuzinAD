@@ -103,7 +103,7 @@ $(function(){
 
   <div style="clear: both;">
 	<div class="box1">
-		<h3 style="margin:border-bottom-width: 10px;margin-bottom: 10px;">판매기간 : 2019-12-19~</h3>
+		<h3 style="margin:border-bottom-width: 10px;margin-bottom: 10px;">판매기간 : 2020-01-02~</h3>
 			
 		 <p>
 			<img src="<%=cp%>/uploads/item/${dto.itemImg}" width="380">
@@ -155,8 +155,7 @@ $(function(){
 					<form name="okForm" method="post">
 					
 						<h4 style="margin-bottom: 30px;">
-							<input type="checkbox" id="ok">
-							* 구매 전 상품과 수량을 확인했습니다.*
+							* 구매 전 상품과 수량을 확인해주세요! *
 						</h4>		
 					<button type="button" class="btn" onclick="sendOk();">구매하기</button>
 					<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/item/list';">뒤로가기</button>
