@@ -154,10 +154,10 @@ $(function(){
 					</p>
 					<form name="okForm" method="post">
 					
-						<h3 style="margin-bottom: 30px;">
+						<h4 style="margin-bottom: 30px;">
 							<input type="checkbox" id="ok">
 							* 구매 전 상품과 수량을 확인했습니다.*
-						</h3>		
+						</h4>		
 					<button type="button" class="btn" onclick="sendOk();">구매하기</button>
 					<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/item/list';">뒤로가기</button>
 					<button type="button" class="btn" onclick="updateItem();">상품수정</button>

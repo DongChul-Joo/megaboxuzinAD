@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="question">
+	
+	<insert parameterType="com.zinsupark.question.Question" id="insertQuestion2">
+	INSERT INTO questionAnswer (code, content, userId)VALUES 
+	(#{code} , #{content} , #{userId}) 
+	</insert>
+	
+	<sql id="where-list">
+		<if test="condition=='all' ">
+			( INSTR(subject, #{keyword}) &gt; 0
+				OR DBMS_LOB.INSTR(content, #{keyword}) &gt; 0 )
+		</if>
+		<if test="condition=='subject'">
+			INSTR(subject, #{keyword}) &gt; 0
+		</if>
+		<if test="condition=='content'">
+			DBMS_LOB.INSTR(content, #{keyword}) &gt; 0 
+		</if>
+		<if test="condition=='userName'">
+			userName=#{keyword}
+		</if>
+		<if test="condition=='created'">
+			( TO_CHAR(i.created, 'YYYY-MM-DD') = #{keyword}
+				OR TO_CHAR(i.created, 'YYYYMMDD') = #{keyword} )
+		</if>
+	</sql>
+	
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM question q
+		JOIN member m ON q.userId=m.userId
+        <where>
+			<if test="userId!=null and userId!='' and userId!='admin' ">
+				q.userId = #{userId} AND
+			</if>
+			<if test="keyword!=null and keyword!='' ">
+				<include refid="where-list"/> AND
+			</if>
+			parent = 0
+		</where>   
+	</select>
+	
+	<!-- 글리스트 -->
+	<select id="listQuestion" parameterType="map" resultType="com.zinsupark.question.Question">
+		select code, q.userId, userName, isAnswer, cateName, subject, TO_CHAR(created, 'YYYY-MM-DD') created
+        FROM question q
+        JOIN questionCate q1 ON q.cateCode = q1.cateCode
+        JOIN member m ON q.userId = m.userId
+        JOIN customer c ON m.customerCode = c.customerCode
+        <where>
+			<if test="userId!=null and userId!='' and userId!='admin' ">
+				q.userId = #{userId} AND
+			</if>
+			<if test="keyword!=null and keyword!='' ">
+				<include refid="where-list"/> AND
+			</if>
+			parent = 0
+		</where>   
+		ORDER BY code DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	</select>
+	
+	
+	<select id="readQuestion1" resultType="com.zinsupark.question.Question" parameterType="Integer">
+		SELECT code, type, parent, isAnswer, q.userId, 
+			subject, content, created , userName , cateName
+		FROM QUESTION q   
+        JOIN member m ON q.userId = m.userId 
+        JOIN customer c ON m.customercode = c.customercode
+        JOIN QUESTIONCATE q2 ON q.catecode = q2.catecode
+		WHERE code = #{code}
+	</select>
+	
+	
+	<select id="readQuestion2" resultType="com.zinsupark.question.Question" parameterType="Integer">
+		SELECT code, q.userId , content, created
+		FROM QUESTIONANSWER q   
+        JOIN member m ON q.userId = m.userId 
+        JOIN customer c ON m.customercode = c.customercode
+		WHERE code = #{code}
+	</select>
+	
+	
+	<update id="updateQuestionQisanswer" parameterType="map">
+		UPDATE question SET isAnswer=#{isAnswer}, type=#{type}
+		WHERE code = #{code}
+	</update>
+	
+	
+	<delete id="deleteQuestionisanswer" parameterType="Integer">
+		DELETE FROM questionanswer WHERE code = #{code}
+	</delete>
+	
+	
+
+
+</mapper>
