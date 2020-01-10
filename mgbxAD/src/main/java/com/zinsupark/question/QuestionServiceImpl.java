@@ -119,8 +119,21 @@ public class QuestionServiceImpl implements QuestionService{
 	}
 
 	@Override
-	public void deleteQuestionisanswer(int code) throws Exception {
+	public void deleteQuestionisanswer(int code , Question dto, String mode) throws Exception {
 		try {
+			
+			if(mode.equals("reply")) {
+				dto.setType(0);
+				dto.setIsAnswer(0);
+				
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("isAnswer", "0");
+				map.put("type", "0");
+				map.put("code", code);
+				updateQuestionQisanswer(map);
+			} else {
+				dto.setType(1);
+			}
 			dao.deleteData("question.deleteQuestionisanswer", code);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -34,7 +34,7 @@
     padding:7px 10px;
 	font-weight: bold;
 	color: #ffffff;
-	background: #cc4901;
+	background: #442e58;
 	text-align: center;
   }
   .answerSubject{
@@ -49,11 +49,11 @@
     margin-left:1px;
 	font-weight: bold;
 	color: #ffffff;
-	background: #cc4901;
+	background: #442e58;
   }
   
 .container{
-width: 70%;
+width: 63%;
 margin: 0 auto;
 }
   
@@ -141,11 +141,9 @@ $(function(){
 	});
 });
 
-function deleteNotice() {
-	var q = "code=${dto.code}&${query}";
-	var url = "<%=cp%>/question/delete?" +q;
-	
+function deleteQuestion(code) {
 	if(confirm("해당 글을 삭제하시겠습니까?")) {
+		var url = "<%=cp%>/question/delete?code="+code+"&${query}";
 		location.href=url;
 	}
 };
@@ -200,7 +198,7 @@ function deleteNotice() {
 	      <div style="min-height: 75px; ">${adto.content}</div>
 	      <c:if test="${sessionScope.member.adminId=='admin'}">
 	         <div style="margin-top: 5px; margin-bottom: 5px; text-align: right;">
-                 <button type="button" class="btn" onclick="deleteNotice();" ${sessionScope.member.adminId!="admin" ? "style='pointer-events:none;'":"" }>답변삭제</button>
+                 <button type="button" class="btn" onclick="deleteQuestion('${dto.code}');" ${sessionScope.member.adminId!="admin" ? "style='pointer-events:none;'":"" }>답변삭제</button>
 	         </div>
 	      </c:if>
 	   </td>
@@ -210,7 +208,7 @@ function deleteNotice() {
 
 <tr height="45" style="border-top: 1px solid #cccccc;">
     <td align="left">
-       <button onclick="javascript:deleteBoard('${dto.code}', '${pageNo}');" class="btn">문의삭제</button>
+      
 	</td>
 	<td align="right">
 	   <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/question/list';">리스트</button>

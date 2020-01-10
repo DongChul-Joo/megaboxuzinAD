@@ -57,10 +57,10 @@ public class QuestionController {
 		if(total_page < current_page)
 			current_page = total_page;
 		
-		List<Question> questionList = null;
-		if(current_page==1) {
-			questionList=service.listQuestion(map);
-		}
+//		List<Question> questionList = null;
+//		if(current_page==1) {
+//			questionList=service.listQuestion(map);
+//		}
 		
 		 int offset = (current_page-1) * rows;
 			if(offset < 0) offset = 0;
@@ -83,7 +83,7 @@ public class QuestionController {
 			String paging = myUtil.paging(current_page, total_page, listUrl);
 
 			
-			model.addAttribute("questionList", questionList);
+//			model.addAttribute("questionList", questionList);
 			model.addAttribute("list", list);
 			model.addAttribute("pageNo", current_page);
 			model.addAttribute("dataCount", dataCount);
@@ -167,12 +167,13 @@ public class QuestionController {
 		
 	}
 	
-	@RequestMapping(value="/question/delete", method=RequestMethod.GET)
+	@RequestMapping(value="/question/delete")
 	public String delete(
 			@RequestParam int code,
 			@RequestParam String page,
 			@RequestParam(defaultValue="all") String condition,
 			@RequestParam(defaultValue="") String keyword,
+			Question dto, 
 			HttpSession session,
 			Model model	
 			) throws Exception {
@@ -185,8 +186,22 @@ public class QuestionController {
 		}
 		
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
-		Question dto = service.readQuestion2(code);	
+		String isAnswer="true";
 		
+		if(info.getAdminId().equals("admin")) {
+		try {
+			dto.setCode(code);
+			dto.setUserId(info.getAdminId());
+			
+			service.deleteQuestionisanswer(code , dto , "reply");	
+			isAnswer="false";	
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		}
+
+
 		
 		return "redirect:/question/list?"+query;
 	}

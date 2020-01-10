@@ -19,7 +19,7 @@ public interface QuestionService {
 	
 	public void updateQuestion(Question dto) throws Exception;
 	
-	public void deleteQuestionisanswer(int code) throws Exception;
+	public void deleteQuestionisanswer(int code , Question dto, String mode) throws Exception;
 	public List<Question> listCategory(Map<String, Object> map);
 
 }
