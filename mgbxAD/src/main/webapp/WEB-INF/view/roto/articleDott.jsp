@@ -45,23 +45,6 @@ text-align: center;
  </style>
 
 <script type="text/javascript">
-function eventUpdate() {
-	var q = "ecode=${dto.ecode}&page=${page}";
-	var url = "<%=cp%>/event/update?" + q;
-	
-	if(confirm("이벤트를 수정 하시겠습니까?")) {
-		location.href=url;
-	}
-}
-
-function eventDelete() {
-	var q = "ecode=${dto.ecode}&${query}";
-	var url = "<%=cp%>/event/delete?" + q;
-	
-	if(confirm("이벤트를 삭제 하시겠습니까?")) {
-		location.href=url;
-	}
-}
 
 function login() {
 	location.href="<%=cp%>/member/login";
@@ -111,19 +94,6 @@ function ajaxHTML(url, type, query, selector) {
 	});
 }
 
-// 페이징 처리
-$(function(){
-	listPage(1);
-});
-
-function listPage(page) {
-	var url = "<%=cp%>/event/listReply";
-	var query = "ecode=${dto.ecode}&pageNo="+page;
-	var selector = "#listReply";
-	
-	ajaxHTML(url, "get", query, selector);
-}
-
 </script>
 
  
@@ -152,10 +122,17 @@ function listPage(page) {
     </div>
     
     <div>
-    	<table>
-    		<tr style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
-        		<td width="40%" align="left" style="padding-right: 10px; border-spacing: 0px; border-collapse: collapse;">
-			    	 이벤트 기간 : ${dto.sdate} ~ ${dto.edate}
+    	<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
+    	
+    		<tr height="30">
+        		<td align="left" style="padding-left: 10px;">
+			    	 ${dto.pubDate}
+				</td>
+				
+			</tr>
+    		<tr height="50">
+        		<td align="left" style="padding-right: 10px; border-spacing: 0px; border-collapse: collapse;">
+			    	 ${dto.content}
 				</td>
 				
 			</tr>
@@ -194,12 +171,9 @@ function listPage(page) {
     	<table style="width: 100%; margin: 0px auto 20px; border-spacing: 0px; ">
 			<tr height="45">
 			    <td align="right">			    
-			         <c:if test="${dto.lott==1 && listPic.size()==0}"> 
-			            <button type="button" class="btn btnSendEventPic" >당첨자 발표</button>
-			         </c:if>
 			          <button type="button" class="btn" onclick="eventUpdate();">수정</button>			    
 			          <button type="button" class="btn" onclick="eventDelete();">삭제</button>
-			          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/event/list?${query}';">리스트</button>
+			          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/roto/listDott?${query}';">리스트</button>
 			    </td>
 			</tr>
 			</table>

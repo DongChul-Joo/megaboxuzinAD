@@ -61,7 +61,7 @@
 	<!-- 리스트 출력 -->
 	<select id="listEvent" parameterType="map" resultType="com.zinsupark.event.Event">
 		SELECT ecode, e.userId, TO_CHAR(sdate, 'yyyy-mm-dd') as sdate, TO_CHAR(edate, 'yyyy-mm-dd') as edate,
-		subject, TO_CHAR(created, 'yyyy-mm-dd') as created, imageFilename, lott, eLink, mCount
+		subject, TO_CHAR(created, 'yyyy-mm-dd') as created, TO_CHAR(lottDate, 'yyyy-mm-dd') as lottDate, imageFilename, lott, eLink, mCount
 		FROM event e
 		JOIN member m ON e.userId=m.userId
 		<where>
@@ -84,41 +84,11 @@
 		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
 	</select>
 	
-	<!-- 이벤트 당첨자 만들기 -->
-	<select id="listRequestPick" parameterType="map" resultType="com.zinsupark.event.Event">
-		SELECT tb.* FROM (
-		     SELECT ecode, userId FROM eventrequest
-		     WHERE ecode = #{ecode}
-		     ORDER BY DBMS_RANDOM.VALUE
-		) tb WHERE ROWNUM &lt;= 5
-	</select>
-	
-	<!-- 이벤트 당첨자 수 -->
-	<select id="eventPickCount" parameterType="map" resultType="Integer">
-		     SELECT COUNT(*) FROM eventPic
-		     WHERE ecode = #{ecode}
-	</select>
 
-	<!-- 이벤트 당첨자 리스트 출력 -->
-	<select id="listEventPic" parameterType="map" resultType="com.zinsupark.event.Event">
-		     SELECT e1.ecode, e1.userId, c.userName, e2.subject, c.tel, c.email
-             FROM eventPic e1
-             JOIN event e2 ON e1.ecode=e2.ecode
-             JOIN member m ON e1.userId=m.userId
-             JOIN CUSTOMER c ON m.customerCode = c.customerCode
-		     WHERE e1.ecode = #{ecode}
-	</select>
-	
-	<!-- 당첨자 저장 -->
-	<insert id="insertEventPic" parameterType="map">
-	   INSERT INTO eventPic(ecode, userId)
-	   VALUES(#{ecode}, #{userId})
-	</insert>
-	
 	<!-- 글 보기 -->
 	<select id="readEvent" parameterType="Integer" resultType="com.zinsupark.event.Event">
 		SELECT ecode, subject, TO_CHAR(sdate, 'yyyy-mm-dd') as sdate, TO_CHAR(edate, 'yyyy-mm-dd') as edate,
-				content, TO_CHAR(created, 'yyyy-mm-dd') as created, imageFilename, lott,
+				content, TO_CHAR(created, 'yyyy-mm-dd') as created, imageFilename, lott, TO_CHAR(lottDate, 'yyyy-mm-dd') as lottDate,
 				TO_CHAR(lottDate, 'yyyy-mm-dd') as lottDate, elink, mcount
 		FROM event e
 		JOIN member m ON e.userId=m.userId
@@ -127,7 +97,7 @@
 	
 	<!-- 글 수정 -->
 	<update id="updateEvent" parameterType="com.zinsupark.event.Event">
-		UPDATE event SET sdate=#{sdate}, edate=#{edate}, subject=#{subject}, content=#{content},
+		UPDATE event SET sdate=#{sdate}, edate=#{edate}, subject=#{subject}, content=#{content}, lottDate=#{lottDate},
 						imageFilename=#{imageFilename}, lott=#{lott}, lottDate=#{lottDate}, elink=#{elink},
 						mcount=#{mcount}, ecategoryCode=#{ecategoryCode}
 		WHERE ecode=#{ecode}

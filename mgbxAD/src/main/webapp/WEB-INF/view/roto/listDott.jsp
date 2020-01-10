@@ -54,6 +54,10 @@ height :100px;
 
 <script type="text/javascript">
 
+function articleDott(ecode) {
+	var url="${articleDottUrl}&ecode="+ecode;  
+	location.href=url;
+}
 
 </script>
 
@@ -65,7 +69,7 @@ height :100px;
         <li><a href="<%=cp%>/event/list?ecategoryCode=2">영화 이벤트</a></li>   
         <li><a href="<%=cp%>/event/list?ecategoryCode=3">제휴 이벤트</a></li>
         <li><a href="<%=cp%>/event/list?ecategoryCode=4">영화관이벤트</a></li>
-        <li><a href="<%=cp%>/event/Dott">당첨자발표</a></li>
+        <li><a href="<%=cp%>/roto/listDott">당첨자발표</a></li>
         <li><a href="<%=cp%>">현황 통계</a></li>
     </ul>
     </div>
@@ -73,7 +77,7 @@ height :100px;
  
 <div class="body-container" style="width: 1000px;">
     <div class="body-title">
-        <h3><i class="fas fa-chalkboard"></i> 게시판 </h3>
+        <h3><i class="fas fa-chalkboard"></i> 당첨자 발표 </h3>
     </div>
     
     <div>
@@ -103,16 +107,25 @@ height :100px;
 		
 		<table style="width: 100%; margin: 0px auto; border-spacing: 0px; border-collapse: collapse;">
 		  <tr align="center" bgcolor="#eeeeee" height="35" style="border-top: 2px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-		      <th width="50" style="color: #787878;">분류</th>
-		      <th width="80" style="color: #787878;">제목</th>
-		      <th width="50" style="color: #787878;">이벤트 종료일</th>
+		      <th width="15%" style="color: #787878;">분류</th>
+		      <th width="35%" style="color: #787878; text-align: left;">제목</th>
+		      <th width="25%" style="color: #787878;">이벤트 기간</th>
+		      <th width="15%" style="color: #787878;">당첨일</th>
+		      <th width="10%" style="color: #787878;">발표일</th>
 		  </tr>
 	<c:forEach var="dto" items="${list}">
 		  <tr align="center" bgcolor="#ffffff" height="35" style="border-bottom: 1px solid #cccccc;"> 
-		      <td>${dto.ecategoryCode}</td>
-		      <td>${dto.subject}</td>
-		      <td>${dto.edate}</td>
-		      <td>	      
+		      <td>${dto.ecategoryName}</td>
+		      <td style="text-align: left;"><a href="${articleUrl}&ecode=${dto.ecode}">${dto.subject}</a></td>
+		      <td>${dto.sdate} ~ ${dto.edate}</td>
+		      <td>${dto.lottDate}</td>
+		      <td>
+		         <c:if test="${empty dto.pubDate}">
+		             <button type="button" onclick="javascript:location.href='<%=cp%>/roto/winner?ecode=${dto.ecode}&page=${page}'">당첨자발표</button>
+		         </c:if>
+		         <c:if test="${not empty dto.pubDate}">
+		            ${dto.pubDate}
+		         </c:if>
 		      </td>
 		  </tr>
 		  </c:forEach>
@@ -129,9 +142,6 @@ height :100px;
 		</td>
 	</tr>
 </table>
-	<div style="float: right;">
-		<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/event/createdDott';">등록하기</button> 
-	</div>
 </div>
 
 

@@ -154,35 +154,6 @@ $(function(){
 	});
 });
 
-// 이벤트 당첨
-$(function(){
-	$("body").on("click", ".btnSendEventPic", function(){
-		var ecode="${dto.ecode}";
-		var $btn = $(this);
-		
-		var msg="이벤트 추첨하시겠습니까?";
-		if(! confirm(msg)) {
-			return false;
-		}
-		
-		var url="<%=cp%>/event/insertPic";
-		var query="ecode="+ecode;
-		
-		var fn = function(data) {
-			var state=data.state;
-			if(state=="true") {
-				alert("추첨 완료");
-				location.href="<%=cp%>/event/article?ecode="+ecode+"&${query}";
-			} else if(state=="false") {
-				alert("추첨은 한번만 가능합니다.");
-			}
-		};
-		
-		ajaxJSON(url, "post", query, fn);
-	});
-});
-
-
 </script>
 
  
@@ -211,12 +182,12 @@ $(function(){
     </div>
     
     <div>
-    	<table>
-    		<tr style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
-        		<td width="40%" align="left" style="padding-right: 10px; border-spacing: 0px; border-collapse: collapse;">
+    	<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
+    		<tr >
+        		<td width="40%" align="left" style="padding-left: 10px;">
 			    	 이벤트 기간 : ${dto.sdate} ~ ${dto.edate}
 				</td>
-				<td width="40%" align="right" style="padding-right: 10px; border-spacing: 0px; border-collapse: collapse;">
+				<td width="40%" align="right" style="padding-right: 10px;">
 				<c:if test="${event.lott != 0}">
 			    	당첨자 발표 : ${dto.lottDate}
 				</c:if>
@@ -234,35 +205,9 @@ $(function(){
     	   </a>
         </div>
         
-        <c:if test="${listPic.size()!=0}">
-        <div>
-    	<table style="width: 100%; margin: 10px auto 0px; border-spacing: 0px; border-collapse: collapse;">
-    		<caption style="height:35px;"><span style="font-weight: 700; font-size: 16px;">이벤트 당첨자 명단</span></caption>
-			<tr height="35" align="center" style="border-top: 1px solid #cccccc;border-bottom: 1px solid #cccccc;">
-			    <th>아이디</th>
-			    <th>이름</th>
-			    <th>전화번호</th>
-			    <th>이메일</th>
-			</tr> 
-			
-			<c:forEach var="vo" items="${listPic}">
-				<tr height="35" align="center" style="border-bottom: 1px solid #cccccc;">
-				    <td>${vo.userId}</td>
-				    <td>${vo.userName}</td>
-				    <td>${vo.tel}</td>
-				    <td>${vo.email}</td>
-				</tr>
-			</c:forEach>
-		</table>
-        </div>
-        </c:if>
-        
     	<table style="width: 100%; margin: 0px auto 20px; border-spacing: 0px; ">
 			<tr height="45">
 			    <td align="right">			    
-			         <c:if test="${dto.lott==1 && listPic.size()==0}"> 
-			            <button type="button" class="btn btnSendEventPic" >당첨자 발표</button>
-			         </c:if>
 			          <button type="button" class="btn" onclick="eventUpdate();">수정</button>			    
 			          <button type="button" class="btn" onclick="eventDelete();">삭제</button>
 			          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/event/list?${query}';">리스트</button>
@@ -271,25 +216,6 @@ $(function(){
 			</table>
     </div>
 	</div>
-
-	<table style='width: 100%; margin: 15px auto 0px; border-spacing: 0px;'>
-		<tr height='30'> 
-			 <td align='left' >
-				<span style='font-weight: bold;' >댓글쓰기</span><span> - 타인을 비방하거나 개인정보를 유출하는 글의 게시를 삼가 주세요.</span>
-			 </td>
-		</tr>
-		<tr>
-			<td style='padding:5px 5px 0px;'>
-				<textarea class='boxTA' style='width:99%; height: 70px;'></textarea>
-		    </td>
-		</tr>
-		<tr>
-			<td align='right'>
-				<button type='button' class='btn btnSendReply' data-num='10' style='padding:10px 20px;'>댓글 등록</button>
-			</td>
-		</tr>
-	</table>
-
 
 
 </div>

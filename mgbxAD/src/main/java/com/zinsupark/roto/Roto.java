@@ -1,8 +1,8 @@
-package com.zinsupark.event;
+package com.zinsupark.roto;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class Event {
+public class Roto {
 	private int ecode; // 이벤트 코드 
 	private int rcode; // 댓글 코드
 	private String userId; // 회원 아이디
@@ -19,6 +19,7 @@ public class Event {
 	private int ecategoryCode; // 분류 코드
 	private String ecategoryName; // 분류 이름
 	private String rotbtn; // 응모 
+	private String pubDate;
 	
 	private String userName;
 	private String tel, email;
@@ -183,5 +184,13 @@ public class Event {
 
 	public void setRotbtn(String rotbtn) {
 		this.rotbtn = rotbtn;
+	}
+
+	public String getPubDate() {
+		return pubDate;
+	}
+
+	public void setPubDate(String pubDate) {
+		this.pubDate = pubDate;
 	}
 }
