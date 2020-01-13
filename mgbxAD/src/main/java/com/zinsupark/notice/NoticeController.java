@@ -101,6 +101,7 @@ public class NoticeController {
 		model.addAttribute("page", current_page);
 		model.addAttribute("total_page", total_page);
 		model.addAttribute("paging", paging);
+		model.addAttribute("dataCount", dataCount);
 		model.addAttribute("articleUrl", articleUrl);
 		model.addAttribute("condition", condition);
 		model.addAttribute("keyword", keyword);
