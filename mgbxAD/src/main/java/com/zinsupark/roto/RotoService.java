@@ -12,5 +12,4 @@ public interface RotoService {
 	public List<Roto> listEventPic(Map<String, Object> map);
 	public void insertEventPic(Map<String, Object> map)  throws Exception;
 	public int picCount(Map<String, Object> map);
-	
 }

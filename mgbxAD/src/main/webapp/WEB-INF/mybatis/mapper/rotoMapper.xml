@@ -3,24 +3,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="roto">
 	
-	<sql id="where-list">
-		<if test="condition=='all'">
-			( INSTR(subject, #{keyword}) &gt; 0
-				OR INSTR(content, #{keyword}) &gt; 0 )
-		</if>
-		<if test="condition=='subject'">
-			INSTR(subject, #{keyword}) &gt; 0
-		</if>
-		<if test="condition=='content'">
-			INSTR(content, #{keyword}) &gt; 0 
-		</if>
-		<if test="condition=='created'">
-			( TO_CHAR(created, 'YYYY-MM-DD') = #{keyword}
-				OR TO_CHAR(created, 'YYYYMMDD') = #{keyword})
-		</if>
-		
-	</sql>
-	
 	<!-- 분류 코드 등록 -->
 	<select id="listCategory" resultType="com.zinsupark.roto.Roto">
 		SELECT eCategoryCode, eCategoryName 
@@ -34,11 +16,14 @@
 		JOIN member m ON e.userId=m.userId
 		<where>
 		    lott = 1
-			<if test="ecategoryCode!=0">
-				 AND ecategoryCode = #{ecategoryCode}
+		    <if test="condition=='all' and keyword != '' ">
+		     AND ( INSTR(subject, #{keyword}) &gt; 0 OR INSTR(content, #{keyword}) &gt; 0 )
+		    </if>
+			<if test="condition!='all' and keyword != '' ">
+				AND (e.ecategoryCode = #{condition} AND INSTR(subject, #{keyword}) &gt; 0)
 			</if>
-			<if test="keyword != null and keyword != ''">
-				AND <include refid="where-list"/>
+			<if test="condition!='all' and keyword == '' ">
+				AND (e.ecategoryCode = #{condition})
 			</if>
 		</where>		
 	</select>
@@ -46,18 +31,21 @@
 	<!-- 리스트 출력 -->
 	<select id="listRoto" parameterType="map" resultType="com.zinsupark.roto.Roto">
 		SELECT e.ecode, e.userId, TO_CHAR(sdate, 'yyyy-mm-dd') as sdate, TO_CHAR(edate, 'yyyy-mm-dd') as edate,
-		TO_CHAR(lottDate, 'yyyy-mm-dd') as lottDate, subject, lott, mCount, ecategoryName, pubDate
+		TO_CHAR(lottDate, 'yyyy-mm-dd') as lottDate, subject, lott, mCount, ecategoryName, TO_CHAR(pubDate, 'yyyy-mm-dd') as pubDate
 		FROM event e
 		JOIN eventcategory c ON e.ecategoryCode = c.ecategoryCode
 		JOIN member m ON e.userId=m.userId
 		LEFT OUTER JOIN eventroto er ON e.ecode = er.ecode
 		<where>
 			lott = 1
-			<if test="ecategoryCode!=0">
-				AND ecategoryCode = #{ecategoryCode}
+		    <if test="condition=='all' and keyword != '' ">
+		     AND ( INSTR(subject, #{keyword}) &gt; 0 OR INSTR(content, #{keyword}) &gt; 0 )
+		    </if>
+			<if test="condition!='all' and keyword != '' ">
+				AND (e.ecategoryCode = #{condition} AND INSTR(subject, #{keyword}) &gt; 0)
 			</if>
-			<if test="keyword != null and keyword != ''">
-				AND <include refid="where-list"/>
+			<if test="condition!='all' and keyword == '' ">
+				AND (e.ecategoryCode = #{condition})
 			</if>
 		</where>
 		ORDER BY e.ecode DESC
@@ -66,10 +54,10 @@
 	
 	<!-- 글 보기 -->
 	<select id="readRoto" parameterType="Integer" resultType="com.zinsupark.roto.Roto">
-		SELECT ecode, e.userId, content
-		FROM eventroto e
-		JOIN member m ON e.userId=m.userId
-		WHERE ecode=#{ecode}
+		SELECT e1.ecode, e2.subject, e1.userId, e1.content, e1.pubdate
+		FROM eventroto e1
+		JOIN event e2 ON e1.ecode=e2.ecode
+		WHERE e1.ecode=#{ecode}
 	</select>
 	
 	<!-- 글 넣기 -->

@@ -11,7 +11,8 @@ public class Event {
 	private String subject; // 제목
 	private String content; // 내용
 	private String created; // 작성일자
-	private String imageFilename; // 이미지 파일 이름
+	private String imageFilename; // 이벤트 이미지 파일 이름
+	private String imageName; // 리스트 이벤트 이미지 파일
 	private int lott; // 추첨여부
 	private String lottDate; // 추첨 날짜 
 	private String elink; // 이벤트 링크
@@ -19,11 +20,11 @@ public class Event {
 	private int ecategoryCode; // 분류 코드
 	private String ecategoryName; // 분류 이름
 	private String rotbtn; // 응모 
-	
+	private int censor; // 이벤트 삭제시 숨기게 하는 키워드
 	private String userName;
 	private String tel, email;
 	
-	private MultipartFile upload;
+	private MultipartFile upload, listUpload;
 
 	public int getEcode() {
 		return ecode;
@@ -183,5 +184,29 @@ public class Event {
 
 	public void setRotbtn(String rotbtn) {
 		this.rotbtn = rotbtn;
+	}
+
+	public String getImageName() {
+		return imageName;
+	}
+
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
+	}
+
+	public MultipartFile getListUpload() {
+		return listUpload;
+	}
+
+	public void setListUpload(MultipartFile listUpload) {
+		this.listUpload = listUpload;
+	}
+
+	public int getCensor() {
+		return censor;
+	}
+
+	public void setCensor(int censor) {
+		this.censor = censor;
 	}
 }

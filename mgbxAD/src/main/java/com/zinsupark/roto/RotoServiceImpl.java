@@ -40,11 +40,11 @@ public class RotoServiceImpl implements RotoService{
 	}
 	
 	@Override
-	public Roto readRoto(int num) {
+	public Roto readRoto(int ecode) {
 			Roto dto=null;
 			
 			try {
-				dto=dao.selectOne("roto.readRoto", num);
+				dto=dao.selectOne("roto.readRoto", ecode);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -86,6 +86,10 @@ public class RotoServiceImpl implements RotoService{
 			}
 			
 			List<Roto> list = dao.selectList("roto.listRequestPick", map);
+			if(list.size()==0) {
+				new Exception("이벤트 참여자가 없습니다.");
+			}
+			
 			for(Roto evt : list) {
 				map.put("userId", evt.getUserId());
 				
@@ -108,6 +112,5 @@ public class RotoServiceImpl implements RotoService{
 		
 		return result;
 	}
-
 
 }

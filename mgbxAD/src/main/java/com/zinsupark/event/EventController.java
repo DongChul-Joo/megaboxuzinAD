@@ -90,6 +90,7 @@ public class EventController {
 		model.addAttribute("articleUrl", articleUrl);
 		model.addAttribute("page", current_page);
 		model.addAttribute("paging", paging);
+		
 		model.addAttribute("condition", condition);
 		model.addAttribute("ecategoryCode", ecategoryCode);
 		model.addAttribute("keyword", keyword);

@@ -36,8 +36,6 @@ public class RotoController {
 	@RequestMapping(value="/roto/listDott")
 	public String list(
 			@RequestParam(value="page", defaultValue="1") int current_page,
-			@RequestParam(value="ecategoryCode", defaultValue="0") int ecategoryCode,
-			@RequestParam(value="state", defaultValue="1") int state,
 			@RequestParam(defaultValue="all") String condition,
 			@RequestParam(defaultValue="") String keyword,
 			HttpServletRequest req,
@@ -54,8 +52,6 @@ public class RotoController {
 		}
 		// 전체 페이지 수
 		Map<String, Object> map=new HashMap<String, Object>();
-		map.put("ecategoryCode", ecategoryCode);
-		map.put("state", state);
 		map.put("condition", condition);
 		map.put("keyword", keyword);
 		
@@ -73,15 +69,15 @@ public class RotoController {
 	    List<Roto> list = service.listRoto(map);
 	    
 	    String query = "";
-        String listUrl = cp+"/roto/listDott?ecategoryCode="+ecategoryCode+"&state="+state;
-        String articleUrl = cp+"/roto/articleDott?ecategoryCode="+ecategoryCode+"&page="+current_page+"&state="+state;
+        String listUrl = cp+"/roto/listDott";
+        String articleUrl = cp+"/roto/articleDott?&page="+current_page;
         if(keyword.length()!=0) {
         	query = "condition=" +condition + 
         	           "&keyword=" + URLEncoder.encode(keyword, "utf-8");	
         }
 	    
         if(query.length()!=0) {
-        	listUrl+="&"+query;
+        	listUrl+="?"+query;
         	articleUrl+="&"+query;
         }
         
@@ -94,7 +90,6 @@ public class RotoController {
 		model.addAttribute("page", current_page);
 		model.addAttribute("paging", paging);
 		model.addAttribute("condition", condition);
-		model.addAttribute("ecategoryCode", ecategoryCode);
 		model.addAttribute("keyword", keyword);
 		
 		return ".roto.listDott";
@@ -173,8 +168,5 @@ public class RotoController {
 			model.addAttribute("query", query);
 			return ".roto.articleDott";
 		}
-		
-
-	
 
 }

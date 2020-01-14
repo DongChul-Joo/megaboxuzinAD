@@ -20,11 +20,16 @@ public class EventServiceImpl implements EventService{
 	public void insertEvent(Event dto, String pathname) throws Exception {
 		try {
 			String saveFilename=fileManager.doFileUpload(dto.getUpload(), pathname);
+			String insertFilename=fileManager.doFileUpload(dto.getListUpload(), pathname);
+			
 			if(saveFilename!=null) {
-				dto.setImageFilename(saveFilename);
-				
-				dao.insertData("event.insertEvent", dto);
+				dto.setImageFilename(saveFilename);				
+			} 
+			
+			if(insertFilename!=null) {
+				dto.setImageName(insertFilename);
 			}
+			dao.insertData("event.insertEvent", dto);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -74,6 +79,7 @@ public class EventServiceImpl implements EventService{
 		try {
 			// 업로드한 파일이 존재한 경우
 			String saveFilename = fileManager.doFileUpload(dto.getUpload(), pathname);
+			String insertFilename=fileManager.doFileUpload(dto.getListUpload(), pathname);
 			
 			if (saveFilename != null) {
 			// 이전 파일 지우기	
@@ -82,6 +88,13 @@ public class EventServiceImpl implements EventService{
 				}
 				dto.setImageFilename(saveFilename);
 			}
+			if (insertFilename != null) {
+				if(dto.getImageName().length()!=0) {
+					fileManager.doFileDelete(dto.getImageName(), pathname);
+				}
+				dto.setImageName(insertFilename);
+			}
+			
 			dao.updateData("event.updateEvent", dto);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -92,13 +105,8 @@ public class EventServiceImpl implements EventService{
 	@Override
 	public void deleteEvent(int num, String pathname, String userId) throws Exception {
 		try {
-			Event dto=readEvent(num);
-			
-			if(dto.getImageFilename()!=null)
-				fileManager.doFileDelete(dto.getImageFilename(), pathname);
-			
-			// 게시물지우기
-			dao.deleteData("event.deleteEvent", num);
+			// censor를 1로 변경
+			dao.updateData("event.deleteEvent", num);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;

@@ -6,6 +6,51 @@
    String cp = request.getContextPath();
 %>
 
+<style>
+
+.title{
+font-size: X-large;
+}
+
+.ll {
+list-style:none;
+font-family: center;
+}
+
+
+.ll li{
+display:block; width:14%; height:40px; color:#fff; border:1px black; font-size:12px; font-family:"돋움";
+ text-align:center; padding-top:10px; text-decoration:none; float:left; list-style:none; margin: 1; font-size: large;
+ }
+ 
+.lo {
+list-style:none;
+float: left; 
+}
+
+.lo li{
+list-style:none;
+float: left;
+}
+
+
+.*{
+font-family: 'Sunflower', sans-serif;
+
+}
+
+.center {
+text-align: center;
+height :100px;
+ background-color: white; 
+ width:100%;
+ border-top: 3px solid #503396 ;
+}
+
+.a1{
+
+}
+</style>
 
 <script type="text/javascript">
 
@@ -107,22 +152,21 @@ function send() {
 }
 </script>
 
-<div class="body-container" style="width: 830px;">
-<div style="width:100% ;height:100px; background: purple;">
-</div>
-
-<div style="width: 100%; height:100px; background-color: white; ">
+<div class="center">
+	<div style="width: 60%;margin: 10px auto;">
     <ul class="ll" > 
         <li><a href="<%=cp%>/event/list?ecategoryCode=0">전체</a></li>
         <li><a href="<%=cp%>/event/list?ecategoryCode=1">메가박수진이벤트</a></li>
         <li><a href="<%=cp%>/event/list?ecategoryCode=2">영화 이벤트</a></li>   
         <li><a href="<%=cp%>/event/list?ecategoryCode=3">제휴 이벤트</a></li>
         <li><a href="<%=cp%>/event/list?ecategoryCode=4">영화관이벤트</a></li>
-        <li><a href="<%=cp%>">당첨자발표</a></li>
+        <li><a href="<%=cp%>/roto/listDott">당첨자발표</a></li>
         <li><a href="<%=cp%>">현황 통계</a></li>
     </ul>
+    </div>
 </div>
-    
+ 
+<div class="body-container" style="width: 1000px;">
     <div>    
 			<form name="eventForm" method="post"  enctype="multipart/form-data">
 			  <table style="width: 115%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
@@ -172,7 +216,14 @@ function send() {
 			  </tr>
 			  
 			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;">
-			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">첨&nbsp;&nbsp;&nbsp;&nbsp;부</td>
+			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">리스트 이미지</td>
+			      <td style="padding-left:10px;"> 
+			          <input type="file" name="listUpload" class="boxTF" size="53" accept="image/*" style="width: 95%; height: 25px;" >
+			       </td>
+			  </tr>
+			  
+			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;">
+			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">이벤트 이미지</td>
 			      <td style="padding-left:10px;"> 
 			          <input type="file" name="upload" class="boxTF" size="53" accept="image/*" style="width: 95%; height: 25px;" >
 			       </td>

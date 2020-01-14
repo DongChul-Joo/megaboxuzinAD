@@ -7,16 +7,20 @@
 %>
 
 <style>
+
+.title{
+font-size: X-large;
+}
+
 .ll {
 list-style:none;
-margin:0px auto; width: 1000px;
+font-family: center;
 }
 
 
-
 .ll li{
-display:block; width:130px; height:40px; background:tomato; color:#fff; border:1px black; font-size:12px; font-family:"돋움";
- text-align:center; padding-top:10px; text-decoration:none; float:left; list-style:none; margin: 1;
+display:block; width:14%; height:40px; color:#fff; border:1px black; font-size:12px; font-family:"돋움";
+ text-align:center; padding-top:10px; text-decoration:none; float:left; list-style:none; margin: 1; font-size: large;
  }
  
 .lo {
@@ -37,6 +41,10 @@ font-family: 'Sunflower', sans-serif;
 
 .center {
 text-align: center;
+height :100px;
+ background-color: white; 
+ width:100%;
+ border-top: 3px solid #503396 ;
 }
 
 .a1{
@@ -157,35 +165,31 @@ $(function(){
 </script>
 
  
- <div class="body-container" style="width: 1200px;">
-
-<div style="width:100% ;height:100px; background: purple;">
-공백
-</div>
-
-
-<div style="width: 100%; height:100px; background-color: white; ">
+ <div class="center">
+	<div style="width: 60%;margin: 10px auto;">
     <ul class="ll" > 
         <li><a href="<%=cp%>/event/list?ecategoryCode=0">전체</a></li>
         <li><a href="<%=cp%>/event/list?ecategoryCode=1">메가박수진이벤트</a></li>
         <li><a href="<%=cp%>/event/list?ecategoryCode=2">영화 이벤트</a></li>   
         <li><a href="<%=cp%>/event/list?ecategoryCode=3">제휴 이벤트</a></li>
         <li><a href="<%=cp%>/event/list?ecategoryCode=4">영화관이벤트</a></li>
-        <li><a href="<%=cp%>">당첨자발표</a></li>
+        <li><a href="<%=cp%>/roto/listDott">당첨자발표</a></li>
         <li><a href="<%=cp%>">현황 통계</a></li>
     </ul>
+    </div>
 </div>
-
-<div class="body-container" style="width: 700px;">
+ 
+<div class="body-container" style="width: 900px;">
     <div class="body-title">
         <h3><i class="far fa-image"></i> ${dto.subject} </h3>
     </div>
-    
+
     <div>
     	<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
     		<tr >
         		<td width="40%" align="left" style="padding-left: 10px;">
 			    	 이벤트 기간 : ${dto.sdate} ~ ${dto.edate}
+			    	 ${dto.censor==1 ? "| 삭제된 이벤트":"" }
 				</td>
 				<td width="40%" align="right" style="padding-right: 10px;">
 				<c:if test="${event.lott != 0}">
@@ -201,7 +205,7 @@ $(function(){
     <div style="width: 100%; margin: 10px auto 0px; text-align: center;">
         <div style="border-bottom: 2px solid #cccccc;">
     	   <a href="${dto.elink}">
-    		<img src="<%=cp%>/uploads/event/${dto.imageFilename}" width="70%" style="margin: 0px 10px;">
+    		<img src="http://localhost:9090/mgbxAD/uploads/event/${dto.imageFilename}" width="70%" style="margin: 0px 10px;">
     	   </a>
         </div>
         

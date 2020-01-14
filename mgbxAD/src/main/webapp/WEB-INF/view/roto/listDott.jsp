@@ -59,10 +59,14 @@ function articleDott(ecode) {
 	location.href=url;
 }
 
+function searchList() {
+	var f=document.searchForm;
+	f.submit();
+}
 </script>
 
 <div class="center">
-	<div style="width: 60%;margin: 10px auto;">
+	<div style="width: 55%;margin: 10px auto;">
     <ul class="ll" > 
         <li><a href="<%=cp%>/event/list?ecategoryCode=0">전체</a></li>
         <li><a href="<%=cp%>/event/list?ecategoryCode=1">메가박수진이벤트</a></li>
@@ -70,12 +74,11 @@ function articleDott(ecode) {
         <li><a href="<%=cp%>/event/list?ecategoryCode=3">제휴 이벤트</a></li>
         <li><a href="<%=cp%>/event/list?ecategoryCode=4">영화관이벤트</a></li>
         <li><a href="<%=cp%>/roto/listDott">당첨자발표</a></li>
-        <li><a href="<%=cp%>">현황 통계</a></li>
     </ul>
     </div>
 </div>
  
-<div class="body-container" style="width: 1000px;">
+<div class="body-container" style="width: 900px;">
     <div class="body-title">
         <h3><i class="fas fa-chalkboard"></i> 당첨자 발표 </h3>
     </div>
@@ -87,13 +90,13 @@ function articleDott(ecode) {
 		          ${dataCount}개(${page}/${total_page} 페이지)
 		      </td>
 		      <td align="right" width="50%">
-		      <form name="searchForm" action="<%=cp%>/bbs/list" method="post">
+		      <form name="searchForm" action="<%=cp%>/roto/listDott" method="post">
 		              <select name="condition" class="selectField">
 		                  <option value="all" ${condition=="all"?"selected='selected'":""}>전체</option>
-		                  <option value="subject" ${condition=="ecategoryCode=1"?"selected='selected'":""}>메가박수진이벤트</option>
-		                  <option value="content" ${condition=="ecategoryCode=2"?"selected='selected'":""}>영화 이벤트</option>
-		                  <option value="userName" ${condition=="ecategoryCode=3"?"selected='selected'":""}>제휴 이벤트</option>
-		                  <option value="created" ${condition=="ecategoryCode=4"?"selected='selected'":""}>영화관이벤트</option>
+		                  <option value="1" ${condition=="1"?"selected='selected'":""}>메가박수진이벤트</option>
+		                  <option value="2" ${condition=="2"?"selected='selected'":""}>영화 이벤트</option>
+		                  <option value="3" ${condition=="3"?"selected='selected'":""}>제휴 이벤트</option>
+		                  <option value="4" ${condition=="4"?"selected='selected'":""}>영화관이벤트</option>
 		            </select>
 		          <input type="text" name="keyword" value="${keyword}" class="boxTF">
 		          <button type="button" class="btn" onclick="searchList()">검색</button>
@@ -108,7 +111,7 @@ function articleDott(ecode) {
 		<table style="width: 100%; margin: 0px auto; border-spacing: 0px; border-collapse: collapse;">
 		  <tr align="center" bgcolor="#eeeeee" height="35" style="border-top: 2px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 		      <th width="15%" style="color: #787878;">분류</th>
-		      <th width="35%" style="color: #787878; text-align: left;">제목</th>
+		      <th width="35%" style="color: #787878;">제목</th>
 		      <th width="25%" style="color: #787878;">이벤트 기간</th>
 		      <th width="15%" style="color: #787878;">당첨일</th>
 		      <th width="10%" style="color: #787878;">발표일</th>
@@ -116,7 +119,7 @@ function articleDott(ecode) {
 	<c:forEach var="dto" items="${list}">
 		  <tr align="center" bgcolor="#ffffff" height="35" style="border-bottom: 1px solid #cccccc;"> 
 		      <td>${dto.ecategoryName}</td>
-		      <td style="text-align: left;"><a href="${articleUrl}&ecode=${dto.ecode}">${dto.subject}</a></td>
+		      <td><a href="${articleUrl}&ecode=${dto.ecode}">${dto.subject}</a></td>
 		      <td>${dto.sdate} ~ ${dto.edate}</td>
 		      <td>${dto.lottDate}</td>
 		      <td>
