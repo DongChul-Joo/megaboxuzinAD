@@ -129,14 +129,28 @@ function clickRott() {
 function send() {
 	var f = document.eventForm;
 	
-	var str;
-	
 	var str = f.subject.value;
 	if(!str) {
 		alert("제목을 입력해 주세요.");
 		f.subject.focus();
 		return;
 	}
+	
+	str = f.content.value;
+    if(!str) {
+        alert("내용을 입력하세요. ");
+        f.content.focus();
+        return;
+    }
+    
+    var startday = parseInt(f.sdate.value.replace(/-/gi,""));
+    var andday = parseInt(f.edate.value.replace(/-/gi,""));
+    if(startday >= andday) {
+    	 alert("종료일이 시작일보다 큽니다.")
+    	 f.sdate.focus();
+    	 return;
+     }    
+    
 	
 	var mode="${mode}";
 	if(mode=="created"||mode=="update" && f.upload.value!="") {
@@ -161,7 +175,6 @@ function send() {
         <li><a href="<%=cp%>/event/list?ecategoryCode=3">제휴 이벤트</a></li>
         <li><a href="<%=cp%>/event/list?ecategoryCode=4">영화관이벤트</a></li>
         <li><a href="<%=cp%>/roto/listDott">당첨자발표</a></li>
-        <li><a href="<%=cp%>">현황 통계</a></li>
     </ul>
     </div>
 </div>
