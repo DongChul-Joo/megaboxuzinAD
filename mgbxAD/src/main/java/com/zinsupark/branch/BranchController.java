@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.zinsupark.cinema.Cinema;
+import com.zinsupark.cinema.CinemaService;
 import com.zinsupark.common.MyUtil;
 
 
@@ -22,6 +24,9 @@ import com.zinsupark.common.MyUtil;
 public class BranchController {
 	@Autowired
 	private BranchService service;
+	
+	@Autowired
+	private CinemaService service2;
 	
 	@Autowired
 	private MyUtil util;
@@ -162,5 +167,48 @@ public class BranchController {
 			return ".error.dataAccessFailure";
 		}
 		return "redirect:/branch/list";
+	}
+	
+	@RequestMapping(value="/branch/insertShowingMovie")
+	public String getMovieList(
+			Model model
+			) {
+		List<Branch> list = null;
+		try {
+			list = service.getMovieList();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("list", list);
+		
+		return ".branch.insertShowingMovie";
+	}
+	
+	
+	@RequestMapping(value="/branch/makeSchedule", method=RequestMethod.GET)
+	public String makeScheduleForm(
+			@RequestParam int branCode
+			,Model model) {
+		
+		List<Cinema> list=null;
+		try {
+			list=service2.listCinema(branCode);
+			
+			for(Cinema dto : list) {
+				if(dto.getCmRange()== 1) {
+					dto.setCmRangeName("2D 전용관");
+				} else {
+					dto.setCmRangeName("2D and 3D관");
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		model.addAttribute("list", list);
+		
+		
+		return ".branch.makeSchedule";
 	}
 }

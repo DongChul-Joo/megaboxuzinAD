@@ -89,6 +89,18 @@ public class BranchSerbiceImpl implements BranchService {
 		}
 		return result;
 	}
+
+	@Override
+	public List<Branch> getMovieList() throws Exception {
+		List<Branch> list = null;
+		try {
+			list = dao.selectList("branch.selectMovie");
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return list;
+	}
 	
 	
 

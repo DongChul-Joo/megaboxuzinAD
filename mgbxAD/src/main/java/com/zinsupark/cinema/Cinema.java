@@ -5,6 +5,7 @@ public class Cinema {
 	private String cmName;
 	private String cmLocation;
 	private int cmRange;
+	private String cmRangeName;
 	private int cmSeatTot;
 	private String cmSeatMap;
 	private int branCode;
@@ -50,5 +51,11 @@ public class Cinema {
 	}
 	public void setBranCode(int branCode) {
 		this.branCode = branCode;
+	}
+	public String getCmRangeName() {
+		return cmRangeName;
+	}
+	public void setCmRangeName(String cmRangeName) {
+		this.cmRangeName = cmRangeName;
 	}
 }

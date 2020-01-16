@@ -41,4 +41,12 @@
 		</where>  
 </select>
 
+<select id="selectMovie" resultType="com.zinsupark.branch.Branch">
+	SELECT movieCode, movieNm, thumbNail
+	FROM movie
+	WHERE SYSDATE &lt; ENDDATE
+</select>
+
+
+
 </mapper>

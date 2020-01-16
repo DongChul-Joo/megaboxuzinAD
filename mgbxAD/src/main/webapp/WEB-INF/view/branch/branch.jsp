@@ -204,6 +204,18 @@ function deleteCinema(cmCode){
 	 location.href = "<%=cp%>/cinema/delete?cmCode="+cmCode;
 	 
 }
+
+function makeSchedule(branCode) {
+	
+	location.href = "<%=cp%>/branch/makeSchedule?branCode="+branCode;
+	
+}
+
+function insertShowingMovie(branCode){
+	
+	location.href = "<%=cp%>/branch/insertShowingMovie?branCode="+branCode;
+}
+
 </script>
  <div>
 	<div style="background: white;border: none; margin-top: -21px;height: 50px;margin-bottom: 10px;">

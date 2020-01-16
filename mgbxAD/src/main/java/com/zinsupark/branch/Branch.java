@@ -9,6 +9,10 @@ public class Branch {
 	private String branAddr1;
 	private String branAddr2 ;
 	
+	private int movieCode;
+	private String movieNm;
+	private String thumbNail;
+	
 	private int areaCode;
 	private String areaName;
 	
@@ -68,6 +72,24 @@ public class Branch {
 	}
 	public void setUpload(MultipartFile upload) {
 		this.upload = upload;
+	}
+	public int getMovieCode() {
+		return movieCode;
+	}
+	public void setMovieCode(int movieCode) {
+		this.movieCode = movieCode;
+	}
+	public String getMovieNm() {
+		return movieNm;
+	}
+	public void setMovieNm(String movieNm) {
+		this.movieNm = movieNm;
+	}
+	public String getThumbNail() {
+		return thumbNail;
+	}
+	public void setThumbNail(String thumbNail) {
+		this.thumbNail = thumbNail;
 	}
 	
 	

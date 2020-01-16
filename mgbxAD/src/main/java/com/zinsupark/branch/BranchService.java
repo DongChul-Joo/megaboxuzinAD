@@ -11,4 +11,5 @@ public interface BranchService {
 	public Branch readBranch(int branCode) throws Exception;
 	public void updateBranch(Branch dto,String pathname)throws Exception;
 	public int branchCount(Map<String,Object> map) throws Exception;
+	public List<Branch> getMovieList() throws Exception;
 }
