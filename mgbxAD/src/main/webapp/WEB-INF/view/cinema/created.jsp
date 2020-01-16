@@ -73,6 +73,26 @@ border: none;
 color: white;
 }
 
+.movvie{
+padding-bottom: 20px;
+
+}
+
+.ran1 {
+margin-left: 10px;
+height: 25px;
+margin-bottom: 10px;
+}
+
+
+.row1{
+width: 100%;
+}
+
+.ex {
+width: 140px;
+}
+
 
 </style>
 
@@ -196,29 +216,40 @@ function gogo(){
 </script>
 </head>
 <body>
-<div>
-	<div><p>${branName}</p></div>
-	<div>
+
+<div style="width: 100%;height: 700px; background-color:#f9f9f9;">
+<div style="width: 800px; height:500px; margin-left: auto; margin-right: auto;">
+	<div style="text-align: center; font-size: 30px; font-weight: 700; padding-top: 70px; padding-bottom: 20px;" ><p>${branName}</p></div>
+	<div style="width: 36%; margin: 0 auto;">
 		<table>
 			<tr>
-				<td>영화관 행 수<input name="rows" type="number" min="0" max="20" >영화관  열 수<input name="column" type="number"  min="0" max="20" > <button type="button" onclick="cinemaCreated();">생성</button></td>
+				<td class="row1">
+			        영화관 행 수<input class="ran1 ex" name="rows" type="number" min="0" max="20" >
+			    </td>    
+			</tr>
+
+			<tr>
+				<td class="row1">
+				영화관  열 수<input class="ran1 ex" name="column" type="number"  min="0" max="20" > 
+				<button class="ran1" type="button" onclick="cinemaCreated();" style="background-color: #731070; border: 1px solid #731070; color: white; ">생성</button>
+				</td>
 			</tr>
 		</table>
 	</div>
 
 
-	<div> 
+	<div style="width: 36%; margin: 0 auto;"> 
 		<table>
 			<tr>
-				<td>관 이름<input name="cName" type="text" value="${dto.cmName}"></td>
+				<td>관 이름<input class="ran1" name="cName" type="text" value="${dto.cmName}"></td>
 			</tr>
 		
 			<tr>
-				<td>관 위치<input name="cLocation" type="text" value="${dto.cmLocation}"></td>
+				<td>관 위치<input class="ran1" name="cLocation" type="text" value="${dto.cmLocation}"></td>
 			</tr>
 		
 			<tr>
-				<td>상영 가능 범위  
+				<td class="movvie">상영 가능 범위  
 					<select name="cRange" value="${dto.cmRange}">
 						<option value="">::상영 범위::</option>
 						<option value="1">2D ONLY</option>
@@ -227,10 +258,13 @@ function gogo(){
 				</td>  
 			</tr>
 		</table> 
-		<button name="viewCinema" type="button">설정 완료</button>
-		<div id="cinemaView">
+		<button name="viewCinema" type="button" style="width: 280px; height: 50px; background-color: #731070; color: white; border: 1px solid #731070; margin-bottom: 20px;">설정 완료</button>
+		<div id="cinemaView" style="width: 160%;">
 		</div>
 	</div>
+</div>
+
+
 	<div id="category-dialog" style="display: none;">
     </div>
 <form name="cinemaForm" method="post">
