@@ -76,7 +76,7 @@ function article(ecode) {
     </div>
 	<ul class="lo" style="margin-bottom: 30px;">
 		<li><a href="<%=cp%>/event/list?state=1&ecategoryCode=${ecategoryCode}">진행중 이벤트 | </a></li>
-		<li><a href="<%=cp%>/event/list?state=0&ecategoryCode=${ecategoryCode}">종료된 이벤트</a></li>
+		<li><a href="<%=cp%>/event/list?state=0&ecategoryCode=${ecategoryCode}">&nbsp;종료된 이벤트</a></li>
 	</ul>
 <table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
 <c:forEach var="dto" items="${list}" varStatus="status">
@@ -120,7 +120,7 @@ function article(ecode) {
 		   </tr>
 		</table>
 
-	<div style="float: right;">
+	<div style="float: right; margin-bottom: 50px">
 		<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/event/created';">등록하기</button> 
 	</div>
 </div>

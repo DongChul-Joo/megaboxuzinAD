@@ -119,49 +119,6 @@ function ajaxHTML(url, type, query, selector) {
 	});
 }
 
-// 페이징 처리
-$(function(){
-	listPage(1);
-});
-
-function listPage(page) {
-	var url = "<%=cp%>/event/listReply";
-	var query = "ecode=${dto.ecode}&pageNo="+page;
-	var selector = "#listReply";
-	
-	ajaxHTML(url, "get", query, selector);
-}
-
-// 리플 등록
-$(function(){
-	$(".btnSendReply").click(function(){
-		var ecode="${dto.ecode}";
-		var $tb = $(this).closest("table");
-		var content=$tb.find("textarea").val().trim();
-		if(! content) {
-			$tb.find("textarea").focus();
-			return false;
-		}
-		content = encodeURIComponent(content);
-		
-		var url="<%=cp%>/event/insertReply";
-		var query="ecode="+ecode+"&content="+content+"&answer=0";
-		
-		var fn = function(data){
-			$tb.find("textarea").val("");
-			
-			var state=data.state;
-			if(state=="true") {
-				listPage(1);
-			} else if(state=="false") {
-				alert("댓글을 추가 하지 못했습니다.");
-			}
-		};
-		
-		ajaxJSON(url, "post", query, fn);
-	});
-});
-
 </script>
 
  

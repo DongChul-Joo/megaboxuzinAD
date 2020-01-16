@@ -47,11 +47,27 @@
         <li><a href="<%=cp%>/event/list">이벤트 관리</a></li>
         <li><a href="<%=cp%>/item/list">스토어 관리</a></li>
         <li><a href="<%=cp%>/ctManage/ctManage">고객관리</a></li>
+        <li><a href="<%=cp%>/question/list">고객관리</a></li>
        			 <!-- 1:1문의처리  쿠폰 멤버십-->
         <li><a href="<%=cp%>/etc/etc">현황 통계</a></li>
 
     </ul>
 </c:if>
+
+<c:if test="${member.adminId=='admin'}">
+    <ul class="nav" style=" margin:0px auto; width: 1200px;"> 
+        <li><a href="<%=cp%>/movie/movie">영화관리</a></li>
+        <li><a href="<%=cp%>/branch/branch">지점관리</a></li>
+        <li><a href="<%=cp%>/">매출관리</a></li>   
+        <li><a href="<%=cp%>/event/list">이벤트 관리</a></li>
+        <li><a href="<%=cp%>/item/list">스토어 관리</a></li>
+        <li><a href="<%=cp%>/">고객관리</a></li>
+        <li><a href="<%=cp%>/question/list">1:1 문의</a></li>
+    </ul>
+    
+    
+</c:if>
+
  <c:if test="${member.adminId=='subAdmin'}">
     <ul class="nav" style=" margin:0px auto; width: 1200px;"> 
     	<!--<li><img src="<%=cp%>/resource/images/susu.jpg" style="float: left;"></li>-->
@@ -65,7 +81,8 @@
     </ul>
 </c:if>
 
-  
+
+
 </div>
 
 
