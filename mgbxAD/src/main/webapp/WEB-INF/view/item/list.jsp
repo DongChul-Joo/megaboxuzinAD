@@ -9,9 +9,8 @@
 <style type="text/css">
 .imgLayout{
 	width: 190px;
-	height: 205px;
-	padding: 10px 5px 10px;
-	margin: 40px 5px 5px 5px;
+	height: 190px;
+	margin-bottom: 80px;
 	cursor: pointer;
 }
 .itemName {
@@ -37,7 +36,7 @@ function article(itemCode) {
 }
 </script>
 
-<div class="body-container" style="width: 840px;">
+<div class="body-container" style="width: 840px; height: 2000px;">
 	<div class="body-title">
 		<h3>| 상품</h3>
 		<span style="margin-left: 450px;">
