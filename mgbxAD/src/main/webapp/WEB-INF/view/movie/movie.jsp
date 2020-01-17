@@ -330,8 +330,6 @@ list-style: none;
         <h3><i class="fas fa-chalkboard"></i> 영화 등록 </h3>
     </div>
 
-
-
 	<form name="movieForm" method="post">
 		<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
 				 <tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
@@ -339,7 +337,7 @@ list-style: none;
 				     <td width="100" bgcolor="#eeeeee" style="text-align: center;">영&nbsp;&nbsp;화&nbsp;&nbsp;명</td>
 				     
 				 	 <td style="padding-left:10px;"> 
-						<input id="movieTitle" type="text" placeholder="영화 제목"/><button type="button" id="btnMovie">영화 검색</button>
+						<input id="movieTitle" type="text" placeholder="영화 제목"/><button class=btn type="button" id="btnMovie" style="margin-left: 25px;" >영화 검색</button>
 					 </td> 
 					 
 				</tr>
@@ -490,12 +488,6 @@ list-style: none;
 		</form>
 </div>
 
-<div class="youtube" style="width: 100%; min-height: 500px">
-  <div class="youtube-selected">
-    <div id="youtube-player"></div>
-    <p id="video-title" class="video-title"></p>
-  </div>
-</div>
 
 
 
