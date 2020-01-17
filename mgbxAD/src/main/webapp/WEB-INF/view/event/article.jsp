@@ -149,7 +149,7 @@ function ajaxHTML(url, type, query, selector) {
 			    	 ${dto.censor==1 ? "| 삭제된 이벤트":"" }
 				</td>
 				<td width="40%" align="right" style="padding-right: 10px;">
-				<c:if test="${event.lott != 0}">
+				<c:if test="${dto.lott == 1}">
 			    	당첨자 발표 : ${dto.lottDate}
 				</c:if>
 				</td>
