@@ -96,10 +96,20 @@ public class BranchSerbiceImpl implements BranchService {
 		try {
 			list = dao.selectList("branch.selectMovie");
 		} catch (Exception e) {
-			// TODO: handle exception
+			throw e;
 		}
 		
 		return list;
+	}
+
+	@Override
+	public void insertShowingMovie(Map<String, Object> map) throws Exception {
+		try {
+			dao.insertData("branch.insertShowingMovie", map);
+		} catch (Exception e) {
+			throw e;
+		}
+		
 	}
 	
 	

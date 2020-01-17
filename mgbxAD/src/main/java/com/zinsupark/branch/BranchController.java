@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zinsupark.cinema.Cinema;
 import com.zinsupark.cinema.CinemaService;
@@ -169,46 +170,59 @@ public class BranchController {
 		return "redirect:/branch/list";
 	}
 	
-	@RequestMapping(value="/branch/insertShowingMovie")
+	
+	@RequestMapping(value="/branch/insertShowingMovie", method=RequestMethod.GET)
 	public String getMovieList(
+			@RequestParam int branCode,
 			Model model
 			) {
 		List<Branch> list = null;
+		List<Cinema> list2=null;
 		try {
 			list = service.getMovieList();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		model.addAttribute("list", list);
-		
-		return ".branch.insertShowingMovie";
-	}
-	
-	
-	@RequestMapping(value="/branch/makeSchedule", method=RequestMethod.GET)
-	public String makeScheduleForm(
-			@RequestParam int branCode
-			,Model model) {
-		
-		List<Cinema> list=null;
-		try {
-			list=service2.listCinema(branCode);
+			list2=service2.listCinema(branCode);
 			
-			for(Cinema dto : list) {
+			for(Cinema dto : list2) {
 				if(dto.getCmRange()== 1) {
 					dto.setCmRangeName("2D 전용관");
 				} else {
 					dto.setCmRangeName("2D and 3D관");
 				}
 			}
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		model.addAttribute("list", list);
+		model.addAttribute("list2", list2);
 		
-		
-		return ".branch.makeSchedule";
+		return ".branch.insertShowingMovie";
 	}
+
+	@RequestMapping(value="/branch/insertMovie", method=RequestMethod.POST) 
+	@ResponseBody
+	public String insertShowingMovie(
+			@RequestParam Map<String, Object> paramMap,
+			@RequestParam int movieCode,
+			@RequestParam int cmCode,
+			@RequestParam String showingStart,
+			@RequestParam String showingEnd
+			) {
+		String state = "true";
+		try {
+			paramMap.put("movieCode", movieCode);
+			paramMap.put("cmCode", cmCode);
+			paramMap.put("showingStart", showingStart);
+			paramMap.put("showingEnd", showingEnd);
+			
+			service.insertShowingMovie(paramMap);
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			state = "false";
+		}
+		
+		return state;
+	}
+	
 }

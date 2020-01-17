@@ -5,7 +5,14 @@
 <%
 	String cp=request.getContextPath();
 %>
- 
+<script type="text/javascript">
+function makeSchedule(branCode){
+	
+	location.href = "<%=cp%>/branch/insertShowingMovie?branCode="+branCode;
+
+}
+</script>
+
 
  <c:forEach var="dto" items="${list}">
 	<div style="width: 1000px; height:150px;margin: 0px auto; margin-bottom: 10px;" >    
@@ -28,24 +35,17 @@
 					</div>
 			</div> 
 			<div style="width: 21%; float: left ;"  >
-				<div>
-					<button class="btn" style="float:left; width: 100px; height:50px; border: 1px solid black;border-left:none; border-radius: 0; font-weight:bold;
+				<button class="btn" style="width: 200px; height:50px; border: 1px solid black;border-left:none; border-radius: 0; font-weight:bold;
 						border-spacing: 0;border-collapse: collapse;" type="button" onclick="listCinema('${dto.branCode}','${dto.branName}')">관목록</button>
-					
-					<button class="btn" style="float:left; width: 110px; height:50px; border: 1px solid black;border-left:none; border-radius: 0; font-weight:bold;
-					 	border-spacing: 0;border-collapse: collapse;" type="button" onclick="insertShowingMovie('${dto.branCode}')">상영영화등록</button>		
-				</div>
-				<br>
-				<div>
-					<button class="btn" style="float:left; width: 210px; height:50px; border: 1px solid black;border-left:none; border-radius: 0; font-weight:bold;
-						border-spacing: 0;border-collapse: collapse;" type="button" onclick="makeSchedule('${dto.branCode}')">스케쥴 등록</button>	
-				</div>
+				
+				<button class="btn" style="width: 200px; height:50px; border: 1px solid black;border-left:none; border-radius: 0; font-weight:bold;
+					 	border-spacing: 0;border-collapse: collapse;" type="button" onclick="makeSchedule('${dto.branCode}')">영화 스케쥴 관리</button>		
 				
 				<div>
 					<button class="btn" style="float:left; width: 100px;height:51px; border: 1px solid black;border-top:none; border-left:none;  font-weight: bold;
 					 border-radius: 0; border-spacing: 0;border-collapse: collapse;" type="button" onclick="javascript:location.href='<%=cp%>/branch/update?branCode=${dto.branCode}'">수정</button>
 				
-					<button class="btn" style="float:left; width: 110px;height:51px; border: 1px solid black;border-top:none; border-left:none; font-weight: bold;
+					<button class="btn" style="float:left; width: 100px;height:51px; border: 1px solid black;border-top:none; border-left:none; font-weight: bold;
 					 border-radius: 0; border-spacing: 0;border-collapse: collapse;" type="button" onclick="javascript:location.href='<%=cp%>/branch/delete?branCode=${dto.branCode}'">삭제</button>
 				</div> 
 			</div>

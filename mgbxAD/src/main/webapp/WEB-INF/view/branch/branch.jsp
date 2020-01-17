@@ -211,10 +211,7 @@ function makeSchedule(branCode) {
 	
 }
 
-function insertShowingMovie(branCode){
-	
-	location.href = "<%=cp%>/branch/insertShowingMovie?branCode="+branCode;
-}
+
 
 </script>
  <div>

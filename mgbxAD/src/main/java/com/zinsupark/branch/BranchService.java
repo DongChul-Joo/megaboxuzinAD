@@ -12,4 +12,5 @@ public interface BranchService {
 	public void updateBranch(Branch dto,String pathname)throws Exception;
 	public int branchCount(Map<String,Object> map) throws Exception;
 	public List<Branch> getMovieList() throws Exception;
+	public void insertShowingMovie(Map<String, Object> map) throws Exception;
 }

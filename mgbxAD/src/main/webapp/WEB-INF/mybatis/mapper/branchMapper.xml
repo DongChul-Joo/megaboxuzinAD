@@ -47,6 +47,10 @@
 	WHERE SYSDATE &lt; ENDDATE
 </select>
 
+<insert id="insertShowingMovie">
+	insert into showingMovie(showingCode, showingStart,showingEnd, cmCode, movieCode)
+		VALUES(showingMovie_seq.nextval, #{showingStart}, #{showingEnd}, #{cmCode}, #{movieCode})
+</insert>
 
 
 </mapper>
