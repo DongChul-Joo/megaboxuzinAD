@@ -39,7 +39,7 @@ public class EventController {
 			HttpServletRequest req,
 			Model model
 			) throws Exception {
-		
+		 
 		String cp = req.getContextPath();
 		
 		int rows = 6;

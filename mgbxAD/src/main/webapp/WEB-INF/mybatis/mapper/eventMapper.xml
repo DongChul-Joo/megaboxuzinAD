@@ -66,7 +66,7 @@
 		FROM event e
 		JOIN member m ON e.userId=m.userId
 		<where>
-		    censor = 0
+		    censor = 0 
 			<if test="ecategoryCode!=0">
 				AND ecategoryCode = #{ecategoryCode}
 			</if>
