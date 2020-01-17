@@ -46,7 +46,6 @@
         <li><a href="<%=cp%>/sales/sales">매출관리</a></li>   
         <li><a href="<%=cp%>/event/list">이벤트 관리</a></li>
         <li><a href="<%=cp%>/item/list">스토어 관리</a></li>
-        <li><a href="<%=cp%>/ctManage/ctManage">고객관리</a></li>
         <li><a href="<%=cp%>/question/list">고객관리</a></li>
        			 <!-- 1:1문의처리  쿠폰 멤버십-->
         <li><a href="<%=cp%>/etc/etc">현황 통계</a></li>
