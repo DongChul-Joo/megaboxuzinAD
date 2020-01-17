@@ -62,7 +62,7 @@
 	<!-- 리스트 출력 -->
 	<select id="listEvent" parameterType="map" resultType="com.zinsupark.event.Event">
 		SELECT ecode, e.userId, TO_CHAR(sdate, 'yyyy-mm-dd') as sdate, TO_CHAR(edate, 'yyyy-mm-dd') as edate, imageName,
-		subject, TO_CHAR(created, 'yyyy-mm-dd') as created, TO_CHAR(lottDate, 'yyyy-mm-dd') as lottDate, imageFilename, lott, eLink, mCount, censor
+		subject, TO_CHAR(created, 'yyyy-mm-dd') as created, TO_CHAR(lottDate, 'yyyy-mm-dd') as lottDate, imageFilename, lott, eLink, mcount, censor
 		FROM event e
 		JOIN member m ON e.userId=m.userId
 		<where>
@@ -91,7 +91,7 @@
 	<select id="readEvent" parameterType="Integer" resultType="com.zinsupark.event.Event">
 		SELECT ecode, subject, TO_CHAR(sdate, 'yyyy-mm-dd') as sdate, TO_CHAR(edate, 'yyyy-mm-dd') as edate, imageName,
 				content, TO_CHAR(created, 'yyyy-mm-dd') as created, imageFilename, lott, TO_CHAR(lottDate, 'yyyy-mm-dd') as lottDate,
-				TO_CHAR(lottDate, 'yyyy-mm-dd') as lottDate, elink, mcount, censor
+				TO_CHAR(lottDate, 'yyyy-mm-dd') as lottDate, elink, mcount, censor, ecategoryCode
 		FROM event e
 		JOIN member m ON e.userId=m.userId
 		WHERE ecode=#{ecode}
@@ -100,14 +100,14 @@
 	<!-- 글 수정 -->
 	<update id="updateEvent" parameterType="com.zinsupark.event.Event">
 		UPDATE event SET sdate=#{sdate}, edate=#{edate}, subject=#{subject}, content=#{content}, lottDate=#{lottDate},
-						imageFilename=#{imageFilename}, imageName=#{imageName} lott=#{lott}, elink=#{elink},
+						imageFilename=#{imageFilename}, imageName=#{imageName}, lott=#{lott}, elink=#{elink},
 						mcount=#{mcount}, ecategoryCode=#{ecategoryCode}
 		WHERE ecode=#{ecode}
 	</update>
 	
 	<!-- 글 삭제  : censor를 1로 변경 -->
 	<update id="deleteEvent" parameterType="Integer">
-		UPADTE event SET censor=1 WHERE ecode=#{ecode}
+		UPDATE event SET censor=#{censor} WHERE ecode=#{ecode}
 	</update>
 	
 	<!-- 댓글 -->

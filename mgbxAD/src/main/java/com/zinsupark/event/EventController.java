@@ -154,7 +154,6 @@ public class EventController {
 			return "redirect:/event/list?"+query;
 		}
 		
-		
 		model.addAttribute("dto", dto);
 		model.addAttribute("page", page);
 		model.addAttribute("query", query);

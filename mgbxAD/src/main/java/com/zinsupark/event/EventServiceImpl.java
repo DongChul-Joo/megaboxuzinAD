@@ -79,21 +79,23 @@ public class EventServiceImpl implements EventService{
 		try {
 			// 업로드한 파일이 존재한 경우
 			String saveFilename = fileManager.doFileUpload(dto.getUpload(), pathname);
-			String insertFilename=fileManager.doFileUpload(dto.getListUpload(), pathname);
-			
 			if (saveFilename != null) {
-			// 이전 파일 지우기	
+				// 이전 파일 지우기	
 				if(dto.getImageFilename().length()!=0) {
 					fileManager.doFileDelete(dto.getImageFilename(), pathname);
 				}
 				dto.setImageFilename(saveFilename);
 			}
-			if (insertFilename != null) {
+			
+			saveFilename = fileManager.doFileUpload(dto.getListUpload(), pathname);
+			if (saveFilename != null) {
+				// 이전 파일 지우기	
 				if(dto.getImageName().length()!=0) {
 					fileManager.doFileDelete(dto.getImageName(), pathname);
 				}
-				dto.setImageName(insertFilename);
+				dto.setImageName(saveFilename);
 			}
+			
 			
 			dao.updateData("event.updateEvent", dto);
 		} catch (Exception e) {
